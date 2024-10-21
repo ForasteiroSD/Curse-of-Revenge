@@ -23,6 +23,7 @@ public class SkeletonScript : MonoBehaviour
     float _endPos;
 
     [SerializeField] float _move = 0.5f;
+    [SerializeField] float _idleTime = 2f;
     bool _idle = false;
 
     bool _isChasing = false;
@@ -32,12 +33,20 @@ public class SkeletonScript : MonoBehaviour
     [SerializeField] Transform _maxChasePos;
     [SerializeField] Transform _minChasePos;
 
+    [SerializeField] LayerMask _playerLayer;
     [SerializeField] float _attackDistance = 1.5f;
     [SerializeField] float _attackCooldown = 1.5f;
     [SerializeField] float _attackDuration = 1.5f;
     [SerializeField] Transform _attackPos;
+    [SerializeField] float _attackDamage = 1f;
+    [SerializeField] float _damageReceivedMult = 0.8f;
     int _isAttacking = 1;
 
+    [SerializeField] float _health = 20f;
+    [SerializeField] float _hitDelay = 1f;
+    bool _hit = false;
+
+    bool _death = false;
 
     private void Awake()
     {
@@ -51,7 +60,7 @@ public class SkeletonScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isAttacking == 0) return;
+        if (_isAttacking == 0 || _hit || _death) return;
 
         if (_isChasing)
         {
@@ -149,7 +158,7 @@ public class SkeletonScript : MonoBehaviour
             }
         }
 
-        if (_isAttacking == 1 && Mathf.Abs(distance) < _attackDistance)
+        if (Mathf.Abs(distance) < _attackDistance)
         {
             StartCoroutine(Attack());
         }
@@ -157,6 +166,22 @@ public class SkeletonScript : MonoBehaviour
         {
             _skeletonRb.linearVelocityX = _horSpeed * _chaseSpeedMultiplier * _isAttacking;
         }
+    }
+
+    public void GetHit(float damage)
+    {
+        _health -= damage*_damageReceivedMult;
+
+        if (_health > 0)
+        {
+            StartCoroutine(Hit());
+        }
+        else
+        {
+            StartCoroutine(Death());
+        }
+
+        print(_health);
     }
 
     IEnumerator Attack()
@@ -173,7 +198,7 @@ public class SkeletonScript : MonoBehaviour
         Vector3 direction = new Vector3(1, 0, 0);
         if(_horSpeed < 0) direction = new Vector3(-1, 0, 0);
 
-        RaycastHit2D hit = Physics2D.Raycast(_attackPos.position, direction, _attackDistance+0.75f);
+        RaycastHit2D hit = Physics2D.Raycast(_attackPos.position, direction, _attackDistance+0.75f, _playerLayer);
 
         if (hit.collider != null && hit.collider == hit.collider.gameObject.CompareTag(Constants.TAG_PLAYER))
         {
@@ -192,7 +217,6 @@ public class SkeletonScript : MonoBehaviour
         //return from idle animation
         _animator.SetBool(Constants.IDLE_SKELETON, false);
 
-        
     }
 
     IEnumerator Idle()
@@ -201,13 +225,38 @@ public class SkeletonScript : MonoBehaviour
         _idle = true;
         _animator.SetBool(Constants.IDLE_SKELETON, true);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(_idleTime);
 
         if (_isChasing) yield break;
 
         _idle = false;
         _animator.SetBool(Constants.IDLE_SKELETON, false);
         Flip();
+    }
+
+    IEnumerator Hit()
+    {
+        _hit = true;
+        _animator.SetTrigger(Constants.HIT_SKELETON);
+        _animator.SetBool(Constants.IDLE_SKELETON, true);
+        _skeletonRb.linearVelocityX = 0;
+
+        yield return new WaitForSeconds(_hitDelay);
+
+        _animator.SetBool(Constants.IDLE_SKELETON, false);
+
+        _hit = false;
+    }
+
+    IEnumerator Death()
+    {
+        _death = true;
+        _animator.SetTrigger(Constants.DEATH_SKELETON);
+        _skeletonRb.linearVelocityX = 0;
+
+        yield return new WaitForSeconds(5);
+
+        Destroy(gameObject);
     }
 
 }

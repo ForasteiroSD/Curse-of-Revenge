@@ -14,10 +14,13 @@ namespace Utils {
 
         public const string IDLE_SKELETON = "Idle";
         public const string ATTACK_SKELETON = "Attack";
+        public const string HIT_SKELETON = "Hit";
+        public const string DEATH_SKELETON = "Death";
 
         //Tags
         public const string TAG_GROUND = "Ground";
         public const string TAG_PLAYER = "Player";
+        public const string TAG_ENEMY = "Enemy";
 
         //Layers
         public const string LAYER_PLAYER = "Player";
