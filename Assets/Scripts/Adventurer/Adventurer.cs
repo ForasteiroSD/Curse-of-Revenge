@@ -49,7 +49,7 @@ public class Adventurer : MonoBehaviour
         _rb.gravityScale = _fallGravityScale;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         MovePlayer();
 

@@ -12,7 +12,15 @@ namespace Utils {
         public const string ANIM_FALL = "Fall";
         public const string ANIM_IS_FALLING = "IsFalling";
 
+        public const string IDLE_SKELETON = "Idle";
+        public const string ATTACK_SKELETON = "Attack";
+
         //Tags
         public const string TAG_GROUND = "Ground";
+        public const string TAG_PLAYER = "Player";
+
+        //Layers
+        public const string LAYER_PLAYER = "Player";
+        public const string LAYER_ENEMY = "Enemy";
     }
 }
