@@ -9,9 +9,6 @@ public class Adventurer : MonoBehaviour
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
 
-    //GameObjects
-    private GameObject _player;
-
     //Components
     private Rigidbody2D _rb;
     private Animator _animator;
@@ -21,17 +18,20 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
 
     //Jump
-    private bool _canJump = true;
+    public bool _canJump { get; set; } = true;
     private bool _releasedJumpButton = false;
     private float _gravityScale;
     private float _fallGravityScale;
     private float _jumpHangGravityMult;
-    private float _lastJumpTime = -10;
-    [SerializeField] private float _preJumpTimeLimit = .3f;
+    public float _lastJumpTime { get; private set; } = -10;
+    [SerializeField] public float _preJumpTimeLimit { get; private set; } = .3f;
     [SerializeField] private float _fallGravityScaleMultiplier = 3f;
     [SerializeField] private float _jumpHeight = 2.5f;
-    [SerializeField] private float _maxFallingSpeed = 8f;
-    [SerializeField] private float _acceptJumpTime = .2f;
+    [SerializeField] public float _maxFallingSpeed { get; set; } = 8f;
+    [SerializeField] public float _acceptJumpTime { get; private set; } = .2f;
+
+    //Wall slide
+    [SerializeField] public float _wallMaxFallingSpeed = 1;
 
 
     void Awake()
@@ -40,16 +40,13 @@ public class Adventurer : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
 
-        //Find objects
-        _player = GameObject.Find(Constants.HIERARCHY_PLAYER);
-
         //Set gravity scales
         _gravityScale = _rb.gravityScale;
         _fallGravityScale = _gravityScale * _fallGravityScaleMultiplier;
         _rb.gravityScale = _fallGravityScale;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         MovePlayer();
 
@@ -97,7 +94,7 @@ public class Adventurer : MonoBehaviour
         else _animator.SetBool(Constants.ANIM_IS_RUNNING, false);
     }
 
-    void OnJump()
+    public void OnJump()
     {
         _lastJumpTime = Time.time;
 
@@ -117,41 +114,5 @@ public class Adventurer : MonoBehaviour
     void OnStopJump()
     {
         _releasedJumpButton = true;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //Touched ground
-        if (collision.CompareTag(Constants.TAG_GROUND))
-        {
-            _animator.SetBool(Constants.ANIM_IS_FALLING, false);
-            _canJump = true;
-
-            //If player pressed the jump button a few time earlier, still consider the jump
-            if (Time.time <= _lastJumpTime + _preJumpTimeLimit) OnJump();
-        }
-    }
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        //While on ground, can jump again
-        if (collision.CompareTag(Constants.TAG_GROUND)) _canJump = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //When leavin the ground
-        if (collision.CompareTag(Constants.TAG_GROUND))
-        {
-            _animator.SetBool(Constants.ANIM_IS_FALLING, true);
-            _animator.SetTrigger(Constants.ANIM_FALL);
-            if (_player.activeInHierarchy) StartCoroutine(CancelCanJump());
-        }
-    }
-
-    IEnumerator CancelCanJump()
-    {
-        yield return new WaitForSeconds(_acceptJumpTime);
-        _canJump = false;
     }
 }
