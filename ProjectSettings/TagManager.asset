@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Enemy
   - Ground
-  - 
+  - Drops
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 736617381
+    locked: 0
+  - name: Drops
+    uniqueID: 826517955
     locked: 0
   m_RenderingLayers:
   - Default
