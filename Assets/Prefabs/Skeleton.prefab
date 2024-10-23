@@ -275,8 +275,8 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  _attackDistance: 2
-  _attackCooldown: 2.5
+  _attackDistance: 1.25
+  _attackCooldown: 2
   _attackDuration: 0.9
   _attackPos: {fileID: 2194572124511117821}
   _attackDamage: 1
@@ -366,7 +366,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 127
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -488,7 +488,7 @@ BoxCollider2D:
     m_Bits: 8
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 247
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
