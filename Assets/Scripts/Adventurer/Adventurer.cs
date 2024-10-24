@@ -39,6 +39,15 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private float _stopTimeAfterWallJump = .7f;
     [SerializeField] private float _velocityDecreaserAfterWallJump = .4f;
 
+    //Slide
+    private bool _isSliding = false;
+    private float _roolStartVelocity;
+    private float _slideVelocityDecreaser = .03f;
+    private float _lastSlideTime = 0;
+    private float _stopSlideVelocity = 1;
+    [SerializeField] private float _slideForce = 3f;
+    [SerializeField] private float _slideCooldown = 1f;
+
 
     void Awake()
     {
@@ -69,6 +78,19 @@ public class Adventurer : MonoBehaviour
             _rb.gravityScale = _fallGravityScale;
             _rb.linearVelocityY = Mathf.Max(_rb.linearVelocityY, -_maxFallingSpeed);
         }
+
+        if(_isSliding)
+        {
+            if (Mathf.Sign(_rb.linearVelocityX) != Mathf.Sign(transform.localScale.x) || _rb.linearVelocityX == 0)
+            {
+                _isSliding = false;
+                _canMove = true;
+                _lastSlideTime = Time.time;
+            }
+            else _rb.linearVelocityX = _rb.linearVelocityX + (_roolStartVelocity * _slideVelocityDecreaser * -Mathf.Sign(transform.localScale.x));
+        }
+
+        if(Mathf.Abs(_rb.linearVelocityX) <= _stopSlideVelocity) _animator.SetBool(Constants.ANIM_IS_SLIDING, false);
     }
 
     void OnMove(InputValue inputValue)
@@ -84,6 +106,37 @@ public class Adventurer : MonoBehaviour
         if (_moveDirection.y > _analogDeadZone) _moveDirection.y = 1;
         else if (_moveDirection.y < -_analogDeadZone) _moveDirection.y = -1;
         else _moveDirection.y = 0;
+    }
+    public void OnJump()
+    {
+        _lastJumpTime = Time.time;
+
+        if ((_canJump && !_isSliding) || _canWallJump)
+        {
+            _releasedJumpButton = false;
+            _rb.gravityScale = _gravityScale; //Set the normal gravity scale (not the falling one)
+            _animator.SetTrigger(Constants.ANIM_JUMP);
+
+            _rb.linearVelocityY = 0; //Set Y velocity to 0, in case the player is already falling when jump
+            float _jumpForce = (float)Mathf.Sqrt(_jumpHeight * (Physics2D.gravity.y * _rb.gravityScale) * -2) * _rb.mass;
+            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _canJump = false;
+
+            //If is wall jumping, besides normal jump, does a few more things
+            if (_canWallJump) StartCoroutine(WallJump(_jumpForce));
+        }
+    }
+
+    void OnSlide()
+    {
+        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time))
+        {
+            _canMove = false;
+            _isSliding = true;
+            _rb.AddForce(new Vector2(_moveDirection.x, 0) * _slideForce, ForceMode2D.Impulse);
+            _roolStartVelocity = Mathf.Abs(_rb.linearVelocityX);
+            _animator.SetBool(Constants.ANIM_IS_SLIDING, true);
+        }
     }
 
     void MovePlayer()
@@ -107,26 +160,6 @@ public class Adventurer : MonoBehaviour
         {
             //If is going up, smoothly decreases x velocity (to make the path to the wall smoother)
             if (!(Mathf.Sign(_moveDirection.x) == Mathf.Sign(transform.localScale.x))) _rb.linearVelocityX += _moveDirection.x * _velocityDecreaserAfterWallJump;
-        }
-    }
-
-    public void OnJump()
-    {
-        _lastJumpTime = Time.time;
-
-        if (_canJump || _canWallJump)
-        {
-            _releasedJumpButton = false;
-            _rb.gravityScale = _gravityScale; //Set the normal gravity scale (not the falling one)
-            _animator.SetTrigger(Constants.ANIM_JUMP);
-
-            _rb.linearVelocityY = 0; //Set Y velocity to 0, in case the player is already falling when jump
-            float _jumpForce = (float)Mathf.Sqrt(_jumpHeight * (Physics2D.gravity.y * _rb.gravityScale) * -2) * _rb.mass;
-            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-            _canJump = false;
-
-            //If is wall jumping, besides normal jump, does a few more things
-            if (_canWallJump) StartCoroutine(WallJump(_jumpForce));
         }
     }
 

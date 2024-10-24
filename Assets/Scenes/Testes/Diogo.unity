@@ -10030,8 +10030,10 @@ MonoBehaviour:
   _fallGravityScaleMultiplier: 3
   _jumpHeight: 4
   _wallMaxFallingSpeed: 2
-  _stopTimeAfterWallJump: 0.4
+  _stopTimeAfterWallJump: 0.5
   _velocityDecreaserAfterWallJump: 0.4
+  _slideForce: 12
+  _stopSlideVelocity: 0.5
 --- !u!1 &1906451170
 GameObject:
   m_ObjectHideFlags: 0
