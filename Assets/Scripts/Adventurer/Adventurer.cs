@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using Utils;
 
 public class Adventurer : MonoBehaviour
@@ -14,6 +15,7 @@ public class Adventurer : MonoBehaviour
     private Animator _animator;
 
     //Movement
+    public bool _canMove { get; set; } = true;
     private Vector2 _moveDirection;
     [SerializeField] private float _moveSpeed = 5f;
 
@@ -28,10 +30,14 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private float _fallGravityScaleMultiplier = 3f;
     [SerializeField] private float _jumpHeight = 2.5f;
     [SerializeField] public float _maxFallingSpeed { get; set; } = 8f;
-    [SerializeField] public float _acceptJumpTime { get; private set; } = .2f;
+    [SerializeField] public float _acceptJumpTime { get; private set; } = .11f;
 
     //Wall slide
+    private bool _isWallJumping = false;
+    public bool _canWallJump { get; set; } = false;
     [SerializeField] public float _wallMaxFallingSpeed = 1;
+    [SerializeField] private float _stopTimeAfterWallJump = .7f;
+    [SerializeField] private float _velocityDecreaserAfterWallJump = .4f;
 
 
     void Awake()
@@ -82,23 +88,33 @@ public class Adventurer : MonoBehaviour
 
     void MovePlayer()
     {
-        Vector3 scale = transform.localScale;
-        bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon;
-
-        _rb.linearVelocityX = _moveDirection.x * _moveSpeed;
-        if (isRunning)
+        if(_canMove && !_isWallJumping)
         {
-            transform.localScale = new Vector3(Mathf.Sign(_moveDirection.x) * Mathf.Abs(scale.x), scale.y, scale.z);
-            _animator.SetBool(Constants.ANIM_IS_RUNNING, true);
+            Vector3 scale = transform.localScale;
+            bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon;
+
+            _rb.linearVelocityX = _moveDirection.x * _moveSpeed;
+            if (isRunning)
+            {
+                //Look to the right direction and set animation of running
+                transform.localScale = new Vector3(Mathf.Sign(_moveDirection.x) * Mathf.Abs(scale.x), scale.y, scale.z);
+                _animator.SetBool(Constants.ANIM_IS_RUNNING, true);
+            }
+            else _animator.SetBool(Constants.ANIM_IS_RUNNING, false);
         }
-        else _animator.SetBool(Constants.ANIM_IS_RUNNING, false);
+
+        else if(_isWallJumping)
+        {
+            //If is going up, smoothly decreases x velocity (to make the path to the wall smoother)
+            if (!(Mathf.Sign(_moveDirection.x) == Mathf.Sign(transform.localScale.x))) _rb.linearVelocityX += _moveDirection.x * _velocityDecreaserAfterWallJump;
+        }
     }
 
     public void OnJump()
     {
         _lastJumpTime = Time.time;
 
-        if (_canJump)
+        if (_canJump || _canWallJump)
         {
             _releasedJumpButton = false;
             _rb.gravityScale = _gravityScale; //Set the normal gravity scale (not the falling one)
@@ -108,11 +124,30 @@ public class Adventurer : MonoBehaviour
             float _jumpForce = (float)Mathf.Sqrt(_jumpHeight * (Physics2D.gravity.y * _rb.gravityScale) * -2) * _rb.mass;
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _canJump = false;
+
+            //If is wall jumping, besides normal jump, does a few more things
+            if (_canWallJump) StartCoroutine(WallJump(_jumpForce));
         }
     }
 
     void OnStopJump()
     {
         _releasedJumpButton = true;
+    }
+
+    IEnumerator WallJump(float jumpForce)
+    {
+        bool isGoingUp = Mathf.Sign(_moveDirection.x) == Mathf.Sign(transform.localScale.x);
+
+        Vector3 scale = transform.localScale;
+        if (_moveDirection.x == 0 || isGoingUp) jumpForce = jumpForce / 1.5f; //If is going up or is not moving, decreases the horizontal jump force
+        if (isGoingUp) _rb.AddForce(Vector2.up * jumpForce / 3, ForceMode2D.Impulse); //If is going up, give a little extra force to the vertical jump
+        _isWallJumping = true;
+
+        _rb.AddForce(Vector2.right * -Mathf.Sign(transform.localScale.x) * jumpForce, ForceMode2D.Impulse);
+        transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+
+        yield return new WaitForSeconds(_stopTimeAfterWallJump);
+        _isWallJumping = false;
     }
 }

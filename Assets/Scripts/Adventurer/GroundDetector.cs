@@ -31,9 +31,20 @@ public class GroundDetector : MonoBehaviour
         {
             _animator.SetBool(Constants.ANIM_IS_FALLING, false);
             _adventurer._canJump = true;
+            _adventurer._canMove = true;
 
             //If player pressed the jump button a few time earlier, still consider the jump
             if (Time.time <= _adventurer._lastJumpTime + _adventurer._preJumpTimeLimit) _adventurer.OnJump();
+
+            //If player touch the ground when is wall sliding, cancel canWallJump and turn him back do the right position
+            if (_adventurer._canWallJump)
+            {
+                GameObject playerGO = transform.parent.gameObject;
+                Vector3 scale = playerGO.transform.localScale;
+
+                playerGO.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+                _adventurer._canWallJump = false;
+            }
         }
     }
 
@@ -43,9 +54,9 @@ public class GroundDetector : MonoBehaviour
         if (collision.CompareTag(Constants.TAG_GROUND)) _adventurer._canJump = true;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+        private void OnTriggerExit2D(Collider2D collision)
     {
-        //When leavin the ground
+        //When leaving the ground
         if (collision.CompareTag(Constants.TAG_GROUND))
         {
             _animator.SetBool(Constants.ANIM_IS_FALLING, true);
