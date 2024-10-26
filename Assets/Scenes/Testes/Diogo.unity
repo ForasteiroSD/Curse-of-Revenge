@@ -9818,6 +9818,7 @@ GameObject:
   - component: {fileID: 1847404733}
   - component: {fileID: 1847404735}
   - component: {fileID: 1847404736}
+  - component: {fileID: 1847404737}
   m_Layer: 0
   m_Name: Adventurer
   m_TagString: Untagged
@@ -10034,6 +10035,18 @@ MonoBehaviour:
   _velocityDecreaserAfterWallJump: 0.4
   _slideForce: 10
   _slideCooldown: 1
+--- !u!114 &1847404737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847404729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5968c735340d15544a7dc0a618ca1749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1906451170
 GameObject:
   m_ObjectHideFlags: 0

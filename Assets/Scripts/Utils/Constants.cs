@@ -12,6 +12,8 @@ namespace Utils {
         public const string ANIM_IS_SLIDING = "IsSliding";
         public const string ANIM_JUMP = "Jump";
         public const string ANIM_FALL = "Fall";
+        public const string ANIM_ATTACK = "Attack";
+        public const string ANIM_ATTACK_COUNTER = "AttackNumber";
 
         //Tags
         public const string TAG_GROUND = "Ground";

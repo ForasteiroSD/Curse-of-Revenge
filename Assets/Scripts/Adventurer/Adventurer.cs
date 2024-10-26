@@ -15,16 +15,16 @@ public class Adventurer : MonoBehaviour
     private Animator _animator;
 
     //Movement
-    public bool _canMove { get; set; } = true;
     private Vector2 _moveDirection;
+    public bool _canMove { get; set; } = true;
     [SerializeField] private float _moveSpeed = 5f;
 
     //Jump
-    public bool _canJump { get; set; } = true;
     private bool _releasedJumpButton = false;
     private float _gravityScale;
     private float _fallGravityScale;
     private float _jumpHangGravityMult;
+    public bool _canJump { get; set; } = true;
     public float _lastJumpTime { get; private set; } = -10;
     [SerializeField] public float _preJumpTimeLimit { get; private set; } = .3f;
     [SerializeField] private float _fallGravityScaleMultiplier = 3f;
@@ -40,11 +40,11 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private float _velocityDecreaserAfterWallJump = .4f;
 
     //Slide
-    private bool _isSliding = false;
     private float _roolStartVelocity;
     private float _slideVelocityDecreaser = .03f;
     private float _lastSlideTime = 0;
     private float _stopSlideVelocity = 1;
+    public bool _isSliding { get; private set; } = false;
     [SerializeField] private float _slideForce = 3f;
     [SerializeField] private float _slideCooldown = 1f;
 
