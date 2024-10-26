@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 422304699372969433}
   - component: {fileID: 5375416828099707819}
   - component: {fileID: 1814489796433149554}
+  - component: {fileID: 5442244580308136071}
   m_Layer: 8
   m_Name: RevengePoint
   m_TagString: Untagged
@@ -103,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ada2ca1fb5f2d8446a589359ccbaeaaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _floatDis: 0.0005
 --- !u!50 &5375416828099707819
 Rigidbody2D:
   serializedVersion: 5
@@ -166,6 +168,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.145
+--- !u!95 &5442244580308136071
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994525802873216646}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2e74bf2517dcf9f42badf1c72a32cf7a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3811804892471609974
 GameObject:
   m_ObjectHideFlags: 0

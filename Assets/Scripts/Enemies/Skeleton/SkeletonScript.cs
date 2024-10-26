@@ -48,6 +48,9 @@ public class SkeletonScript : MonoBehaviour
 
     bool _death = false;
 
+    [SerializeField] int _valuePerRevengePoint = 1;
+    [SerializeField] int _revengePointsQuantity = 1;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -124,6 +127,7 @@ public class SkeletonScript : MonoBehaviour
 
     void Flip()
     {
+        if (_death) return;
         _horSpeed *= -1;
         transform.position = new Vector3(transform.position.x + ((Mathf.Sign(_horSpeed)) * _move), transform.position.y, transform.position.z);
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(_horSpeed), transform.localScale.y, transform.localScale.z);
@@ -174,7 +178,7 @@ public class SkeletonScript : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Death());
+            if (!_death) StartCoroutine(Death());
         }
 
         print(_health);
@@ -250,7 +254,12 @@ public class SkeletonScript : MonoBehaviour
         _animator.SetTrigger(Constants.DEATH_SKELETON);
         _skeletonRb.linearVelocityX = 0;
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
+
+        if (gameObject.activeInHierarchy) gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
+
+        yield return new WaitForSeconds(3);
+
 
         Destroy(gameObject);
     }
