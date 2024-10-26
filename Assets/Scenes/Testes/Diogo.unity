@@ -10032,8 +10032,8 @@ MonoBehaviour:
   _wallMaxFallingSpeed: 2
   _stopTimeAfterWallJump: 0.5
   _velocityDecreaserAfterWallJump: 0.4
-  _slideForce: 12
-  _stopSlideVelocity: 0.5
+  _slideForce: 10
+  _slideCooldown: 1
 --- !u!1 &1906451170
 GameObject:
   m_ObjectHideFlags: 0
