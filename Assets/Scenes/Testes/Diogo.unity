@@ -9171,7 +9171,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!19719996 &1622996139
 TilemapCollider2D:
@@ -10027,7 +10027,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _analogDeadZone: 0.3
-  _moveSpeed: 5
   _fallGravityScaleMultiplier: 3
   _jumpHeight: 4
   _wallMaxFallingSpeed: 2
@@ -10047,6 +10046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5968c735340d15544a7dc0a618ca1749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _preAttackTimeLimit: 0.2
+  _attackCooldown: 0.1
 --- !u!1 &1906451170
 GameObject:
   m_ObjectHideFlags: 0

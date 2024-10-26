@@ -17,7 +17,7 @@ public class Adventurer : MonoBehaviour
     //Movement
     private Vector2 _moveDirection;
     public bool _canMove { get; set; } = true;
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] public float _moveSpeed { get; set; } = 5f;
 
     //Jump
     private bool _releasedJumpButton = false;
@@ -45,8 +45,13 @@ public class Adventurer : MonoBehaviour
     private float _lastSlideTime = 0;
     private float _stopSlideVelocity = 1;
     public bool _isSliding { get; private set; } = false;
+    public float _lastSlideAttemptTime { get; private set; } = -10;
+    [SerializeField] public float _preSlideTimeLimit { get; private set; } = .3f;
     [SerializeField] private float _slideForce = 3f;
     [SerializeField] private float _slideCooldown = 1f;
+
+    //Attack
+    public bool _isAttacking { get; set; } = false;
 
 
     void Awake()
@@ -127,9 +132,11 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    void OnSlide()
+    public void OnSlide()
     {
-        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time))
+        _lastSlideAttemptTime = Time.time;
+
+        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking)
         {
             _canMove = false;
             _isSliding = true;
