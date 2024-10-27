@@ -1,33 +1,27 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using Utils;
 
-public class SkeletonScript : MonoBehaviour, InterfaceGetHit
+public class NBScript : MonoBehaviour, InterfaceGetHit
 {
     Animator _animator;
 
-    Rigidbody2D _skeletonRb;
+    Rigidbody2D _nbRb;
 
     BoxCollider2D _collider;
 
-    [SerializeField] float _horSpeed = 2f;
+    [SerializeField] float _horSpeed = 8f;
     [SerializeField] float _unitsToMove;
     [SerializeField] bool _returnOnlyOnBorder = false;
     float _startPos;
     float _endPos;
 
-    [SerializeField] float _move = 0.5f;
     [SerializeField] float _idleTime = 2f;
     bool _idle = false;
 
     bool _isChasing = false;
-    [SerializeField] float _chaseSpeedMultiplier = 1.1f;
+    [SerializeField] float _chaseSpeedMultiplier = 1.5f; //starts with 1.5, changes to 1.7 on phase 2
 
     Transform _player;
     [SerializeField] Transform _maxChasePos;
@@ -35,14 +29,15 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
 
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] float _attackDistance = 1.5f;
-    [SerializeField] float _attackCooldown = 1.5f;
-    [SerializeField] float _attackDuration = 1.5f;
-    [SerializeField] Transform _attackPos;
+    [SerializeField] float _attackCooldown = 1.9f; //starts with 1.9, changes to 1.3 on phase 2
+    [SerializeField] float _attackDuration = 0.7f; //starts with 0.7, changes to 0.5 on phase 2
     [SerializeField] float _attackDamage = 1f;
     [SerializeField] float _damageReceivedMult = 0.8f;
     int _isAttacking = 1;
 
-    [SerializeField] float _health = 20f;
+    public GameObject target { get; set; } = null;
+
+    [SerializeField] float _health = 100f;
     [SerializeField] float _hitDelay = 1f;
     bool _hit = false;
 
@@ -51,10 +46,18 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
     [SerializeField] int _valuePerRevengePoint = 1;
     [SerializeField] int _revengePointsQuantity = 1;
 
+    int _phase = 1;
+    [SerializeField] float _dashDistance = 8f;
+    [SerializeField] float _dashForce = 50f;
+    bool _canDash = true;
+    bool _isDashing = false;
+    [SerializeField] float _animationSpeed = 1.5f; //starts with 1.5, changes to 2 on phase 2
+
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _skeletonRb = GetComponent<Rigidbody2D>();
+        _nbRb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
         _startPos = transform.position.x;
@@ -65,7 +68,7 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
     void Update()
     {
         if (_isAttacking == 0 || _hit || _death) return;
-
+        
         if (_isChasing)
         {
             Chase();
@@ -81,7 +84,7 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
 
         if (_horSpeed > 1)
         {
-            if (!_returnOnlyOnBorder && _skeletonRb.position.x > _endPos && !_isChasing)
+            if (!_returnOnlyOnBorder && _nbRb.position.x > _endPos && !_isChasing)
             {
                 StartCoroutine(Idle());
                 return;
@@ -90,14 +93,14 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
 
         else
         {
-            if (!_returnOnlyOnBorder && _skeletonRb.position.x < _startPos && !_isChasing)
+            if (!_returnOnlyOnBorder && _nbRb.position.x < _startPos && !_isChasing)
             {
                 StartCoroutine(Idle());
                 return;
             }
         }
 
-        _skeletonRb.linearVelocityX = _horSpeed;
+        _nbRb.linearVelocityX = _horSpeed;
     }
 
     public void GetOnBorder()
@@ -130,13 +133,13 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
     {
         if (_death) return;
         _horSpeed *= -1;
-        transform.position = new Vector3(transform.position.x + ((Mathf.Sign(_horSpeed)) * _move), transform.position.y, transform.position.z);
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(_horSpeed), transform.localScale.y, transform.localScale.z);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, -transform.eulerAngles.z);
     }
 
     void Chase()
     {
-        if(_idle)
+        if (_idle)
         {
             _idle = false;
             _animator.SetBool(Constants.IDLE_ENEMY, false);
@@ -161,24 +164,43 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
 
         if (Mathf.Abs(distance) < _attackDistance)
         {
+            _nbRb.linearVelocityX = 0;
             StartCoroutine(Attack());
         }
-        else
+        else 
         {
+            if (_isDashing) return;
+
             //return from idle animation in case was in it
             _animator.SetBool(Constants.IDLE_ENEMY, false);
 
-            _skeletonRb.linearVelocityX = _horSpeed * _chaseSpeedMultiplier * _isAttacking;
+            _nbRb.linearVelocityX = _horSpeed * _chaseSpeedMultiplier * _isAttacking;
+
+            if(_phase > 1 && Mathf.Abs(distance) >= _dashDistance && _canDash)
+            {
+                StartCoroutine(Dash());
+            }
         }
     }
 
     public void GetHit(float damage)
     {
-        _health -= damage*_damageReceivedMult;
+        _health -= damage * _damageReceivedMult;
 
         if (_health > 0)
         {
-            StartCoroutine(Hit());
+            if(_health <= 50 && _phase == 1)
+            {
+                print("aqui");
+                _phase++;
+                _animationSpeed = 2;
+                _attackCooldown = 1.3f;
+                _attackDuration = 0.5f;
+                _chaseSpeedMultiplier = 1.7f;
+            } else
+            {
+                StartCoroutine(Hit());
+            }
         }
         else
         {
@@ -188,28 +210,62 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
         print(_health);
     }
 
+    IEnumerator Dash()
+    {
+        //stops current moviment
+        _nbRb.linearVelocityX = 0;
+
+        //set animation for preparing to dash
+        _animator.SetBool(Constants.IDLE_ENEMY, true);
+
+        //set that no longer can dash and is dashing
+        _canDash = false;
+        _isDashing = true;
+
+        yield return new WaitForSeconds(1f);
+        
+        //if player gets close enought to attack while preparing to dash cancel dash
+        if(_isAttacking == 0)
+        {
+            _isDashing = false;
+            _canDash = true;
+            yield break;
+        }
+        
+        //aply dash force
+        _nbRb.AddForceX(_dashForce * MathF.Sign(_horSpeed), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(0.5f);
+
+        //if after dash is not attacking set animation to running
+        if(_isAttacking > 0) _animator.SetBool(Constants.IDLE_ENEMY, false);
+
+        _isDashing = false;
+
+        //wait for delay to be able to dash again
+        yield return new WaitForSeconds(3f);
+
+        _canDash = true;
+    }
+
     IEnumerator Attack()
     {
         //get into attack mode
-        _skeletonRb.linearVelocityX = 0;
         _isAttacking = 0;
         _animator.SetBool(Constants.IDLE_ENEMY, true);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
+        _animator.speed = _animationSpeed;
 
         //wait for attack animation
         yield return new WaitForSeconds(_attackDuration);
 
-        //verify if player receives hit
-        Vector3 direction = new Vector3(1, 0, 0);
-        if(_horSpeed < 0) direction = new Vector3(-1, 0, 0);
-
-        RaycastHit2D hit = Physics2D.Raycast(_attackPos.position, direction, _attackDistance+0.75f, _playerLayer);
-
-        if (hit.collider != null)
+        if (target != null)
         {
+            //chamar função de dano
             print("dano");
-            //chamar função dano player, passando dano
         }
+
+        _animator.speed = 1f;
 
         //wait for attack cooldown
         yield return new WaitForSeconds(_attackCooldown);
@@ -220,7 +276,7 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
 
     IEnumerator Idle()
     {
-        _skeletonRb.linearVelocityX = 0;
+        _nbRb.linearVelocityX = 0;
         _idle = true;
         _animator.SetBool(Constants.IDLE_ENEMY, true);
 
@@ -238,7 +294,7 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
-        _skeletonRb.linearVelocityX = 0;
+        _nbRb.linearVelocityX = 0;
 
         yield return new WaitForSeconds(_hitDelay);
 
@@ -249,16 +305,13 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
     {
         _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
-        _skeletonRb.linearVelocityX = 0;
+        _nbRb.linearVelocityX = 0;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2.25f);
 
         if (gameObject.activeInHierarchy) gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
-
-        yield return new WaitForSeconds(3);
-
-
         Destroy(gameObject);
-    }
 
+
+    }
 }

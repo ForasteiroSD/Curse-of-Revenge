@@ -21,6 +21,11 @@ namespace Utils {
         public const string HIT_EYE = "Hit";
         public const string DEATH_EYE = "Death";
 
+        public const string IDLE_ENEMY = "Idle";
+        public const string ATTACK_ENEMY = "Attack";
+        public const string HIT_ENEMY = "Hit";
+        public const string DEATH_ENEMY = "Death";
+
         //Tags
         public const string TAG_GROUND = "Ground";
         public const string TAG_PLAYER = "Player";

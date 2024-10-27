@@ -478,7 +478,6 @@ MonoBehaviour:
   _flyHeightPos: {fileID: 1944374084806312873}
   _idleTime: 2
   _chaseSpeedMultiplier: 1.2
-  _player: {fileID: 0}
   _maxChasePos: {fileID: 8415786888061539061}
   _minChasePos: {fileID: 750554656073840421}
   _playerLayer:
@@ -492,6 +491,8 @@ MonoBehaviour:
   _damageReceivedMult: 1
   _health: 20
   _hitDelay: 1
+  _valuePerRevengePoint: 1
+  _revengePointsQuantity: 1
 --- !u!1 &8240468170109290860
 GameObject:
   m_ObjectHideFlags: 0
