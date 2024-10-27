@@ -11405,12 +11405,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _analogDeadZone: 0.3
-  _moveSpeed: 5
-  _preJumpTimeLimit: 0.15
   _fallGravityScaleMultiplier: 3
   _jumpHeight: 5
-  _maxFallingSpeed: 10
-  _acceptJumpTime: 0.11
+  _wallMaxFallingSpeed: 1
+  _stopTimeAfterWallJump: 0.7
+  _velocityDecreaserAfterWallJump: 0.4
+  _slideForce: 3
+  _slideCooldown: 1
 --- !u!114 &1459336913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13032,10 +13033,6 @@ PrefabInstance:
       propertyPath: _player
       value: 
       objectReference: {fileID: 1459336919}
-    - target: {fileID: 3865096592912206290, guid: 4e7aeef9cc565ac4ebc396f97fce2a10, type: 3}
-      propertyPath: _damageReceivedMult
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3865096592912206290, guid: 4e7aeef9cc565ac4ebc396f97fce2a10, type: 3}
       propertyPath: _valuePerRevengePoint
       value: 1
