@@ -21,9 +21,9 @@ public class ScoreUI : MonoBehaviour
         _revengeFontColor = _revengeText.color;
     }
 
-    public async void  UpdateScore()
+    public async void  UpdateScore(int value)
     {
-        _currentScore++;
+        _currentScore += value;
         _revengeText.text = $"{_currentScore.ToString("D4")}";
         _revengeText.color = Color.yellow;
         _revengeText.fontSize = _revengeFontSize * 1.1f;

@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using Utils;
 
 public class Adventurer : MonoBehaviour
@@ -9,29 +10,48 @@ public class Adventurer : MonoBehaviour
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
 
-    //GameObjects
-    private GameObject _player;
-
     //Components
     private Rigidbody2D _rb;
     private Animator _animator;
 
     //Movement
     private Vector2 _moveDirection;
-    [SerializeField] private float _moveSpeed = 5f;
+    public bool _canMove { get; set; } = true;
+    [SerializeField] public float _moveSpeed { get; set; } = 5f;
 
     //Jump
-    private bool _canJump = true;
     private bool _releasedJumpButton = false;
     private float _gravityScale;
     private float _fallGravityScale;
     private float _jumpHangGravityMult;
-    private float _lastJumpTime = -10;
-    [SerializeField] private float _preJumpTimeLimit = .3f;
+    public bool _canJump { get; set; } = true;
+    public float _lastJumpTime { get; private set; } = -10;
+    [SerializeField] public float _preJumpTimeLimit { get; private set; } = .3f;
     [SerializeField] private float _fallGravityScaleMultiplier = 3f;
     [SerializeField] private float _jumpHeight = 2.5f;
-    [SerializeField] private float _maxFallingSpeed = 8f;
-    [SerializeField] private float _acceptJumpTime = .2f;
+    [SerializeField] public float _maxFallingSpeed { get; set; } = 8f;
+    [SerializeField] public float _acceptJumpTime { get; private set; } = .11f;
+
+    //Wall slide
+    private bool _isWallJumping = false;
+    public bool _canWallJump { get; set; } = false;
+    [SerializeField] public float _wallMaxFallingSpeed = 1;
+    [SerializeField] private float _stopTimeAfterWallJump = .7f;
+    [SerializeField] private float _velocityDecreaserAfterWallJump = .4f;
+
+    //Slide
+    private float _roolStartVelocity;
+    private float _slideVelocityDecreaser = .03f;
+    private float _lastSlideTime = 0;
+    private float _stopSlideVelocity = 1;
+    public bool _isSliding { get; private set; } = false;
+    public float _lastSlideAttemptTime { get; private set; } = -10;
+    [SerializeField] public float _preSlideTimeLimit { get; private set; } = .3f;
+    [SerializeField] private float _slideForce = 3f;
+    [SerializeField] private float _slideCooldown = 1f;
+
+    //Attack
+    public bool _isAttacking { get; set; } = false;
 
 
     void Awake()
@@ -39,9 +59,6 @@ public class Adventurer : MonoBehaviour
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-
-        //Find objects
-        _player = GameObject.Find(Constants.HIERARCHY_PLAYER);
 
         //Set gravity scales
         _gravityScale = _rb.gravityScale;
@@ -66,6 +83,19 @@ public class Adventurer : MonoBehaviour
             _rb.gravityScale = _fallGravityScale;
             _rb.linearVelocityY = Mathf.Max(_rb.linearVelocityY, -_maxFallingSpeed);
         }
+
+        if(_isSliding)
+        {
+            if (Mathf.Sign(_rb.linearVelocityX) != Mathf.Sign(transform.localScale.x) || _rb.linearVelocityX == 0)
+            {
+                _isSliding = false;
+                _canMove = true;
+                _lastSlideTime = Time.time;
+            }
+            else _rb.linearVelocityX = _rb.linearVelocityX + (_roolStartVelocity * _slideVelocityDecreaser * -Mathf.Sign(transform.localScale.x));
+        }
+
+        if(Mathf.Abs(_rb.linearVelocityX) <= _stopSlideVelocity) _animator.SetBool(Constants.ANIM_IS_SLIDING, false);
     }
 
     void OnMove(InputValue inputValue)
@@ -82,26 +112,11 @@ public class Adventurer : MonoBehaviour
         else if (_moveDirection.y < -_analogDeadZone) _moveDirection.y = -1;
         else _moveDirection.y = 0;
     }
-
-    void MovePlayer()
-    {
-        Vector3 scale = transform.localScale;
-        bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon;
-
-        _rb.linearVelocityX = _moveDirection.x * _moveSpeed;
-        if (isRunning)
-        {
-            transform.localScale = new Vector3(Mathf.Sign(_moveDirection.x) * Mathf.Abs(scale.x), scale.y, scale.z);
-            _animator.SetBool(Constants.ANIM_IS_RUNNING, true);
-        }
-        else _animator.SetBool(Constants.ANIM_IS_RUNNING, false);
-    }
-
-    void OnJump()
+    public void OnJump()
     {
         _lastJumpTime = Time.time;
 
-        if (_canJump)
+        if ((_canJump && !_isSliding) || _canWallJump)
         {
             _releasedJumpButton = false;
             _rb.gravityScale = _gravityScale; //Set the normal gravity scale (not the falling one)
@@ -111,6 +126,47 @@ public class Adventurer : MonoBehaviour
             float _jumpForce = (float)Mathf.Sqrt(_jumpHeight * (Physics2D.gravity.y * _rb.gravityScale) * -2) * _rb.mass;
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _canJump = false;
+
+            //If is wall jumping, besides normal jump, does a few more things
+            if (_canWallJump) StartCoroutine(WallJump(_jumpForce));
+        }
+    }
+
+    public void OnSlide()
+    {
+        _lastSlideAttemptTime = Time.time;
+
+        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking)
+        {
+            _canMove = false;
+            _isSliding = true;
+            _rb.AddForce(new Vector2(_moveDirection.x, 0) * _slideForce, ForceMode2D.Impulse);
+            _roolStartVelocity = Mathf.Abs(_rb.linearVelocityX);
+            _animator.SetBool(Constants.ANIM_IS_SLIDING, true);
+        }
+    }
+
+    void MovePlayer()
+    {
+        if(_canMove && !_isWallJumping)
+        {
+            Vector3 scale = transform.localScale;
+            bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon;
+
+            _rb.linearVelocityX = _moveDirection.x * _moveSpeed;
+            if (isRunning)
+            {
+                //Look to the right direction and set animation of running
+                transform.localScale = new Vector3(Mathf.Sign(_moveDirection.x) * Mathf.Abs(scale.x), scale.y, scale.z);
+                _animator.SetBool(Constants.ANIM_IS_RUNNING, true);
+            }
+            else _animator.SetBool(Constants.ANIM_IS_RUNNING, false);
+        }
+
+        else if(_isWallJumping)
+        {
+            //If is going up, smoothly decreases x velocity (to make the path to the wall smoother)
+            if (!(Mathf.Sign(_moveDirection.x) == Mathf.Sign(transform.localScale.x))) _rb.linearVelocityX += _moveDirection.x * _velocityDecreaserAfterWallJump;
         }
     }
 
@@ -119,39 +175,19 @@ public class Adventurer : MonoBehaviour
         _releasedJumpButton = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    IEnumerator WallJump(float jumpForce)
     {
-        //Touched ground
-        if (collision.CompareTag(Constants.TAG_GROUND))
-        {
-            _animator.SetBool(Constants.ANIM_IS_FALLING, false);
-            _canJump = true;
+        bool isGoingUp = Mathf.Sign(_moveDirection.x) == Mathf.Sign(transform.localScale.x);
 
-            //If player pressed the jump button a few time earlier, still consider the jump
-            if (Time.time <= _lastJumpTime + _preJumpTimeLimit) OnJump();
-        }
-    }
+        Vector3 scale = transform.localScale;
+        if (_moveDirection.x == 0 || isGoingUp) jumpForce = jumpForce / 1.5f; //If is going up or is not moving, decreases the horizontal jump force
+        if (isGoingUp) _rb.AddForce(Vector2.up * jumpForce / 3, ForceMode2D.Impulse); //If is going up, give a little extra force to the vertical jump
+        _isWallJumping = true;
 
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        //While on ground, can jump again
-        if (collision.CompareTag(Constants.TAG_GROUND)) _canJump = true;
-    }
+        _rb.AddForce(Vector2.right * -Mathf.Sign(transform.localScale.x) * jumpForce, ForceMode2D.Impulse);
+        transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //When leavin the ground
-        if (collision.CompareTag(Constants.TAG_GROUND))
-        {
-            _animator.SetBool(Constants.ANIM_IS_FALLING, true);
-            _animator.SetTrigger(Constants.ANIM_FALL);
-            if (_player.activeInHierarchy) StartCoroutine(CancelCanJump());
-        }
-    }
-
-    IEnumerator CancelCanJump()
-    {
-        yield return new WaitForSeconds(_acceptJumpTime);
-        _canJump = false;
+        yield return new WaitForSeconds(_stopTimeAfterWallJump);
+        _isWallJumping = false;
     }
 }

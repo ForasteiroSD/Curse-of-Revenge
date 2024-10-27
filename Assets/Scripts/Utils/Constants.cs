@@ -7,10 +7,13 @@ namespace Utils {
 
         //Animator
         public const string ANIM_IS_RUNNING = "IsRunning";
-        public const string ANIM_IS_JUMPING = "IsJumping";
+        public const string ANIM_IS_FALLING = "IsFalling";
+        public const string ANIM_IS_WALL_SLIDING = "IsWallSliding";
+        public const string ANIM_IS_SLIDING = "IsSliding";
         public const string ANIM_JUMP = "Jump";
         public const string ANIM_FALL = "Fall";
-        public const string ANIM_IS_FALLING = "IsFalling";
+        public const string ANIM_ATTACK = "Attack";
+        public const string ANIM_ATTACK_COUNTER = "AttackNumber";
 
         public const string IDLE_SKELETON = "Idle";
         public const string ATTACK_SKELETON = "Attack";
