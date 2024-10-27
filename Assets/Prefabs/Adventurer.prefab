@@ -15,10 +15,9 @@ GameObject:
   - component: {fileID: 54366751634745609}
   - component: {fileID: 5303232505010116086}
   - component: {fileID: 2275507966165780266}
-  - component: {fileID: 7609755291369529790}
   m_Layer: 3
   m_Name: Adventurer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,6 +37,7 @@ Transform:
   m_Children:
   - {fileID: 8216514386394563746}
   - {fileID: 2568286449121672429}
+  - {fileID: 8646350527406121176}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6506364751665826789
@@ -231,13 +231,83 @@ MonoBehaviour:
   _velocityDecreaserAfterWallJump: 0.4
   _slideForce: 10
   _slideCooldown: 1
---- !u!114 &7609755291369529790
+--- !u!1 &3592947567303743405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8646350527406121176}
+  - component: {fileID: 6463612323548854925}
+  - component: {fileID: 1837865970994676180}
+  m_Layer: 9
+  m_Name: AttackArea
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8646350527406121176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3592947567303743405}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.155, y: 0.131, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8161678892979535710}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &6463612323548854925
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3592947567303743405}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 959
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.25}
+  m_Size: {x: 0.5, y: 0.5}
+  m_Direction: 0
+--- !u!114 &1837865970994676180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794134259058792953}
+  m_GameObject: {fileID: 3592947567303743405}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5968c735340d15544a7dc0a618ca1749, type: 3}
@@ -245,9 +315,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _preAttackTimeLimit: 0.2
   _attackCooldown: 0.1
-  _maxKeepComboTime: 0.5
-  _attackHitTime: []
-  _attackDistance: 3
+  _maxKeepComboTime: 0.3
+  _attackDamage:
+  - 1
+  - 1
+  - 3
 --- !u!1 &4018069877203834822
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,7 +333,7 @@ GameObject:
   - component: {fileID: 8335455293549964526}
   m_Layer: 3
   m_Name: WallDetector
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -352,7 +424,7 @@ GameObject:
   - component: {fileID: 3520706100463628969}
   m_Layer: 3
   m_Name: GroundDetector
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

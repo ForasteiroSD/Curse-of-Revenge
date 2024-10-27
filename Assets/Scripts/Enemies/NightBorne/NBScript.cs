@@ -262,7 +262,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         if (target != null)
         {
             //chamar função de dano
-            print("dano");
+            //print("dano");
+            target.GetComponent<Adventurer>().GetHit(_attackDamage);
         }
 
         _animator.speed = 1f;

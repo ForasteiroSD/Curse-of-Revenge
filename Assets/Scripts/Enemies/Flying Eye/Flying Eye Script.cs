@@ -278,7 +278,8 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 
         if (hit.collider != null)
         {
-            print("dano");
+            hit.collider.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
+            //print("dano");
             //chamar função dano player, passando dano
         }
 

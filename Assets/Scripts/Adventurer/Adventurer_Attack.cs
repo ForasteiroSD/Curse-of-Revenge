@@ -22,14 +22,13 @@ public class Adventurer_Attack : MonoBehaviour
     [SerializeField] private float _preAttackTimeLimit = .2f;
     [SerializeField] private float _attackCooldown = .1f;
     [SerializeField] private float _maxKeepComboTime = .5f;
-    [SerializeField] private float[] _attackHitTime;
-    [SerializeField] private float _attackDistance = 3;
+    [SerializeField] private float[] _attackDamage;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _adventurer = GetComponent<Adventurer>();
-        _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponentInParent<Animator>();
+        _adventurer = GetComponentInParent<Adventurer>();
+        _rb = GetComponentInParent<Rigidbody2D>();
         _originalMoveSpeed = _adventurer._moveSpeed;
     }
 
@@ -62,7 +61,7 @@ public class Adventurer_Attack : MonoBehaviour
     {
         _lastAttackAttmeptTime = Time.time;
 
-        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && _adventurer._canJump)
+        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && _adventurer._canJump && !_adventurer._isGettingHit)
         {
             _adventurer._isAttacking = true;
             _attackEnded = false;
@@ -78,10 +77,12 @@ public class Adventurer_Attack : MonoBehaviour
         }
     }
 
-    IEnumerator Attack()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        yield return new WaitForSeconds(_attackCounter-1);
-
+        if (collision.CompareTag(Constants.TAG_ENEMY))
+        {
+            collision.gameObject.GetComponent<InterfaceGetHit>().GetHit(_attackDamage[_attackCounter-1]);
+        }
     }
 
     bool AnimatorIsPlaying()
