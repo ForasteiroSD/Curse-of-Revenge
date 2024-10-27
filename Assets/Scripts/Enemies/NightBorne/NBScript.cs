@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
 
@@ -53,6 +54,10 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     bool _isDashing = false;
     [SerializeField] float _animationSpeed = 1.5f; //starts with 1.5, changes to 2 on phase 2
 
+    bool _changingPhase = false;
+    [SerializeField] GameObject _Phase2Effect;
+    [SerializeField] GameObject _DashEffect;
+
 
     private void Awake()
     {
@@ -67,7 +72,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     // Update is called once per frame
     void Update()
     {
-        if (_isAttacking == 0 || _hit || _death) return;
+        if (_isAttacking == 0 || _hit || _death || _changingPhase) return;
         
         if (_isChasing)
         {
@@ -100,6 +105,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             }
         }
 
+        //return from idle animation in case was in it
+        _animator.SetBool(Constants.IDLE_ENEMY, false);
         _nbRb.linearVelocityX = _horSpeed;
     }
 
@@ -162,14 +169,14 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             }
         }
 
-        if (Mathf.Abs(distance) < _attackDistance)
+        if (Mathf.Abs(distance) < _attackDistance && !_changingPhase)
         {
             _nbRb.linearVelocityX = 0;
             StartCoroutine(Attack());
         }
         else 
         {
-            if (_isDashing) return;
+            if (_isDashing || _changingPhase) return;
 
             //return from idle animation in case was in it
             _animator.SetBool(Constants.IDLE_ENEMY, false);
@@ -185,18 +192,15 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     public void GetHit(float damage)
     {
+        if (_changingPhase) return;
+
         _health -= damage * _damageReceivedMult;
 
         if (_health > 0)
         {
             if(_health <= 50 && _phase == 1)
             {
-                print("aqui");
-                _phase++;
-                _animationSpeed = 2;
-                _attackCooldown = 1.3f;
-                _attackDuration = 0.5f;
-                _chaseSpeedMultiplier = 1.7f;
+                StartCoroutine(ChangePhase());
             } else
             {
                 StartCoroutine(Hit());
@@ -210,8 +214,26 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         print(_health);
     }
 
+    IEnumerator ChangePhase()
+    {
+        _nbRb.linearVelocityX = 0;
+        _changingPhase = true;
+        GameObject effect = Instantiate(_Phase2Effect, new Vector2(transform.position.x, transform.position.y-1f), Quaternion.identity);
+        Destroy(effect, 5f);
+        yield return new WaitForSeconds(5);
+        _phase++;
+        _animationSpeed = 2;
+        _attackCooldown = 1.3f;
+        _attackDuration = 0.5f;
+        _chaseSpeedMultiplier = 1.7f;
+        _changingPhase = false;
+        StartCoroutine(Dash());
+    }
+
     IEnumerator Dash()
     {
+
+
         //stops current moviment
         _nbRb.linearVelocityX = 0;
 
@@ -231,9 +253,14 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             _canDash = true;
             yield break;
         }
-        
+
+        //Add dash effect on ground
+        GameObject dashEffect = Instantiate(_DashEffect, new Vector2(transform.position.x, transform.position.y - 1.65f), Quaternion.identity);
+
         //aply dash force
         _nbRb.AddForceX(_dashForce * MathF.Sign(_horSpeed), ForceMode2D.Impulse);
+
+        Destroy(dashEffect, 2f);
 
         yield return new WaitForSeconds(0.5f);
 
