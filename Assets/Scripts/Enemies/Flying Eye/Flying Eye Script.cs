@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Utils;
 
-public class FlyingEyeScript : MonoBehaviour
+public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 {
     Animator _animator;
 
@@ -28,7 +28,7 @@ public class FlyingEyeScript : MonoBehaviour
     bool _isChasing = false;
     [SerializeField] float _chaseSpeedMultiplier = 1.1f;
 
-    [SerializeField] Transform _player;
+    Transform _player;
     [SerializeField] Transform _maxChasePos;
     [SerializeField] Transform _minChasePos;
 
@@ -54,6 +54,7 @@ public class FlyingEyeScript : MonoBehaviour
         _animator = GetComponent<Animator>();
         _eyeRb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CircleCollider2D>();
+        _player = FindFirstObjectByType<Adventurer>().transform;
         _startPos = transform.position.x;
         _endPos = _startPos + _unitsToMove;
     }
@@ -166,7 +167,20 @@ public class FlyingEyeScript : MonoBehaviour
         if (!_goingUp)
         {
             _eyeRb.linearVelocityX = 0;
-            _goingDown = true;
+
+            Vector3 direction = new Vector3(0, -1, 0);
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 3f, _groundLayer);
+
+            //if there's ground bellow the eye and it's not too deep
+            if (hit.collider != null)
+            {
+                _goingDown = true;
+            }
+            else
+            {
+                StartCoroutine(Idle());
+            }
         }
     }
 
@@ -194,7 +208,6 @@ public class FlyingEyeScript : MonoBehaviour
     {
         if (_death) return;
         _horSpeed *= -1;
-        //transform.position = new Vector3(transform.position.x + ((Mathf.Sign(_horSpeed)) * _move), transform.position.y, transform.position.z);
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(_horSpeed), transform.localScale.y, transform.localScale.z);
     }
 
@@ -252,7 +265,7 @@ public class FlyingEyeScript : MonoBehaviour
         //get into attack mode
         _eyeRb.linearVelocityX = 0;
         _isAttacking = 0;
-        _animator.SetTrigger(Constants.ATTACK_EYE);
+        _animator.SetTrigger(Constants.ATTACK_ENEMY);
 
         //wait for attack animation
         yield return new WaitForSeconds(_attackDuration);
@@ -292,7 +305,7 @@ public class FlyingEyeScript : MonoBehaviour
     IEnumerator Hit()
     {
         _hit = true;
-        _animator.SetTrigger(Constants.HIT_EYE);
+        _animator.SetTrigger(Constants.HIT_ENEMY);
         _eyeRb.linearVelocityX = 0;
 
         yield return new WaitForSeconds(_hitDelay);
@@ -304,7 +317,7 @@ public class FlyingEyeScript : MonoBehaviour
     {
         _death = true;
         _collider.offset = new Vector2(_collider.offset.x, -0.15f);
-        _animator.SetTrigger(Constants.DEATH_EYE);
+        _animator.SetTrigger(Constants.DEATH_ENEMY);
         _eyeRb.linearVelocityX = 0;
         _eyeRb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
 
