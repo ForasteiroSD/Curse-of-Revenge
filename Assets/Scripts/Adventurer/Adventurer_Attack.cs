@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Utils;
 
@@ -16,9 +18,12 @@ public class Adventurer_Attack : MonoBehaviour
     private float _lastAttackAttmeptTime = -10;
     private float _lastAttackTime = 0;
     private float _originalMoveSpeed;
+    private GameObject[] _targets;
     [SerializeField] private float _preAttackTimeLimit = .2f;
     [SerializeField] private float _attackCooldown = .1f;
     [SerializeField] private float _maxKeepComboTime = .5f;
+    [SerializeField] private float[] _attackHitTime;
+    [SerializeField] private float _attackDistance = 3;
 
     private void Awake()
     {
@@ -68,7 +73,15 @@ public class Adventurer_Attack : MonoBehaviour
 
             _animator.SetInteger(Constants.ANIM_ATTACK_COUNTER, ++_attackCounter);
             _animator.SetTrigger(Constants.ANIM_ATTACK);
+
+
         }
+    }
+
+    IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(_attackCounter-1);
+
     }
 
     bool AnimatorIsPlaying()

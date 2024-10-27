@@ -91,6 +91,7 @@ public class Adventurer : MonoBehaviour
                 _isSliding = false;
                 _canMove = true;
                 _lastSlideTime = Time.time;
+                _animator.SetBool(Constants.ANIM_IS_SLIDING, false);
             }
             else _rb.linearVelocityX = _rb.linearVelocityX + (_roolStartVelocity * _slideVelocityDecreaser * -Mathf.Sign(transform.localScale.x));
         }
