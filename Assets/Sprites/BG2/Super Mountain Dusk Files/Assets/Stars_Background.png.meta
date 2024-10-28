@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e9b38811bcbd23f448d79c05c8c5fb7e
+guid: 2b4b7ecedcf002b448e7114cd1c16ba7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5587520312677229203
-    second: torch_big_background_0
+      213: 8901183164840230292
+    second: Stars_Background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: torch_big_background_0
+      name: Stars_Background_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 41
-        height: 57
+        width: 512
+        height: 314
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d6d189b21e32572b0800000000000000
-      internalID: -5587520312677229203
+      spriteID: 49d3dfc8dea578b70800000000000000
+      internalID: 8901183164840230292
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      torch_big_background_0: -5587520312677229203
+      Stars_Background_0: 8901183164840230292
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
