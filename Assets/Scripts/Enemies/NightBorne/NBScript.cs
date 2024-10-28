@@ -289,7 +289,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     public void GiveDamage()
     {
-        print("dano");
+        //print("dano");
+        _player.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
         //chamar função de dano no player passando _attackDamage
     }
 
