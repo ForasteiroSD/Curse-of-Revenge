@@ -72,8 +72,6 @@ public class Adventurer_Attack : MonoBehaviour
 
             _animator.SetInteger(Constants.ANIM_ATTACK_COUNTER, ++_attackCounter);
             _animator.SetTrigger(Constants.ANIM_ATTACK);
-
-
         }
     }
 
