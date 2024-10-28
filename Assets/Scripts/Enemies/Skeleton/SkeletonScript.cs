@@ -97,6 +97,8 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
             }
         }
 
+        //return from idle animation in case was in it
+        _animator.SetBool(Constants.IDLE_ENEMY, false);
         _skeletonRb.linearVelocityX = _horSpeed;
     }
 
