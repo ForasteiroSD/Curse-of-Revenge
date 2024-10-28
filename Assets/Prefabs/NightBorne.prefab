@@ -203,11 +203,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _attackDistance: 1.5
-  _attackCooldown: 1.9
-  _attackDuration: 0.7
+  _attackCooldown: 2.1
   _attackDamage: 1
   _damageReceivedMult: 1
-  _health: 51
+  _health: 100
   _hitDelay: 1
   _valuePerRevengePoint: 1
   _revengePointsQuantity: 1
@@ -241,7 +240,7 @@ Transform:
   m_GameObject: {fileID: 3738220735141768503}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.8, y: 0.8281637, z: 0.057995826}
+  m_LocalPosition: {x: 28.57, y: 0.8281637, z: 0.057995826}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -272,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 5545374807209506366}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 51.1, y: 0.82816356, z: 0.057995826}
+  m_LocalPosition: {x: 54.45, y: 0.82816356, z: 0.057995826}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -194,8 +194,8 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
         //get into attack mode
         _skeletonRb.linearVelocityX = 0;
         _isAttacking = 0;
-        _animator.SetBool(Constants.IDLE_ENEMY, true);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
+        _animator.SetBool(Constants.IDLE_ENEMY, true);
 
         //wait for attack cooldown
         yield return new WaitForSeconds(_attackCooldown);
@@ -206,9 +206,7 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
 
     public void GiveDamage()
     {
-        //print("dano");
         _player.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
-        //chamar função de dano no player passando _attackDamage
     }
 
     IEnumerator Idle()

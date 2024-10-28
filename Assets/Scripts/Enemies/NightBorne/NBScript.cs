@@ -30,8 +30,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] float _attackDistance = 1.5f;
-    [SerializeField] float _attackCooldown = 1.9f; //starts with 1.9, changes to 1.3 on phase 2
-    [SerializeField] float _attackDuration = 0.7f; //starts with 0.7, changes to 0.5 on phase 2
+    [SerializeField] float _attackCooldown = 2.1f; //starts with 2.1, changes to 1.8 on phase 2
     [SerializeField] float _attackDamage = 1f;
     [SerializeField] float _damageReceivedMult = 0.8f;
     int _isAttacking = 1;
@@ -50,7 +49,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     [SerializeField] float _dashForce = 50f;
     bool _canDash = true;
     bool _isDashing = false;
-    [SerializeField] float _animationSpeed = 1.5f; //starts with 1.5, changes to 2 on phase 2
+    [SerializeField] float _animationSpeed = 1.5f; //starts with 1.5, changes to 1.7 on phase 2
 
     bool _changingPhase = false;
     [SerializeField] GameObject _Phase2Effect;
@@ -216,31 +215,32 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     {
         _nbRb.linearVelocityX = 0;
         _changingPhase = true;
+        _animator.SetBool(Constants.IDLE_ENEMY, true);
         GameObject effect = Instantiate(_Phase2Effect, new Vector2(transform.position.x, transform.position.y-1f), Quaternion.identity);
         Destroy(effect, 5f);
         yield return new WaitForSeconds(5);
         _phase++;
-        _animationSpeed = 2;
-        _attackCooldown = 1.3f;
-        _attackDuration = 0.5f;
+        _animationSpeed = 1.7f;
+        _attackCooldown = 1.8f;
         _chaseSpeedMultiplier = 1.7f;
         _animator.SetFloat("Speed", _animationSpeed);
-        _changingPhase = false;
+        Chase();
         StartCoroutine(Dash());
+        yield return new WaitForSeconds(1);
+        _changingPhase = false;
     }
 
     IEnumerator Dash()
     {
+        //set that no longer can dash and is dashing
+        _canDash = false;
+        _isDashing = true;
 
         //stops current moviment
         _nbRb.linearVelocityX = 0;
 
         //set animation for preparing to dash
         _animator.SetBool(Constants.IDLE_ENEMY, true);
-
-        //set that no longer can dash and is dashing
-        _canDash = false;
-        _isDashing = true;
 
         yield return new WaitForSeconds(1f);
         
@@ -277,21 +277,18 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     {
         //get into attack mode
         _isAttacking = 0;
-        _animator.SetBool(Constants.IDLE_ENEMY, true);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
+        _animator.SetBool(Constants.IDLE_ENEMY, true);
 
         //wait for attack cooldown
         yield return new WaitForSeconds(_attackCooldown);
 
         _isAttacking = 1;
-
     }
 
     public void GiveDamage()
     {
-        //print("dano");
         _player.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
-        //chamar função de dano no player passando _attackDamage
     }
 
     IEnumerator Idle()
