@@ -1,6 +1,11 @@
+using NUnit.Framework.Constraints;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.Composites;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseScript : MonoBehaviour
 {
@@ -40,6 +45,7 @@ public class PauseScript : MonoBehaviour
 
     public void VoltarJogo()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }
