@@ -36,8 +36,6 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     [SerializeField] float _damageReceivedMult = 0.8f;
     int _isAttacking = 1;
 
-    public GameObject target { get; set; } = null;
-
     [SerializeField] float _health = 100f;
     [SerializeField] float _hitDelay = 1f;
     bool _hit = false;
@@ -226,13 +224,13 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         _attackCooldown = 1.3f;
         _attackDuration = 0.5f;
         _chaseSpeedMultiplier = 1.7f;
+        _animator.SetFloat("Speed", _animationSpeed);
         _changingPhase = false;
         StartCoroutine(Dash());
     }
 
     IEnumerator Dash()
     {
-
 
         //stops current moviment
         _nbRb.linearVelocityX = 0;
@@ -281,24 +279,18 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         _isAttacking = 0;
         _animator.SetBool(Constants.IDLE_ENEMY, true);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
-        _animator.speed = _animationSpeed;
-
-        //wait for attack animation
-        yield return new WaitForSeconds(_attackDuration);
-
-        if (target != null)
-        {
-            //chamar função de dano
-            print("dano");
-        }
-
-        _animator.speed = 1f;
 
         //wait for attack cooldown
         yield return new WaitForSeconds(_attackCooldown);
 
         _isAttacking = 1;
 
+    }
+
+    public void GiveDamage()
+    {
+        print("dano");
+        //chamar função de dano no player passando _attackDamage
     }
 
     IEnumerator Idle()
@@ -318,6 +310,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     IEnumerator Hit()
     {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("NB Attack")) yield break;
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
