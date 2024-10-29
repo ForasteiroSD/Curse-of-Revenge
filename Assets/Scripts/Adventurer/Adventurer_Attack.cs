@@ -79,7 +79,7 @@ public class Adventurer_Attack : MonoBehaviour
     {
         if (collision.CompareTag(Constants.TAG_ENEMY))
         {
-            collision.gameObject.GetComponent<InterfaceGetHit>().GetHit(_attackDamage[_attackCounter-1]);
+            collision.gameObject.GetComponent<EnemiesScript>().GetHit(_attackDamage[_attackCounter-1]);
         }
     }
 
