@@ -243,7 +243,7 @@ public class SkeletonScript : MonoBehaviour, InterfaceGetHit
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _skeletonRb.linearVelocityX = 0;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         if (gameObject.activeInHierarchy) gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
 

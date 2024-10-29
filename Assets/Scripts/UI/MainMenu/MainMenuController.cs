@@ -7,7 +7,7 @@ public class MainMenuController : MonoBehaviour
     public AudioMixer mainMixer;
     public void IniciarJogo()
     {
-        SceneManager.LoadScene("BrenoCena");
+        SceneManager.LoadScene("Level1");
     }
 
     public void SairJogo()
