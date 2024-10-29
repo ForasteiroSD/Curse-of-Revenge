@@ -94,7 +94,7 @@ public class Adventurer : MonoBehaviour
         if(_isSliding)
         {
             //If player is slow enough, stop sliding
-            if (Mathf.Sign(_rb.linearVelocityX) != Mathf.Sign(transform.localScale.x) || _rb.linearVelocityX == 0)
+            if (Mathf.Sign(_rb.linearVelocityX) != Mathf.Sign(transform.localScale.x) || _rb.linearVelocityX == 0 || _canMove)
             {
                 _isSliding = false;
                 _canMove = true;
