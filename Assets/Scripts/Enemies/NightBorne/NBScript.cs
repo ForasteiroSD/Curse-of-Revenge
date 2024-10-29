@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
 
@@ -29,13 +30,10 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] float _attackDistance = 1.5f;
-    [SerializeField] float _attackCooldown = 1.9f; //starts with 1.9, changes to 1.3 on phase 2
-    [SerializeField] float _attackDuration = 0.7f; //starts with 0.7, changes to 0.5 on phase 2
+    [SerializeField] float _attackCooldown = 2.1f; //starts with 2.1, changes to 1.8 on phase 2
     [SerializeField] float _attackDamage = 1f;
     [SerializeField] float _damageReceivedMult = 0.8f;
     int _isAttacking = 1;
-
-    public GameObject target { get; set; } = null;
 
     [SerializeField] float _health = 100f;
     [SerializeField] float _hitDelay = 1f;
@@ -51,7 +49,11 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     [SerializeField] float _dashForce = 50f;
     bool _canDash = true;
     bool _isDashing = false;
-    [SerializeField] float _animationSpeed = 1.5f; //starts with 1.5, changes to 2 on phase 2
+    [SerializeField] float _animationSpeed = 1.5f; //starts with 1.5, changes to 1.7 on phase 2
+
+    bool _changingPhase = false;
+    [SerializeField] GameObject _Phase2Effect;
+    [SerializeField] GameObject _DashEffect;
 
 
     private void Awake()
@@ -67,7 +69,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     // Update is called once per frame
     void Update()
     {
-        if (_isAttacking == 0 || _hit || _death) return;
+        if (_isAttacking == 0 || _hit || _death || _changingPhase) return;
         
         if (_isChasing)
         {
@@ -100,6 +102,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             }
         }
 
+        //return from idle animation in case was in it
+        _animator.SetBool(Constants.IDLE_ENEMY, false);
         _nbRb.linearVelocityX = _horSpeed;
     }
 
@@ -162,14 +166,14 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             }
         }
 
-        if (Mathf.Abs(distance) < _attackDistance)
+        if (Mathf.Abs(distance) < _attackDistance && !_changingPhase)
         {
             _nbRb.linearVelocityX = 0;
             StartCoroutine(Attack());
         }
         else 
         {
-            if (_isDashing) return;
+            if (_isDashing || _changingPhase) return;
 
             //return from idle animation in case was in it
             _animator.SetBool(Constants.IDLE_ENEMY, false);
@@ -185,18 +189,15 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     public void GetHit(float damage)
     {
+        if (_changingPhase) return;
+
         _health -= damage * _damageReceivedMult;
 
         if (_health > 0)
         {
             if(_health <= 50 && _phase == 1)
             {
-                print("aqui");
-                _phase++;
-                _animationSpeed = 2;
-                _attackCooldown = 1.3f;
-                _attackDuration = 0.5f;
-                _chaseSpeedMultiplier = 1.7f;
+                StartCoroutine(ChangePhase());
             } else
             {
                 StartCoroutine(Hit());
@@ -210,17 +211,36 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         print(_health);
     }
 
+    IEnumerator ChangePhase()
+    {
+        _nbRb.linearVelocityX = 0;
+        _changingPhase = true;
+        _animator.SetBool(Constants.IDLE_ENEMY, true);
+        GameObject effect = Instantiate(_Phase2Effect, new Vector2(transform.position.x, transform.position.y-1f), Quaternion.identity);
+        Destroy(effect, 5f);
+        yield return new WaitForSeconds(5);
+        _phase++;
+        _animationSpeed = 1.7f;
+        _attackCooldown = 1.8f;
+        _chaseSpeedMultiplier = 1.7f;
+        _animator.SetFloat("Speed", _animationSpeed);
+        Chase();
+        StartCoroutine(Dash());
+        yield return new WaitForSeconds(1);
+        _changingPhase = false;
+    }
+
     IEnumerator Dash()
     {
+        //set that no longer can dash and is dashing
+        _canDash = false;
+        _isDashing = true;
+
         //stops current moviment
         _nbRb.linearVelocityX = 0;
 
         //set animation for preparing to dash
         _animator.SetBool(Constants.IDLE_ENEMY, true);
-
-        //set that no longer can dash and is dashing
-        _canDash = false;
-        _isDashing = true;
 
         yield return new WaitForSeconds(1f);
         
@@ -231,9 +251,14 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             _canDash = true;
             yield break;
         }
-        
+
+        //Add dash effect on ground
+        GameObject dashEffect = Instantiate(_DashEffect, new Vector2(transform.position.x, transform.position.y - 1.65f), Quaternion.identity);
+
         //aply dash force
         _nbRb.AddForceX(_dashForce * MathF.Sign(_horSpeed), ForceMode2D.Impulse);
+
+        Destroy(dashEffect, 2f);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -252,26 +277,18 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     {
         //get into attack mode
         _isAttacking = 0;
-        _animator.SetBool(Constants.IDLE_ENEMY, true);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
-        _animator.speed = _animationSpeed;
-
-        //wait for attack animation
-        yield return new WaitForSeconds(_attackDuration);
-
-        if (target != null)
-        {
-            //chamar função de dano
-            print("dano");
-        }
-
-        _animator.speed = 1f;
+        _animator.SetBool(Constants.IDLE_ENEMY, true);
 
         //wait for attack cooldown
         yield return new WaitForSeconds(_attackCooldown);
 
         _isAttacking = 1;
+    }
 
+    public void GiveDamage()
+    {
+        _player.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
     }
 
     IEnumerator Idle()
@@ -291,6 +308,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     IEnumerator Hit()
     {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("NB Attack")) yield break;
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);

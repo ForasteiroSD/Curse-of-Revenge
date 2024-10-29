@@ -4,11 +4,9 @@ public class NBAttackScript : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gameObject.activeInHierarchy) GetComponentInParent<NBScript>().target = collision.gameObject;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (gameObject.activeInHierarchy) GetComponentInParent<NBScript>().target = null;
+        if (collision.CompareTag("Player"))
+        {
+            if (gameObject.activeInHierarchy) gameObject.GetComponentInParent<NBScript>().GiveDamage();
+        }
     }
 }

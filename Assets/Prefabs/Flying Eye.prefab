@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 229043176314625274}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.43, y: -0.14, z: 0}
+  m_LocalPosition: {x: 24.1, y: -1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 983101139137670293}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.65, y: -1.143, z: 0}
+  m_LocalPosition: {x: 12.92, y: -1.143, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -485,7 +485,6 @@ MonoBehaviour:
     m_Bits: 8
   _attackDistance: 1.1
   _attackCooldown: 2
-  _attackDuration: 0.5
   _attackPos: {fileID: 6012256313889937}
   _attackDamage: 1
   _damageReceivedMult: 1
@@ -502,6 +501,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6012256313889937}
+  - component: {fileID: 555069541987115944}
+  - component: {fileID: 4038104942808261753}
   m_Layer: 6
   m_Name: AttackPos
   m_TagString: Untagged
@@ -518,9 +519,57 @@ Transform:
   m_GameObject: {fileID: 8240468170109290860}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3, y: -0.45, z: 0}
+  m_LocalPosition: {x: 0.61, y: -0.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5273824052539644705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &555069541987115944
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8240468170109290860}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 1015
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.17711854}
+  m_Radius: 0.67711854
+--- !u!114 &4038104942808261753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8240468170109290860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599b2fae564640247811ae8e240721ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Utils;
 
@@ -16,15 +18,17 @@ public class Adventurer_Attack : MonoBehaviour
     private float _lastAttackAttmeptTime = -10;
     private float _lastAttackTime = 0;
     private float _originalMoveSpeed;
+    private GameObject[] _targets;
     [SerializeField] private float _preAttackTimeLimit = .2f;
     [SerializeField] private float _attackCooldown = .1f;
     [SerializeField] private float _maxKeepComboTime = .5f;
+    [SerializeField] private float[] _attackDamage;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _adventurer = GetComponent<Adventurer>();
-        _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponentInParent<Animator>();
+        _adventurer = GetComponentInParent<Adventurer>();
+        _rb = GetComponentInParent<Rigidbody2D>();
         _originalMoveSpeed = _adventurer._moveSpeed;
     }
 
@@ -57,7 +61,7 @@ public class Adventurer_Attack : MonoBehaviour
     {
         _lastAttackAttmeptTime = Time.time;
 
-        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && _adventurer._canJump)
+        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && _adventurer._canJump && !_adventurer._isGettingHit)
         {
             _adventurer._isAttacking = true;
             _attackEnded = false;
@@ -68,6 +72,14 @@ public class Adventurer_Attack : MonoBehaviour
 
             _animator.SetInteger(Constants.ANIM_ATTACK_COUNTER, ++_attackCounter);
             _animator.SetTrigger(Constants.ANIM_ATTACK);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(Constants.TAG_ENEMY))
+        {
+            collision.gameObject.GetComponent<InterfaceGetHit>().GetHit(_attackDamage[_attackCounter-1]);
         }
     }
 

@@ -35,7 +35,6 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] float _attackDistance = 1.5f;
     [SerializeField] float _attackCooldown = 1.5f;
-    [SerializeField] float _attackDuration = 1.5f;
     [SerializeField] Transform _attackPos;
     [SerializeField] float _attackDamage = 1f;
     [SerializeField] float _damageReceivedMult = 0.8f;
@@ -267,26 +266,16 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
         _isAttacking = 0;
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
 
-        //wait for attack animation
-        yield return new WaitForSeconds(_attackDuration);
-
-        //verify if player receives hit
-        Vector3 direction = new Vector3(1, 0, 0);
-        if (_horSpeed < 0) direction = new Vector3(-1, 0, 0);
-
-        RaycastHit2D hit = Physics2D.Raycast(_attackPos.position, direction, _attackDistance + 0.50f, _playerLayer);
-
-        if (hit.collider != null)
-        {
-            print("dano");
-            //chamar função dano player, passando dano
-        }
-
         //wait for attack cooldown
         yield return new WaitForSeconds(_attackCooldown);
 
         _isAttacking = 1;
 
+    }
+
+    public void GiveDamage()
+    {
+        _player.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
     }
 
     IEnumerator Idle()
@@ -304,6 +293,7 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 
     IEnumerator Hit()
     {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Flying Eye Attack")) yield break;
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
         _eyeRb.linearVelocityX = 0;
