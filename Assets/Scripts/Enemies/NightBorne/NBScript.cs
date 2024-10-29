@@ -35,7 +35,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     [SerializeField] float _damageReceivedMult = 0.8f;
     int _isAttacking = 1;
 
-    [SerializeField] float _health = 100f;
+    [SerializeField] float _health = 50f;
+    [SerializeField] float _SecondPhaseTreshold = 25f;
     [SerializeField] float _hitDelay = 1f;
     bool _hit = false;
 
@@ -195,7 +196,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
         if (_health > 0)
         {
-            if(_health <= 50 && _phase == 1)
+            if(_health <= _SecondPhaseTreshold && _phase == 1)
             {
                 StartCoroutine(ChangePhase());
             } else

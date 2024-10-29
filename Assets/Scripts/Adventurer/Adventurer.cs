@@ -60,13 +60,14 @@ public class Adventurer : MonoBehaviour
     //GetHit
     public bool _isGettingHit { get; private set; } = false;
 
+    [SerializeField] private PauseScript pause;
 
     void Awake()
     {
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-
+        
         //Set gravity scales
         _gravityScale = _rb.gravityScale;
         _fallGravityScale = _gravityScale * _fallGravityScaleMultiplier;
@@ -113,6 +114,15 @@ public class Adventurer : MonoBehaviour
         if (_isGettingHit && !AnimatorIsPlaying("Adventurer_Hurt")) _isGettingHit = false;
     }
 
+    public void OnPause(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        { 
+            pause.PauseGame();
+        }
+        
+    }
+    
     void OnMove(InputValue inputValue)
     {
         _moveDirection = inputValue.Get<Vector2>();
