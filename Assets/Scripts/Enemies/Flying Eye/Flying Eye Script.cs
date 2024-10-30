@@ -3,55 +3,21 @@ using System.Collections;
 using UnityEngine;
 using Utils;
 
-public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
+public class FlyingEyeScript : EnemiesScript
 {
-    Animator _animator;
-
-    Rigidbody2D _eyeRb;
-
     CircleCollider2D _collider;
 
-    [SerializeField] float _horSpeed = 2f;
     [SerializeField] float _verSpeed = 2f;
-    [SerializeField] float _unitsToMove;
-    float _startPos;
-    float _endPos;
 
     [SerializeField] LayerMask _groundLayer;
     [SerializeField] Transform _flyHeightPos;
     bool _goingUp = false;
     bool _goingDown = false;
 
-    [SerializeField] float _idleTime = 2f;
-    bool _idle = false;
-
-    bool _isChasing = false;
-    [SerializeField] float _chaseSpeedMultiplier = 1.1f;
-
-    Transform _player;
-    [SerializeField] Transform _maxChasePos;
-    [SerializeField] Transform _minChasePos;
-
-    [SerializeField] LayerMask _playerLayer;
-    [SerializeField] float _attackDistance = 1.5f;
-    [SerializeField] float _attackCooldown = 1.5f;
-    [SerializeField] Transform _attackPos;
-    [SerializeField] float _attackDamage = 1f;
-    [SerializeField] float _damageReceivedMult = 0.8f;
-    int _isAttacking = 1;
-
-    [SerializeField] float _health = 20f;
-    [SerializeField] float _hitDelay = 1f;
-    bool _hit = false;
-
-    bool _death = false;
-
-    [SerializeField] int _valuePerRevengePoint = 1;
-    [SerializeField] int _revengePointsQuantity = 1;
-    private void Awake()
+    protected override void Awake()
     {
         _animator = GetComponent<Animator>();
-        _eyeRb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CircleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
         _startPos = transform.position.x;
@@ -59,13 +25,13 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         if (_death) return;
 
         if (_goingUp)
         {
-            _eyeRb.linearVelocityY = _verSpeed;
+            _rb.linearVelocityY = _verSpeed;
 
             Vector3 direction = new Vector3(1, 0, 0);
             if (_horSpeed < 0) direction = new Vector3(-1, 0, 0);
@@ -74,13 +40,13 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 
             if (hit.collider == null)
             {
-                _eyeRb.linearVelocityY = 0.5f;
+                _rb.linearVelocityY = 0.5f;
                 _goingUp = false;
             }
 
         } else if (_goingDown)
         {
-            _eyeRb.linearVelocityY = -_verSpeed;
+            _rb.linearVelocityY = -_verSpeed;
 
             Vector3 direction = new Vector3(0, -1, 0);
 
@@ -88,13 +54,13 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 
             if (hit.collider != null)
             {
-                _eyeRb.linearVelocityY = 0f;
+                _rb.linearVelocityY = 0f;
                 _goingDown = false;
             }
         }
         else
         {
-            _eyeRb.linearVelocityY = 0;
+            _rb.linearVelocityY = 0;
 
             if (_isAttacking == 0 || _hit) return;
 
@@ -108,13 +74,13 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
             }
         }
     }
-    void Move()
+    protected override void Move()
     {
         if(_idle) return;
 
         if (_horSpeed > 1)
         {
-            if (_eyeRb.position.x > _endPos && !_isChasing)
+            if (_rb.position.x > _endPos && !_isChasing)
             {
                 StartCoroutine(Idle());
                 return;
@@ -123,21 +89,21 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 
         else
         {
-            if (_eyeRb.position.x < _startPos && !_isChasing)
+            if (_rb.position.x < _startPos && !_isChasing)
             {
                 StartCoroutine(Idle());
                 return;
             }
         }
 
-        _eyeRb.linearVelocityX = _horSpeed;
+        _rb.linearVelocityX = _horSpeed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(_goingDown) return;
-        _eyeRb.linearVelocityX = 0;
-        _eyeRb.linearVelocityY = 0;
+        _rb.linearVelocityX = 0;
+        _rb.linearVelocityY = 0;
         Vector3 direction = new Vector3(1, 0, 0);
         if (_horSpeed < 0) direction = new Vector3(-1, 0, 0);
 
@@ -158,14 +124,14 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        _eyeRb.linearVelocityY = 0;
+        _rb.linearVelocityY = 0;
     }
 
     public void GoDown()
     {
         if (!_goingUp)
         {
-            _eyeRb.linearVelocityX = 0;
+            _rb.linearVelocityX = 0;
 
             Vector3 direction = new Vector3(0, -1, 0);
 
@@ -183,34 +149,7 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
         }
     }
 
-    public void PlayerLeaveRange()
-    {
-        if (_player.position.x < _minChasePos.position.x || _player.position.x > _maxChasePos.position.x)
-        {
-            _isChasing = false;
-        }
-    }
-
-    public void PlayerInRange()
-    {
-        if (_player.position.x > _minChasePos.position.x && _player.position.x < _maxChasePos.position.x)
-        {
-            _isChasing = true;
-        }
-        else
-        {
-            _isChasing = false;
-        }
-    }
-
-    void Flip()
-    {
-        if (_death) return;
-        _horSpeed *= -1;
-        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(_horSpeed), transform.localScale.y, transform.localScale.z);
-    }
-
-    void Chase()
+    protected override void Chase()
     {
         if (_idle)
         {
@@ -240,29 +179,14 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
         }
         else
         {
-            _eyeRb.linearVelocityX = _horSpeed * _chaseSpeedMultiplier * _isAttacking;
+            _rb.linearVelocityX = _horSpeed * _chaseSpeedMultiplier * _isAttacking;
         }
     }
 
-    public void GetHit(float damage)
-    {
-        _health -= damage * _damageReceivedMult;
-
-        if (_health > 0)
-        {
-            StartCoroutine(Hit());
-        }
-        else
-        {
-            if(!_death) StartCoroutine(Death());
-        }
-
-        print(_health);
-    }
-    IEnumerator Attack()
+    protected override IEnumerator Attack()
     {
         //get into attack mode
-        _eyeRb.linearVelocityX = 0;
+        _rb.linearVelocityX = 0;
         _isAttacking = 0;
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
 
@@ -273,14 +197,9 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
 
     }
 
-    public void GiveDamage()
+    protected override IEnumerator Idle()
     {
-        _player.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
-    }
-
-    IEnumerator Idle()
-    {
-        _eyeRb.linearVelocityX = 0;
+        _rb.linearVelocityX = 0;
         _idle = true;
 
         yield return new WaitForSeconds(_idleTime);
@@ -291,29 +210,29 @@ public class FlyingEyeScript : MonoBehaviour, InterfaceGetHit
         Flip();
     }
 
-    IEnumerator Hit()
+    protected override IEnumerator Hit()
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Flying Eye Attack")) yield break;
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
-        _eyeRb.linearVelocityX = 0;
+        _rb.linearVelocityX = 0;
 
         yield return new WaitForSeconds(_hitDelay);
 
         _hit = false;
     }
 
-    IEnumerator Death()
+    protected override IEnumerator Death()
     {
         _death = true;
         _collider.offset = new Vector2(_collider.offset.x, -0.15f);
         _animator.SetTrigger(Constants.DEATH_ENEMY);
-        _eyeRb.linearVelocityX = 0;
-        _eyeRb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
+        _rb.linearVelocityX = 0;
+        _rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(2);
 
-        if (gameObject.activeInHierarchy) gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
+        DropRevengePoint();
 
         yield return new WaitForSeconds(3);
 

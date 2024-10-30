@@ -39,14 +39,6 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     [SerializeField] float _health = 50f;
     [SerializeField] float _SecondPhaseTreshold = 25f;
-    [SerializeField] float _hitDelay = 1f;
-    bool _hit = false;
-
-    bool _death = false;
-
-    [SerializeField] int _valuePerRevengePoint = 1;
-    [SerializeField] int _revengePointsQuantity = 1;
-
     int _phase = 1;
     [SerializeField] float _dashDistance = 8f;
     [SerializeField] float _dashForce = 50f;
@@ -72,7 +64,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         if (_isAttacking == 0 || _hit || _death || _changingPhase) return;
         
@@ -85,60 +77,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             Move();
         }
     }
-    void Move()
-    {
-        if (_idle) return;
 
-        if (_horSpeed > 1)
-        {
-            if (!_returnOnlyOnBorder && _nbRb.position.x > _endPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
-        }
-
-        else
-        {
-            if (!_returnOnlyOnBorder && _nbRb.position.x < _startPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
-        }
-
-        //return from idle animation in case was in it
-        _animator.SetBool(Constants.IDLE_ENEMY, false);
-        _nbRb.linearVelocityX = _horSpeed;
-    }
-
-    public void GetOnBorder()
-    {
-        _isChasing = false;
-        StartCoroutine(Idle());
-    }
-
-    public void PlayerLeaveRange()
-    {
-        if (_player.position.x < _minChasePos.position.x || _player.position.x > _maxChasePos.position.x)
-        {
-            _isChasing = false;
-        }
-    }
-
-    public void PlayerInRange()
-    {
-        if (_player.position.x > _minChasePos.position.x && _player.position.x < _maxChasePos.position.x)
-        {
-            _isChasing = true;
-        }
-        else
-        {
-            _isChasing = false;
-        }
-    }
-
-    void Flip()
+    protected override void Flip()
     {
         if (_death) return;
         _horSpeed *= -1;
@@ -146,7 +86,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, -transform.eulerAngles.z);
     }
 
-    void Chase()
+    protected override void Chase()
     {
         if (_idle)
         {
@@ -173,7 +113,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
         if (Mathf.Abs(distance) < _attackDistance && !_changingPhase)
         {
-            _nbRb.linearVelocityX = 0;
+            _rb.linearVelocityX = 0;
             StartCoroutine(Attack());
         }
         else 
@@ -183,7 +123,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
             //return from idle animation in case was in it
             _animator.SetBool(Constants.IDLE_ENEMY, false);
 
-            _nbRb.linearVelocityX = _horSpeed * _chaseSpeedMultiplier * _isAttacking;
+            _rb.linearVelocityX = _horSpeed * _chaseSpeedMultiplier * _isAttacking;
 
             if(_phase > 1 && Mathf.Abs(distance) >= _dashDistance && _canDash)
             {
@@ -192,7 +132,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         }
     }
 
-    public void GetHit(float damage)
+    public override void GetHit(float damage)
     {
         if (_changingPhase) return;
 
@@ -218,7 +158,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
     IEnumerator ChangePhase()
     {
-        _nbRb.linearVelocityX = 0;
+        _rb.linearVelocityX = 0;
         _changingPhase = true;
         _animator.SetBool(Constants.IDLE_ENEMY, true);
         GameObject effect = Instantiate(_Phase2Effect, new Vector2(transform.position.x, transform.position.y-1f), Quaternion.identity);
@@ -228,6 +168,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         _animationSpeed = 1.7f;
         _attackCooldown = 1.8f;
         _chaseSpeedMultiplier = 1.7f;
+        _attackDistance = 1.8f;
         _animator.SetFloat("Speed", _animationSpeed);
         Chase();
         StartCoroutine(Dash());
@@ -242,15 +183,15 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         _isDashing = true;
 
         //stops current moviment
-        _nbRb.linearVelocityX = 0;
+        _rb.linearVelocityX = 0;
 
         //set animation for preparing to dash
         _animator.SetBool(Constants.IDLE_ENEMY, true);
 
         yield return new WaitForSeconds(1f);
-        
+
         //if player gets close enought to attack while preparing to dash cancel dash
-        if(_isAttacking == 0)
+        if (_isAttacking == 0)
         {
             _isDashing = false;
             _canDash = true;
@@ -261,14 +202,14 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         GameObject dashEffect = Instantiate(_DashEffect, new Vector2(transform.position.x, transform.position.y - 1.65f), Quaternion.identity);
 
         //aply dash force
-        _nbRb.AddForceX(_dashForce * MathF.Sign(_horSpeed), ForceMode2D.Impulse);
+        _rb.AddForceX(_dashForce * MathF.Sign(_horSpeed), ForceMode2D.Impulse);
 
         Destroy(dashEffect, 2f);
 
         yield return new WaitForSeconds(0.5f);
 
         //if after dash is not attacking set animation to running
-        if(_isAttacking > 0) _animator.SetBool(Constants.IDLE_ENEMY, false);
+        if (_isAttacking > 0) _animator.SetBool(Constants.IDLE_ENEMY, false);
 
         _isDashing = false;
 
@@ -278,59 +219,28 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         _canDash = true;
     }
 
-    IEnumerator Attack()
-    {
-        //get into attack mode
-        _isAttacking = 0;
-        _animator.SetTrigger(Constants.ATTACK_ENEMY);
-        _animator.SetBool(Constants.IDLE_ENEMY, true);
-
-        //wait for attack cooldown
-        yield return new WaitForSeconds(_attackCooldown);
-
-        _isAttacking = 1;
-    }
-
-    public void GiveDamage()
-    {
-        _player.gameObject.GetComponent<Adventurer>().GetHit(_attackDamage);
-    }
-
-    IEnumerator Idle()
-    {
-        _nbRb.linearVelocityX = 0;
-        _idle = true;
-        _animator.SetBool(Constants.IDLE_ENEMY, true);
-
-        yield return new WaitForSeconds(_idleTime);
-
-        if (_isChasing) yield break;
-
-        _idle = false;
-        _animator.SetBool(Constants.IDLE_ENEMY, false);
-        Flip();
-    }
-
-    IEnumerator Hit()
+    protected override IEnumerator Hit()
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("NB Attack")) yield break;
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
-        _nbRb.linearVelocityX = 0;
+        _rb.linearVelocityX = 0;
 
         yield return new WaitForSeconds(_hitDelay);
 
         _hit = false;
     }
 
-    IEnumerator Death()
+    protected override IEnumerator Death()
     {
         _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
-        _nbRb.linearVelocityX = 0;
+        _rb.linearVelocityX = 0;
 
-        yield return new WaitForSeconds(2.25f);
+        yield return new WaitForSeconds(2.15f);
+
+        DropRevengePoint();
 
         // Notifica o script da barreira para remover a wallBlocker
         bossRoomEntry?.RemoveWallBlocker();
