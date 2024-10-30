@@ -57,7 +57,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     bool _changingPhase = false;
     [SerializeField] GameObject _Phase2Effect;
     [SerializeField] GameObject _DashEffect;
-
+    public AudioClip music;
+    public AudioManager audioManager;
 
     private void Awake()
     {
@@ -67,6 +68,7 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         _player = FindFirstObjectByType<Adventurer>().transform;
         _startPos = transform.position.x;
         _endPos = _startPos + _unitsToMove;
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -335,7 +337,8 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
         if (gameObject.activeInHierarchy) 
             gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
-
+        if(music != null)
+            audioManager.TrocarMusica(music, 1f);
         Destroy(gameObject);
     }
 }
