@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using Utils;
 
@@ -17,6 +18,17 @@ public class NBScript : EnemiesScript
     bool _changingPhase = false;
     [SerializeField] GameObject _Phase2Effect;
     [SerializeField] GameObject _DashEffect;
+
+    CapsuleCollider2D _collider;
+    protected override void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<CapsuleCollider2D>();
+        _player = FindFirstObjectByType<Adventurer>().transform;
+        _startPos = transform.position.x;
+        _endPos = _startPos + _unitsToMove;
+    }
 
     // Update is called once per frame
     protected override void Update()
@@ -92,6 +104,13 @@ public class NBScript : EnemiesScript
         if (_changingPhase) return;
 
         _health -= damage * _damageReceivedMult;
+
+        Vector3 position = GetTextPosition();
+        GameObject text = Instantiate(_textDamage, position, Quaternion.identity);
+
+        text.GetComponent<TextMeshPro>().text = damage.ToString();
+
+        Destroy(text, 2f);
 
         if (_health > 0)
         {
@@ -174,31 +193,22 @@ public class NBScript : EnemiesScript
         _canDash = true;
     }
 
-    protected override IEnumerator Hit()
-    {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("NB Attack")) yield break;
-        _hit = true;
-        _animator.SetTrigger(Constants.HIT_ENEMY);
-        _animator.SetBool(Constants.IDLE_ENEMY, true);
-        _rb.linearVelocityX = 0;
-
-        yield return new WaitForSeconds(_hitDelay);
-
-        _hit = false;
-    }
-
     protected override IEnumerator Death()
     {
         _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
 
-        yield return new WaitForSeconds(2.15f);
+        yield return new WaitForSecondsRealtime(2.15f);
 
         DropRevengePoint();
 
         Destroy(gameObject);
+    }
 
-
+    protected override Vector3 GetTextPosition()
+    {
+        Vector3 textPosition = _collider.bounds.center + new Vector3(0, _collider.bounds.extents.y + 0.5f, 0);
+        return textPosition;
     }
 }

@@ -185,6 +185,8 @@ public class FlyingEyeScript : EnemiesScript
 
     protected override IEnumerator Attack()
     {
+        if (_death) yield break;
+
         //get into attack mode
         _rb.linearVelocityX = 0;
         _isAttacking = 0;
@@ -212,7 +214,7 @@ public class FlyingEyeScript : EnemiesScript
 
     protected override IEnumerator Hit()
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Flying Eye Attack")) yield break;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Enemy Attack")) yield break;
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
         _rb.linearVelocityX = 0;
@@ -237,5 +239,11 @@ public class FlyingEyeScript : EnemiesScript
         yield return new WaitForSeconds(3);
 
         Destroy(gameObject);
+    }
+
+    protected override Vector3 GetTextPosition()
+    {
+        Vector3 textPosition = _collider.bounds.center + new Vector3(0, _collider.bounds.extents.y + 0.5f, 0);
+        return textPosition;
     }
 }

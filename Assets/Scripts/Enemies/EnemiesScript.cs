@@ -1,10 +1,12 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Splines;
+using UnityEngine.UI;
 using Utils;
 
 public class EnemiesScript : MonoBehaviour
 {
-
     protected Animator _animator;
 
     protected Rigidbody2D _rb;
@@ -43,6 +45,7 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected int _revengePointsQuantity = 1;
 
     [SerializeField] private GameObject _revengePoint;
+    [SerializeField] protected GameObject _textDamage;
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -167,6 +170,11 @@ public class EnemiesScript : MonoBehaviour
     {
         _health -= damage * _damageReceivedMult;
 
+        Vector3 position = GetTextPosition();
+        GameObject text = Instantiate(_textDamage, position, Quaternion.identity);
+
+        text.GetComponent<TextMeshPro>().text = damage.ToString();
+
         if (_health > 0)
         {
             StartCoroutine(Hit());
@@ -179,8 +187,15 @@ public class EnemiesScript : MonoBehaviour
         print(_health);
     }
 
+    protected virtual Vector3 GetTextPosition()
+    {
+        return new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+    }
+
     protected virtual IEnumerator Attack()
     {
+        if (_death) yield break;
+
         //get into attack mode
         _rb.linearVelocityX = 0;
         _isAttacking = 0;
@@ -216,7 +231,7 @@ public class EnemiesScript : MonoBehaviour
 
     protected virtual IEnumerator Hit()
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Skeleton Attack")) yield break;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Enemy Attack")) yield break;
         _hit = true;
         _animator.SetTrigger(Constants.HIT_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
@@ -236,8 +251,6 @@ public class EnemiesScript : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         DropRevengePoint();
-
-        //if (gameObject.activeInHierarchy) gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
 
         yield return new WaitForSeconds(3);
 
