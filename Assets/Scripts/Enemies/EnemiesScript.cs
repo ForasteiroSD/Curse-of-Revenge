@@ -168,6 +168,8 @@ public class EnemiesScript : MonoBehaviour
 
     public virtual void GetHit(float damage)
     {
+        if(_health < 0) return;
+
         _health -= damage * _damageReceivedMult;
 
         Vector3 position = GetTextPosition();

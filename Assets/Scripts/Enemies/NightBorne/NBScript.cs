@@ -33,7 +33,29 @@ public class NBScript : EnemiesScript
     // Update is called once per frame
     protected override void Update()
     {
-        if (_isAttacking == 0 || _hit || _death || _changingPhase) return;
+        if(_hit || _death || _changingPhase) return;
+
+        if (_isAttacking == 0)
+        {
+            float distance = _player.transform.position.x - transform.position.x;
+
+            if (distance > 0)
+            {
+                if (_horSpeed < 0)
+                {
+                    Flip();
+                }
+            }
+            else
+            {
+                if (_horSpeed > 0)
+                {
+                    Flip();
+                }
+            }
+            return;
+        }
+
         
         if (_isChasing)
         {
@@ -101,7 +123,7 @@ public class NBScript : EnemiesScript
 
     public override void GetHit(float damage)
     {
-        if (_changingPhase) return;
+        if (_changingPhase || _health < 0) return;
 
         _health -= damage * _damageReceivedMult;
 
