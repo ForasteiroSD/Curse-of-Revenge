@@ -18,6 +18,9 @@ public class NBScript : EnemiesScript
     bool _changingPhase = false;
     [SerializeField] GameObject _Phase2Effect;
     [SerializeField] GameObject _DashEffect;
+    public AudioClip clip;
+    public AudioManager audioManager;
+    public BossRoomEntry entrances;
 
     CapsuleCollider2D _collider;
     protected override void Awake()
@@ -224,7 +227,8 @@ public class NBScript : EnemiesScript
         yield return new WaitForSecondsRealtime(2.15f);
 
         DropRevengePoint();
-
+        audioManager.TrocarMusica(clip);
+        entrances.RemoveWallBlocker();
         Destroy(gameObject);
     }
 
