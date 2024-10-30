@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void TrocarMusica(AudioClip clip, float fadeDuration = 1f)
+    public void TrocarMusica(AudioClip clip, float fadeDuration = 0.5f)
     {
         StartCoroutine(FadeOutIn(clip, fadeDuration));
     }

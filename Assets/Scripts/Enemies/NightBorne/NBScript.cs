@@ -4,40 +4,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
 
-public class NBScript : MonoBehaviour, InterfaceGetHit
+public class NBScript : EnemiesScript
 {
-    public BossRoomEntry bossRoomEntry;
-    
-    Animator _animator;
-
-    Rigidbody2D _nbRb;
-
-    BoxCollider2D _collider;
-
-    [SerializeField] float _horSpeed = 8f;
-    [SerializeField] float _unitsToMove;
-    [SerializeField] bool _returnOnlyOnBorder = false;
-    float _startPos;
-    float _endPos;
-
-    [SerializeField] float _idleTime = 2f;
-    bool _idle = false;
-
-    bool _isChasing = false;
-    [SerializeField] float _chaseSpeedMultiplier = 1.5f; //starts with 1.5, changes to 1.7 on phase 2
-
-    Transform _player;
-    [SerializeField] Transform _maxChasePos;
-    [SerializeField] Transform _minChasePos;
-
-    [SerializeField] LayerMask _playerLayer;
-    [SerializeField] float _attackDistance = 1.5f;
-    [SerializeField] float _attackCooldown = 2.1f; //starts with 2.1, changes to 1.8 on phase 2
-    [SerializeField] float _attackDamage = 1f;
-    [SerializeField] float _damageReceivedMult = 0.8f;
-    int _isAttacking = 1;
-
-    [SerializeField] float _health = 50f;
     [SerializeField] float _SecondPhaseTreshold = 25f;
     int _phase = 1;
     [SerializeField] float _dashDistance = 8f;
@@ -49,19 +17,9 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
     bool _changingPhase = false;
     [SerializeField] GameObject _Phase2Effect;
     [SerializeField] GameObject _DashEffect;
-    public AudioClip music;
+    public AudioClip clip;
     public AudioManager audioManager;
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-        _nbRb = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<BoxCollider2D>();
-        _player = FindFirstObjectByType<Adventurer>().transform;
-        _startPos = transform.position.x;
-        _endPos = _startPos + _unitsToMove;
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-    }
+    public BossRoomEntry entrances;
 
     // Update is called once per frame
     protected override void Update()
@@ -241,14 +199,10 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
         yield return new WaitForSeconds(2.15f);
 
         DropRevengePoint();
-
-        // Notifica o script da barreira para remover a wallBlocker
-        bossRoomEntry?.RemoveWallBlocker();
-
-        if (gameObject.activeInHierarchy) 
-            gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
-        if(music != null)
-            audioManager.TrocarMusica(music, 1f);
+        audioManager.TrocarMusica(clip);
+        entrances.RemoveWallBlocker();
         Destroy(gameObject);
+    
+
     }
 }
