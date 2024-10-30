@@ -6,6 +6,8 @@ using Utils;
 
 public class NBScript : MonoBehaviour, InterfaceGetHit
 {
+    public BossRoomEntry bossRoomEntry;
+    
     Animator _animator;
 
     Rigidbody2D _nbRb;
@@ -328,9 +330,12 @@ public class NBScript : MonoBehaviour, InterfaceGetHit
 
         yield return new WaitForSeconds(2.25f);
 
-        if (gameObject.activeInHierarchy) gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
+        // Notifica o script da barreira para remover a wallBlocker
+        bossRoomEntry?.RemoveWallBlocker();
+
+        if (gameObject.activeInHierarchy) 
+            gameObject.GetComponentInParent<EnemyRevengePoint>().DropRevengePoint(_valuePerRevengePoint, _revengePointsQuantity, transform);
+
         Destroy(gameObject);
-
-
     }
 }
