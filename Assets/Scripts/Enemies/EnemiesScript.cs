@@ -185,8 +185,6 @@ public class EnemiesScript : MonoBehaviour
         {
             if (!_death) StartCoroutine(Death());
         }
-
-        print(_health);
     }
 
     protected virtual Vector3 GetTextPosition()

@@ -11,7 +11,7 @@ public class BossRoomEntry : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             wallBlocker.SetActive(true); // Ativa a barreira de bloqueio
-            if(bossMusic != null)
+            if (bossMusic != null)
                 audioManager.TrocarMusica(bossMusic, 1f);
             Destroy(gameObject); // Remove o trigger para que ele não ative novamente
         }
@@ -19,7 +19,7 @@ public class BossRoomEntry : MonoBehaviour
 
     private void Start()
     {
-        audioManager = FindObjectOfType<AudioManager>();
+        audioManager = FindFirstObjectByType<AudioManager>();
     }
 
     public void RemoveWallBlocker()

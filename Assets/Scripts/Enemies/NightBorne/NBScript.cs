@@ -151,8 +151,6 @@ public class NBScript : EnemiesScript
         {
             if (!_death) StartCoroutine(Death());
         }
-
-        print(_health);
     }
 
     IEnumerator ChangePhase()
