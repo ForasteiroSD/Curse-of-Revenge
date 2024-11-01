@@ -13,6 +13,7 @@ namespace Utils {
         public const string ANIM_JUMP = "Jump";
         public const string ANIM_FALL = "Fall";
         public const string ANIM_GET_HIT = "Hurt";
+        public const string ANIM_DIE = "Die";
         public const string ANIM_ATTACK = "Attack";
         public const string ANIM_ATTACK_COUNTER = "AttackNumber";
 

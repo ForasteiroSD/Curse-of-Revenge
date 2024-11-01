@@ -11,18 +11,12 @@ public class SlideOnWall : MonoBehaviour
     //Scripts
     private Adventurer _adventurer;
 
-    //Wall slide
-    private float _originalFallingSpeed;
-
     private void Awake()
     {
         //Get Components
         _animator = gameObject.transform.parent.gameObject.GetComponent<Animator>();
         _adventurer = gameObject.transform.parent.gameObject.GetComponent<Adventurer>();
         _playerRb = gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>();
-
-        //Set falling speed
-        _originalFallingSpeed = _adventurer._maxFallingSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -30,8 +24,17 @@ public class SlideOnWall : MonoBehaviour
         //If is on wall, player can't move
         if (collision.CompareTag(Constants.TAG_GROUND))
         {
-            _animator.SetBool(Constants.ANIM_IS_WALL_SLIDING, true);
-            _adventurer._canMove = false;
+            //if (Time.time <= _adventurer._lastJumpTime + _adventurer._preJumpTimeLimit)
+            //{
+            //    _adventurer._canWallJump = true;
+            //    _adventurer._canMove = false;
+            //    _adventurer.OnJump();
+            //}
+            //else
+            //{
+                _animator.SetBool(Constants.ANIM_IS_WALL_SLIDING, true);
+                _adventurer._canMove = false;
+            //}
         }
     }
 
@@ -51,7 +54,7 @@ public class SlideOnWall : MonoBehaviour
         if (collision.CompareTag(Constants.TAG_GROUND))
         {
             _animator.SetBool(Constants.ANIM_IS_WALL_SLIDING, false);
-            _adventurer._maxFallingSpeed = _originalFallingSpeed;
+            _adventurer._maxFallingSpeed = _adventurer._originalFallingSpeed;
             _adventurer._canWallJump = false;
             _adventurer._canMove = true;
         }
