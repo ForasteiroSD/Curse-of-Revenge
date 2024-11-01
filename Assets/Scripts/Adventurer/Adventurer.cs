@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -64,6 +65,9 @@ public class Adventurer : MonoBehaviour
     //GetHit
     public bool _isGettingHit { get; private set; } = false;
 
+    //Camera Control
+    [SerializeField] private CameraController _cameraController; 
+
     [SerializeField] private PauseScript pause;
 
     void Awake()
@@ -80,6 +84,9 @@ public class Adventurer : MonoBehaviour
         //Set original variables values
         _originalFallingSpeed = _maxFallingSpeed;
         _originalMoveSpeed = _moveSpeed;
+
+        //Get Hierarchy Elements
+        _cameraController = GameObject.Find(Constants.HIERARCHY_CAMERA_CONTROLLER).GetComponent<CameraController>();
     }
 
     void FixedUpdate()
@@ -133,6 +140,9 @@ public class Adventurer : MonoBehaviour
     
     void OnMove(InputValue inputValue)
     {
+        //Call the function to handle the camera response to the momevent
+        if(_cameraController) _cameraController.Moved(_moveDirection.x, inputValue.Get<Vector2>().x);
+
         _moveDirection = inputValue.Get<Vector2>();
 
         //Check X analog deadzone
