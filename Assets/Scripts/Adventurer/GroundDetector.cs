@@ -33,7 +33,11 @@ public class GroundDetector : MonoBehaviour
             _adventurer._canMove = true;
 
             //If player pressed the jump button a few time earlier, still consider the jump
-            if (Time.time <= _adventurer._lastJumpTime + _adventurer._preJumpTimeLimit) _adventurer.OnJump();
+            if (Time.time <= _adventurer._lastJumpTime + _adventurer._preJumpTimeLimit)
+            {
+                _adventurer._considerPreJump = false;
+                _adventurer.OnJump();
+            }
             else _animator.SetBool(Constants.ANIM_IS_FALLING, false);
 
             //If player pressed the slide button a few time earlier, still consider the slide

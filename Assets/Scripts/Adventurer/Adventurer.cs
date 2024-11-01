@@ -9,7 +9,8 @@ using Utils;
 public class Adventurer : MonoBehaviour
 {
     //Player Variables
-    private float _life = 40;
+    [SerializeField] private float _life = 20;
+    public bool _isDead { get; private set; } = false;
 
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
@@ -21,6 +22,7 @@ public class Adventurer : MonoBehaviour
     //Movement
     private Vector2 _moveDirection;
     public bool _canMove { get; set; } = true;
+    [SerializeField] public float _originalMoveSpeed { get; set; } = 5f;
     [SerializeField] public float _moveSpeed { get; set; } = 5f;
 
     //Jump
@@ -28,8 +30,10 @@ public class Adventurer : MonoBehaviour
     private float _gravityScale;
     private float _fallGravityScale;
     private float _jumpHangGravityMult;
+    public bool _considerPreJump { get; set; } = true;
     public bool _canJump { get; set; } = true;
     public float _lastJumpTime { get; private set; } = -10;
+    public float _originalFallingSpeed { get; private set; }
     [SerializeField] public float _preJumpTimeLimit { get; private set; } = .3f;
     [SerializeField] private float _fallGravityScaleMultiplier = 3f;
     [SerializeField] private float _jumpHeight = 2.5f;
@@ -71,6 +75,10 @@ public class Adventurer : MonoBehaviour
         _gravityScale = _rb.gravityScale;
         _fallGravityScale = _gravityScale * _fallGravityScaleMultiplier;
         _rb.gravityScale = _fallGravityScale;
+
+        //Set original variables values
+        _originalFallingSpeed = _maxFallingSpeed;
+        _originalMoveSpeed = _moveSpeed;
     }
 
     void FixedUpdate()
@@ -130,10 +138,14 @@ public class Adventurer : MonoBehaviour
 
     public void OnJump()
     {
-        _lastJumpTime = Time.time;
+        if(_considerPreJump) _lastJumpTime = Time.time;
+        else _considerPreJump = true;
 
-        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit)
+        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isDead)
         {
+            //If player jump while attacking, moveSpeed would be set to 0. So, set it back to the original value
+            _moveSpeed = _originalMoveSpeed;
+
             _releasedJumpButton = false;
             _rb.gravityScale = _gravityScale; //Set the normal gravity scale (not the falling one)
             _animator.SetTrigger(Constants.ANIM_JUMP);
@@ -145,12 +157,18 @@ public class Adventurer : MonoBehaviour
 
             //If is wall jumping, besides normal jump, does a few more things
             if (_canWallJump) StartCoroutine(WallJump(_jumpForce));
+
+            //After jump, decreases _lastJumpTime to avoid unwanted pre jumps
+            _lastJumpTime -= _preJumpTimeLimit;
         }
     }
 
     void OnStopJump()
     {
         _releasedJumpButton = true;
+
+        //Decreases _lastJumpTime to avoid unwanted pre jumps
+        _lastJumpTime -= _preJumpTimeLimit;
     }
 
     public void OnSlide()
@@ -158,7 +176,7 @@ public class Adventurer : MonoBehaviour
         _lastSlideAttemptTime = Time.time;
 
         //If can slide
-        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit)
+        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isDead)
         {
             _canMove = false;
             _isSliding = true;
@@ -170,7 +188,7 @@ public class Adventurer : MonoBehaviour
 
     void MovePlayer()
     {
-        if(_canMove && !_isWallJumping)
+        if(_canMove && !_isWallJumping && !_isDead)
         {
             Vector3 scale = transform.localScale;
             bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon;
@@ -194,10 +212,24 @@ public class Adventurer : MonoBehaviour
 
     public void GetHit(float damage)
     {
-        print("Tomei dano");
-        _isGettingHit = true;
-        _life -= damage;
-        _animator.SetTrigger(Constants.ANIM_GET_HIT);
+        if(_life > 0)
+        {
+            _life -= damage;
+            print("My life: " + _life);
+
+            _isGettingHit = true;
+            _animator.SetTrigger(Constants.ANIM_GET_HIT);
+        }
+        else if(!_isDead)
+        {
+            _canMove = false;
+            _canJump = false;
+            _canWallJump = false;
+            _isDead = true;
+            _rb.linearVelocityX = 0;
+            _maxFallingSpeed = _originalFallingSpeed;
+            _animator.SetTrigger(Constants.ANIM_DIE);
+        }
     }
 
     IEnumerator WallJump(float jumpForce)
