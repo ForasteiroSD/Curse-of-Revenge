@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using Utils;
 
 public class RevengePoint : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class RevengePoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        FindAnyObjectByType<ScoreUI>().UpdateScore(value);
-        Destroy(gameObject);
+        if (collider.CompareTag(Constants.TAG_PLAYER))
+        {
+            FindAnyObjectByType<ScoreUI>().UpdateScore(value);
+            Destroy(gameObject);
+        }
     }
 }

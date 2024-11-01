@@ -1145,11 +1145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8161678892979535710, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.69
+      value: -0.56
       objectReference: {fileID: 0}
     - target: {fileID: 8161678892979535710, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.76
+      value: -1.8
       objectReference: {fileID: 0}
     - target: {fileID: 8161678892979535710, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1415,6 +1415,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 3865096592912206290, guid: b25be983be3ad184aa8c3b164b36e545, type: 3}
+      propertyPath: _textDamage
+      value: 
+      objectReference: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
     - target: {fileID: 3865096592912206290, guid: b25be983be3ad184aa8c3b164b36e545, type: 3}
       propertyPath: _valuePerRevengePoint
       value: 2
@@ -2304,7 +2308,7 @@ Transform:
   m_GameObject: {fileID: 956390303}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.398618, y: 0.79406846, z: -10.029586}
+  m_LocalPosition: {x: -1.2686181, y: 0.7540685, z: -10.029586}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14762,7 +14766,7 @@ Transform:
   m_GameObject: {fileID: 1343608243}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.398617, y: 0.79406846, z: -10.029586}
+  m_LocalPosition: {x: -1.2686186, y: 0.7540685, z: -10.029586}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

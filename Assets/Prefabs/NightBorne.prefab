@@ -212,12 +212,16 @@ MonoBehaviour:
   _valuePerRevengePoint: 5
   _revengePointsQuantity: 4
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
+  _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
   _SecondPhaseTreshold: 25
   _dashDistance: 8
   _dashForce: 50
   _animationSpeed: 1.5
   _Phase2Effect: {fileID: 2214503251095667892, guid: 7f9d792fa0e8b524698fcc56daf2a589, type: 3}
   _DashEffect: {fileID: 6222324357962719858, guid: 598beb01a72e61142a90ac419f7c283c, type: 3}
+  clip: {fileID: 0}
+  audioManager: {fileID: 0}
+  entrances: {fileID: 0}
 --- !u!1 &3738220735141768503
 GameObject:
   m_ObjectHideFlags: 0
