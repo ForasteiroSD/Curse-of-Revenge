@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DestroyProjectile());
+        StartCoroutine(DestroyProjectile(_destroyTime));
     }
 
     void Update()
@@ -33,16 +33,17 @@ public class Projectile : MonoBehaviour
             if (gameObject.activeInHierarchy) {
                 _moveSpeed = 0;
                 _player.gameObject.GetComponent<Adventurer>().GetHit(damage);
-                _animator.SetTrigger("Break");
 
-                Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(0).length);
+                StartCoroutine(DestroyProjectile(0));
             }
         }
     }
 
-    IEnumerator DestroyProjectile() {
+    public IEnumerator DestroyProjectile(float time) {
 
-        yield return new WaitForSeconds(_destroyTime);
+        yield return new WaitForSeconds(time);
+
+        _moveSpeed = 0;
 
         _animator.SetTrigger("Break");
 

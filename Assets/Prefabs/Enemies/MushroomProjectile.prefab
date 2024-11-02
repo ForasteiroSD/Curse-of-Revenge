@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 6743494758389311065}
   - component: {fileID: 2651119993604766038}
   - component: {fileID: 2553719204107774103}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MushroomProjectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,8 +175,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.027904123, y: -0.03250502}
-  m_Radius: 0.16343166
+  m_Offset: {x: 0.027904153, y: -0.032505274}
+  m_Radius: 0.14854836
 --- !u!114 &2651119993604766038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,10 +205,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 895
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
