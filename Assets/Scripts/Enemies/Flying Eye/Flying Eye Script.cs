@@ -99,9 +99,25 @@ public class FlyingEyeScript : EnemiesScript
         _rb.linearVelocityX = _horSpeed;
     }
 
+    public override void PlayerInRange()
+    {
+        if(_goingDown || _goingUp) return;
+
+        if (_player.position.x > _minChasePos.position.x && _player.position.x < _maxChasePos.position.x)
+        {
+            _isChasing = true;
+        }
+        else
+        {
+            _rb.linearVelocityX = 0;
+            _isChasing = false;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(_goingDown) return;
+        _isChasing = false;
         _rb.linearVelocityX = 0;
         _rb.linearVelocityY = 0;
         Vector3 direction = new Vector3(1, 0, 0);
@@ -112,7 +128,6 @@ public class FlyingEyeScript : EnemiesScript
         //if there's a wall in front and it's height is greater then height the eye can go up
         if (hit.collider != null)
         {
-            _isChasing = false;
             StartCoroutine(Idle());
         }
         else

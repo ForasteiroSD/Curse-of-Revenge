@@ -126,7 +126,7 @@ public class NBScript : EnemiesScript
 
     public override void GetHit(float damage)
     {
-        if (_changingPhase || _health < 0) return;
+        if (_changingPhase || _death) return;
 
         _health -= damage * _damageReceivedMult;
 

@@ -326,7 +326,6 @@ MonoBehaviour:
     m_Bits: 8
   _attackDistance: 1.25
   _attackCooldown: 2
-  _attackPos: {fileID: 2194572124511117821}
   _attackDamage: 1
   _damageReceivedMult: 1
   _health: 5
@@ -416,10 +415,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 127
+    m_Bits: 895
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -541,7 +540,7 @@ BoxCollider2D:
     m_Bits: 8
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 1015
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
