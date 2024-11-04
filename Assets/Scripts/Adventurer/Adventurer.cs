@@ -86,7 +86,7 @@ public class Adventurer : MonoBehaviour
         _originalMoveSpeed = _moveSpeed;
 
         //Get Hierarchy Elements
-        _cameraController = GameObject.Find(Constants.HIERARCHY_CAMERA_CONTROLLER).GetComponent<CameraController>();
+        _cameraController = FindFirstObjectByType<CameraController>();
     }
 
     void FixedUpdate()
@@ -140,10 +140,10 @@ public class Adventurer : MonoBehaviour
     
     void OnMove(InputValue inputValue)
     {
-        //Call the function to handle the camera response to the momevent
-        if(_cameraController) _cameraController.Moved(_moveDirection.x, inputValue.Get<Vector2>().x);
-
         _moveDirection = inputValue.Get<Vector2>();
+
+        //Call the function to handle the camera response to the momevent
+        if(_cameraController && !_isDead) _cameraController.Moved(_moveDirection.x);
 
         //Check X analog deadzone
         if (_moveDirection.x > _analogDeadZone) _moveDirection.x = 1;
@@ -211,7 +211,7 @@ public class Adventurer : MonoBehaviour
         if(_canMove && !_isWallJumping && !_isDead)
         {
             Vector3 scale = transform.localScale;
-            bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon;
+            bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon && !_isAttacking;
 
             _rb.linearVelocityX = _moveDirection.x * _moveSpeed * Convert.ToInt32(!_isGettingHit);
             if (isRunning)
@@ -232,11 +232,11 @@ public class Adventurer : MonoBehaviour
 
     public void GetHit(float damage)
     {
+        _life -= damage;
+        print("My life: " + _life);
+        
         if(_life > 0)
         {
-            _life -= damage;
-            print("My life: " + _life);
-
             _isGettingHit = true;
             _animator.SetTrigger(Constants.ANIM_GET_HIT);
         }
