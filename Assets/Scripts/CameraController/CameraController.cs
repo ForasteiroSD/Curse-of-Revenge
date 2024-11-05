@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _originalYOffsetIncreaser = 0.02f;
     [SerializeField] private float _maxOffsetY = 2f;
     [SerializeField] private float _offsetX = 1.5f;
-    [SerializeField] private float _fallOffsetDivisor = 5;
 
     //Component references
     private CinemachinePositionComposer _composer;
