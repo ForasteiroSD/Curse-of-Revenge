@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Linq;
 using UnityEngine;
 using Utils;
 
@@ -17,7 +15,6 @@ public class Adventurer_Attack : MonoBehaviour
     private bool _attackEnded = false;
     private float _lastAttackAttmeptTime = -10;
     private float _lastAttackTime = 0;
-    private float _originalMoveSpeed;
     private GameObject[] _targets;
     [SerializeField] private float _preAttackTimeLimit = .2f;
     [SerializeField] private float _attackCooldown = .1f;
@@ -29,7 +26,6 @@ public class Adventurer_Attack : MonoBehaviour
         _animator = GetComponentInParent<Animator>();
         _adventurer = GetComponentInParent<Adventurer>();
         _rb = GetComponentInParent<Rigidbody2D>();
-        _originalMoveSpeed = _adventurer._moveSpeed;
     }
 
     private void FixedUpdate()
@@ -46,7 +42,7 @@ public class Adventurer_Attack : MonoBehaviour
 
             //If player pressed attack button a bit earlier, still consider the attack
             if (Time.time <= _lastAttackAttmeptTime + _preAttackTimeLimit) OnAttack();
-            else _adventurer._moveSpeed = _originalMoveSpeed;
+            else _adventurer._moveSpeed = _adventurer._originalMoveSpeed;
         }
 
         //Reset the attack combo if player takes to long to attack again
@@ -61,7 +57,7 @@ public class Adventurer_Attack : MonoBehaviour
     {
         _lastAttackAttmeptTime = Time.time;
 
-        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && _adventurer._canJump && !_adventurer._isGettingHit)
+        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && _adventurer._canJump && !_adventurer._isGettingHit && !_adventurer._isDead)
         {
             _adventurer._isAttacking = true;
             _attackEnded = false;
@@ -80,6 +76,10 @@ public class Adventurer_Attack : MonoBehaviour
         if (collision.CompareTag(Constants.TAG_ENEMY))
         {
             collision.gameObject.GetComponent<EnemiesScript>().GetHit(_attackDamage[_attackCounter-1]);
+        }
+        else if(collision.CompareTag(Constants.TAG_PROJECTILE))
+        {
+            StartCoroutine(collision.gameObject.GetComponent<Projectile>().DestroyProjectile(0));
         }
     }
 

@@ -1,12 +1,8 @@
-using NUnit.Framework.Constraints;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Composites;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class PauseScript : MonoBehaviour
 {
@@ -44,7 +40,8 @@ public class PauseScript : MonoBehaviour
 
     public void Sair()
     {
-        Application.Quit();
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
     }
     
     public void MudarVolume(float volume)

@@ -1,6 +1,4 @@
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using Utils;
 
 public class ChaseScript : MonoBehaviour
 {
