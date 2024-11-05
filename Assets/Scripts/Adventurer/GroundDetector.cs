@@ -1,6 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using Utils;
-using System.Collections;
 
 public class GroundDetector : MonoBehaviour
 {
@@ -63,11 +63,14 @@ public class GroundDetector : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         //When leaving the ground
-        if (collision.CompareTag(Constants.TAG_GROUND))
+        if (collision.CompareTag(Constants.TAG_GROUND) && _player.activeInHierarchy)
         {
-            if (!_animator.GetBool(Constants.ANIM_IS_FALLING)) _animator.SetTrigger(Constants.ANIM_FALL);
-            _animator.SetBool(Constants.ANIM_IS_FALLING, true);
-            if (_player.activeInHierarchy) StartCoroutine(CancelCanJump());
+            if (!_animator.GetBool(Constants.ANIM_IS_FALLING))
+            {
+                _animator.SetTrigger(Constants.ANIM_FALL);
+                _animator.SetBool(Constants.ANIM_IS_FALLING, true);
+            }
+            StartCoroutine(CancelCanJump());
         }
     }
 

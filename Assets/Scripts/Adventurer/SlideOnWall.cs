@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using Utils;
 
 public class SlideOnWall : MonoBehaviour

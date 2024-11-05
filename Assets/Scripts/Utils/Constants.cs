@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Utils {
     public static class Constants {
         //Hierarchy Names

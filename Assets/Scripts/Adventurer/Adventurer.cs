@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 using Utils;
 
 public class Adventurer : MonoBehaviour
@@ -66,7 +64,7 @@ public class Adventurer : MonoBehaviour
     public bool _isGettingHit { get; private set; } = false;
 
     //Camera Control
-    [SerializeField] private CameraController _cameraController; 
+    private CameraController _cameraController; 
 
     [SerializeField] private PauseScript pause;
 
@@ -242,14 +240,22 @@ public class Adventurer : MonoBehaviour
         }
         else if(!_isDead)
         {
-            _canMove = false;
-            _canJump = false;
-            _canWallJump = false;
-            _isDead = true;
-            _rb.linearVelocityX = 0;
-            _maxFallingSpeed = _originalFallingSpeed;
-            _animator.SetTrigger(Constants.ANIM_DIE);
+            StartCoroutine(Die());
         }
+    }
+
+    IEnumerator Die()
+    {
+        _canMove = false;
+        _canJump = false;
+        _canWallJump = false;
+        _isDead = true;
+        _rb.linearVelocityX = 0;
+        _maxFallingSpeed = _originalFallingSpeed;
+        _animator.SetTrigger(Constants.ANIM_DIE);
+
+        yield return new WaitForSecondsRealtime(1.5f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     IEnumerator WallJump(float jumpForce)
