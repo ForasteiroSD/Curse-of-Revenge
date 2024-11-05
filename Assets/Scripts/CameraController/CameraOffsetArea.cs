@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using Utils;
 
 public class CameraOffsetArea : MonoBehaviour
 {
-    private bool _hasToMove = false;
+    private Animator _adventurerAnimator;
+    private bool _isCameraMoved = false;
     [SerializeField] private float _xOffset;
     [SerializeField] private float _yOffset;
     [SerializeField] private float _MovingDamping;
@@ -13,23 +15,29 @@ public class CameraOffsetArea : MonoBehaviour
 
     private void Awake() {
         _cameraController = FindFirstObjectByType<CameraController>();
+        _adventurerAnimator = GameObject.Find(Constants.HIERARCHY_PLAYER).GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        _hasToMove = true;
-        StartCoroutine(MoveCamera());
+    private void OnTriggerStay2D(Collider2D other) {
+        if(AnimatorIsPlaying("Adventurer_Idle") && !_isCameraMoved) {
+            _isCameraMoved = true;
+            StartCoroutine(MoveCamera());
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _cameraController.ResetMovedCamera();
+        _isCameraMoved = false;
     }
 
     IEnumerator MoveCamera() {
         yield return new WaitForSeconds(_delayToMove);
-        if(_hasToMove) {
-            _cameraController.MoveCamera(_xOffset, _yOffset, _MovingDamping);
-            _hasToMove = false;
-        }
+        if(_isCameraMoved) _cameraController.MoveCamera(_xOffset, _yOffset, _MovingDamping);
+    }
+
+    bool AnimatorIsPlaying(string stateName)
+    {
+        return _adventurerAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 }
