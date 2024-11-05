@@ -1,8 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Splines;
-using UnityEngine.UI;
 using Utils;
 
 public class EnemiesScript : MonoBehaviour
@@ -30,7 +28,6 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected LayerMask _playerLayer;
     [SerializeField] protected float _attackDistance = 1.5f;
     [SerializeField] protected float _attackCooldown = 1.5f;
-    [SerializeField] protected Transform _attackPos;
     [SerializeField] protected float _attackDamage = 1f;
     [SerializeField] protected float _damageReceivedMult = 0.8f;
     protected int _isAttacking = 1;
@@ -97,19 +94,17 @@ public class EnemiesScript : MonoBehaviour
 
     public void GetOnBorder()
     {
+        _rb.linearVelocityX = 0;
         _isChasing = false;
         StartCoroutine(Idle());
     }
 
     public void PlayerLeaveRange()
     {
-        if (_player.position.x < _minChasePos.position.x || _player.position.x > _maxChasePos.position.x)
-        {
-            _isChasing = false;
-        }
+        _isChasing = false;
     }
 
-    public void PlayerInRange()
+    public virtual void PlayerInRange()
     {
         if (_player.position.x > _minChasePos.position.x && _player.position.x < _maxChasePos.position.x)
         {
@@ -117,6 +112,7 @@ public class EnemiesScript : MonoBehaviour
         }
         else
         {
+            _rb.linearVelocityX = 0;
             _isChasing = false;
         }
     }
@@ -168,7 +164,7 @@ public class EnemiesScript : MonoBehaviour
 
     public virtual void GetHit(float damage)
     {
-        if(_health < 0) return;
+        if(_death) return;
 
         _health -= damage * _damageReceivedMult;
 

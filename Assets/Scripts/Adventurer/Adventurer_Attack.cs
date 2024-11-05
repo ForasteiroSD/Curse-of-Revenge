@@ -79,6 +79,10 @@ public class Adventurer_Attack : MonoBehaviour
         {
             collision.gameObject.GetComponent<EnemiesScript>().GetHit(_attackDamage[_attackCounter-1]);
         }
+        else if(collision.CompareTag(Constants.TAG_PROJECTILE))
+        {
+            StartCoroutine(collision.gameObject.GetComponent<Projectile>().DestroyProjectile(0));
+        }
     }
 
     bool AnimatorIsPlaying()
