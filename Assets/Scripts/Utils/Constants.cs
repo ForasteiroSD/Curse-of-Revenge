@@ -4,6 +4,8 @@ namespace Utils {
     public static class Constants {
         //Hierarchy Names
         public const string HIERARCHY_PLAYER = "Adventurer";
+        public const string HIERARCHY_CAMERA_CONTROLLER = "CameraController";
+        public const string HIERARCHY_CINEMACHINE_CAMERA = "CinemachineCamera";
 
         //Animator
         public const string ANIM_IS_RUNNING = "IsRunning";
