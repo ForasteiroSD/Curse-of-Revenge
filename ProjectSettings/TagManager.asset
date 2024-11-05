@@ -16,7 +16,7 @@ TagManager:
   - Enemy
   - Ground
   - Drops
-  - 
+  - PlayerAttack
   - 
   - 
   - 
@@ -40,17 +40,32 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: ParallaxBackground
+    uniqueID: 3925593167
+    locked: 0
   - name: BackGround
     uniqueID: 1121475527
+    locked: 0
+  - name: BackGroundDecorations
+    uniqueID: 2172617977
     locked: 0
   - name: ForeGround
     uniqueID: 1034720735
     locked: 0
+  - name: ForeGroundDecorations
+    uniqueID: 2991087125
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Enemies Effects
+    uniqueID: 1978968583
+    locked: 0
   - name: Player
     uniqueID: 736617381
+    locked: 0
+  - name: Enemy
+    uniqueID: 60221509
     locked: 0
   - name: Drops
     uniqueID: 826517955

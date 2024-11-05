@@ -1,6 +1,12 @@
+using NUnit.Framework.Constraints;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Composites;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseScript : MonoBehaviour
 {
@@ -15,22 +21,13 @@ public class PauseScript : MonoBehaviour
         pauseMenu.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnSubmit(InputValue value)
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (value.isPressed)
         {
-            if (isPaused)
-            {
-                VoltarJogo();
-            }
-            else
-            {
-                PauseGame();
-            }
+            PauseGame();
         }
     }
-
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
@@ -40,6 +37,7 @@ public class PauseScript : MonoBehaviour
 
     public void VoltarJogo()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }

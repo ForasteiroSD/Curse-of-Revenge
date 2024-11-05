@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,6 +8,9 @@ using Utils;
 
 public class Adventurer : MonoBehaviour
 {
+    //Player Variables
+    private float _life = 40;
+
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
 
@@ -53,13 +57,17 @@ public class Adventurer : MonoBehaviour
     //Attack
     public bool _isAttacking { get; set; } = false;
 
+    //GetHit
+    public bool _isGettingHit { get; private set; } = false;
+
+    [SerializeField] private PauseScript pause;
 
     void Awake()
     {
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-
+        
         //Set gravity scales
         _gravityScale = _rb.gravityScale;
         _fallGravityScale = _gravityScale * _fallGravityScaleMultiplier;
@@ -86,18 +94,35 @@ public class Adventurer : MonoBehaviour
 
         if(_isSliding)
         {
+            //If player is slow enough, stop sliding
             if (Mathf.Sign(_rb.linearVelocityX) != Mathf.Sign(transform.localScale.x) || _rb.linearVelocityX == 0)
             {
                 _isSliding = false;
                 _canMove = true;
                 _lastSlideTime = Time.time;
+                _animator.SetBool(Constants.ANIM_IS_SLIDING, false);
             }
+
+            //Else decreases player velocity (in order to stop the slide)
             else _rb.linearVelocityX = _rb.linearVelocityX + (_roolStartVelocity * _slideVelocityDecreaser * -Mathf.Sign(transform.localScale.x));
         }
 
+        //Stop sliding animation
         if(Mathf.Abs(_rb.linearVelocityX) <= _stopSlideVelocity) _animator.SetBool(Constants.ANIM_IS_SLIDING, false);
+
+        //Set _isGettingHit to false if hit animation already ended
+        if (_isGettingHit && !AnimatorIsPlaying("Adventurer_Hurt")) _isGettingHit = false;
     }
 
+    public void OnPause(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        { 
+            pause.PauseGame();
+        }
+        
+    }
+    
     void OnMove(InputValue inputValue)
     {
         _moveDirection = inputValue.Get<Vector2>();
@@ -112,11 +137,12 @@ public class Adventurer : MonoBehaviour
         else if (_moveDirection.y < -_analogDeadZone) _moveDirection.y = -1;
         else _moveDirection.y = 0;
     }
+
     public void OnJump()
     {
         _lastJumpTime = Time.time;
 
-        if ((_canJump && !_isSliding) || _canWallJump)
+        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit)
         {
             _releasedJumpButton = false;
             _rb.gravityScale = _gravityScale; //Set the normal gravity scale (not the falling one)
@@ -132,11 +158,17 @@ public class Adventurer : MonoBehaviour
         }
     }
 
+    void OnStopJump()
+    {
+        _releasedJumpButton = true;
+    }
+
     public void OnSlide()
     {
         _lastSlideAttemptTime = Time.time;
 
-        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking)
+        //If can slide
+        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit)
         {
             _canMove = false;
             _isSliding = true;
@@ -153,7 +185,7 @@ public class Adventurer : MonoBehaviour
             Vector3 scale = transform.localScale;
             bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon;
 
-            _rb.linearVelocityX = _moveDirection.x * _moveSpeed;
+            _rb.linearVelocityX = _moveDirection.x * _moveSpeed * Convert.ToInt32(!_isGettingHit);
             if (isRunning)
             {
                 //Look to the right direction and set animation of running
@@ -170,9 +202,12 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    void OnStopJump()
+    public void GetHit(float damage)
     {
-        _releasedJumpButton = true;
+        print("Tomei dano");
+        _isGettingHit = true;
+        _life -= damage;
+        _animator.SetTrigger(Constants.ANIM_GET_HIT);
     }
 
     IEnumerator WallJump(float jumpForce)
@@ -189,5 +224,15 @@ public class Adventurer : MonoBehaviour
 
         yield return new WaitForSeconds(_stopTimeAfterWallJump);
         _isWallJumping = false;
+    }
+
+    bool AnimatorIsPlaying()
+    {
+        return _animator.GetCurrentAnimatorStateInfo(0).length > _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+
+    bool AnimatorIsPlaying(string stateName)
+    {
+        return AnimatorIsPlaying() && _animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 }
