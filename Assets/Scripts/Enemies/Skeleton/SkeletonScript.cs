@@ -4,6 +4,7 @@ public class SkeletonScript : EnemiesScript
 {
     [SerializeField] float _move = 0.5f;
     BoxCollider2D _collider;
+
     protected override void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -18,7 +19,7 @@ public class SkeletonScript : EnemiesScript
     {
         if (_death) return;
         _horSpeed *= -1;
-        transform.position = new Vector3(transform.position.x + ((Mathf.Sign(_horSpeed)) * _move), transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x + Mathf.Sign(_horSpeed) * _move, transform.position.y, transform.position.z);
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(_horSpeed), transform.localScale.y, transform.localScale.z);
     }
 
