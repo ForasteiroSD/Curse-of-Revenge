@@ -6,14 +6,11 @@ using Utils;
 public class EnemiesScript : MonoBehaviour
 {
     protected Animator _animator;
-
+    
     protected Rigidbody2D _rb;
 
     [SerializeField] protected float _horSpeed = 2f;
-    [SerializeField] protected float _unitsToMove;
-    [SerializeField] protected bool _returnOnlyOnBorder = false;
-    protected float _startPos;
-    protected float _endPos;
+    
 
     [SerializeField] protected float _idleTime = 2f;
     protected bool _idle = false;
@@ -48,8 +45,6 @@ public class EnemiesScript : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
-        _startPos = transform.position.x;
-        _endPos = _startPos + _unitsToMove;
     }
 
     protected virtual void Update()

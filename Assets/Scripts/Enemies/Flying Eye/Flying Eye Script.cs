@@ -10,6 +10,10 @@ public class FlyingEyeScript : EnemiesScript
 
     [SerializeField] LayerMask _groundLayer;
     [SerializeField] Transform _flyHeightPos;
+    [SerializeField] float _unitsToMove;
+
+    float _startPos;
+    float _endPos;
     bool _goingUp = false;
     bool _goingDown = false;
 
