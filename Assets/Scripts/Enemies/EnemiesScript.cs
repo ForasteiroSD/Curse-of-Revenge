@@ -69,22 +69,9 @@ public class EnemiesScript : MonoBehaviour
     {
         if (_idle) return;
 
-        if (_horSpeed > 1)
-        {
-            if (!_returnOnlyOnBorder && _rb.position.x > _endPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
-        }
-
-        else
-        {
-            if (!_returnOnlyOnBorder && _rb.position.x < _startPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
+        if (transform.position.x <= _minChasePos.position.x || transform.position.x >= _maxChasePos.position.x) {
+            StartCoroutine(Idle());
+            return;
         }
 
         //return from idle animation in case was in it
@@ -106,7 +93,7 @@ public class EnemiesScript : MonoBehaviour
 
     public virtual void PlayerInRange()
     {
-        if (_player.position.x > _minChasePos.position.x && _player.position.x < _maxChasePos.position.x)
+        if (_player.position.x >= _minChasePos.position.x && _player.position.x <= _maxChasePos.position.x)
         {
             _isChasing = true;
         }
