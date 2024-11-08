@@ -470,8 +470,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _horSpeed: 2.5
-  _unitsToMove: 10
-  _returnOnlyOnBorder: 0
   _idleTime: 2
   _chaseSpeedMultiplier: 1.2
   _maxChasePos: {fileID: 8415786888061539061}
@@ -494,6 +492,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _flyHeightPos: {fileID: 1944374084806312873}
+  _unitsToMove: 10
 --- !u!1 &8240468170109290860
 GameObject:
   m_ObjectHideFlags: 0
