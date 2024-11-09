@@ -198,7 +198,7 @@ public class NBScript : EnemiesScript
         //aply dash force
         _rb.AddForceX(_dashForce * MathF.Sign(_horSpeed), ForceMode2D.Impulse);
 
-        Destroy(dashEffect, 2f);
+        Destroy(dashEffect, 4f);
 
         yield return new WaitForSeconds(0.5f);
 

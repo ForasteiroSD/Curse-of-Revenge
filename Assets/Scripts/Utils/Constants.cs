@@ -31,5 +31,8 @@ namespace Utils {
         //Layers
         public const string LAYER_PLAYER = "Player";
         public const string LAYER_ENEMY = "Enemy";
+
+        //Enemies Values
+        public const float REVENGE_POINT_DROP_TIME = 1;
     }
 }
