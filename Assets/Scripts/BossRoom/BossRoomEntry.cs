@@ -9,11 +9,14 @@ public class BossRoomEntry : MonoBehaviour
     [SerializeField] GameObject _bossPrefab;
     [SerializeField] Transform _bossPosition;
 
+    Animator _animWallBlocker;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            wallBlocker.SetActive(true); // Ativa a barreira de bloqueio
+            _animWallBlocker = wallBlocker.GetComponent<Animator>();
+            _animWallBlocker.SetTrigger("Close"); //ativa barreira
             if (bossMusic != null)
                 audioManager.TrocarMusica(bossMusic, 1f);
             GetComponent<BoxCollider2D>().enabled = false; // Remove o trigger para que ele não ative novamente
@@ -29,11 +32,11 @@ public class BossRoomEntry : MonoBehaviour
     public void RemoveWallBlocker()
     {
         // Desativa a barreira de bloqueio
-        wallBlocker.SetActive(false);
+        _animWallBlocker.SetTrigger("Open");
 
         // Desativa música do boss
         audioManager.TrocarMusica(clip);
 
-        Destroy(gameObject);
+        Destroy(gameObject, 1f);
     }
 }
