@@ -172,6 +172,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6167792464633153427}
   - {fileID: 8830868909380612755}
   - {fileID: 3792260567503505408}
   - {fileID: 1748119861101303451}
@@ -180,6 +181,65 @@ Transform:
   - {fileID: 1171578268028487872}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6344644773313208389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6167792464633153427}
+  - component: {fileID: 5466568680192617270}
+  m_Layer: 0
+  m_Name: LevelGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 0
+--- !u!4 &6167792464633153427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6344644773313208389}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -127.403175, y: -26.997227, z: 0.3188487}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3825653641594925925}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5466568680192617270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6344644773313208389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b823d9e08766314408f63d9450a52000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upperPatterns:
+  - {fileID: 730518006718372469, guid: 4994dfe3f51939040a7e7ef35e398609, type: 3}
+  - {fileID: 2736146572052352567, guid: 37c7a0d50cb36274e8a1f4273247a664, type: 3}
+  _descendingPatterns:
+  - {fileID: 2736146572052352567, guid: 6b1aeb6d8aa8a3645915d75abd4adef0, type: 3}
+  _underGroundPatterns:
+  - {fileID: 2736146572052352567, guid: 97800ec114bce4b43960bbf0b1f1e072, type: 3}
+  - {fileID: 2736146572052352567, guid: 4e82f166a4598d74e9628fc088bccd4a, type: 3}
+  _underGroundDescendingPatterns:
+  - {fileID: 2736146572052352567, guid: 6232beb7ea6cd384d943e4a5a26483e7, type: 3}
+  _underGroundLastPatterns:
+  - {fileID: 2736146572052352567, guid: a412751da0d3d2448979376151d739d7, type: 3}
+  _lastPattern: {fileID: 3209448992099232610, guid: b7038672dcd7c1945a7ed932f91c5183, type: 3}
+  _mapSize: 10
+  _belowLevelSizeDivisor: 3
 --- !u!1 &6881916027283235877
 GameObject:
   m_ObjectHideFlags: 0
