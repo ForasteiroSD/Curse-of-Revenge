@@ -12,12 +12,14 @@ public class GroundDetector : MonoBehaviour
 
     //Scripts
     private Adventurer _adventurer;
+    private Collider2D _collider;
 
     private void Awake()
     {
         //Get Components
         _animator = gameObject.transform.parent.gameObject.GetComponent<Animator>();
         _adventurer = gameObject.transform.parent.gameObject.GetComponent<Adventurer>();
+        _collider = GetComponent<Collider2D>();
 
         //Find objects
         _player = GameObject.Find(Constants.HIERARCHY_PLAYER);
@@ -57,13 +59,17 @@ public class GroundDetector : MonoBehaviour
     void OnTriggerStay2D(Collider2D collision)
     {
         //While on ground, can jump again
-        if (collision.CompareTag(Constants.TAG_GROUND)) _adventurer._canJump = true;
+        if (collision.CompareTag(Constants.TAG_GROUND)) {
+               _adventurer._canJump = true;
+            //    _animator.SetBool(Constants.ANIM_IS_FALLING, false);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         //When leaving the ground
-        if (collision.CompareTag(Constants.TAG_GROUND) && _player.activeInHierarchy)
+        if (collision.CompareTag(Constants.TAG_GROUND) && _player.activeInHierarchy && !_collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        // if (collision.CompareTag(Constants.TAG_GROUND) && _player.activeInHierarchy)
         {
             if (!_animator.GetBool(Constants.ANIM_IS_FALLING))
             {
