@@ -2740,7 +2740,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.198624, y: 5.0940685, z: -10.029586}
+  m_LocalPosition: {x: -24.298615, y: 5.114069, z: -10.029586}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4397,13 +4397,14 @@ GameObject:
   m_Component:
   - component: {fileID: 846007962}
   - component: {fileID: 846007961}
+  - component: {fileID: 846007963}
   m_Layer: 0
   m_Name: BossEntrys
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!156049354 &846007961
 Grid:
   m_ObjectHideFlags: 0
@@ -4432,6 +4433,28 @@ Transform:
   - {fileID: 1045299236}
   m_Father: {fileID: 188483030}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &846007963
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846007960}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c8fdb5c501ee58a4fb0762cba0ef3d7a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &856651941
 GameObject:
   m_ObjectHideFlags: 0
@@ -6088,7 +6111,7 @@ Transform:
   m_GameObject: {fileID: 1045299235}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -84.45448, y: -9.064342, z: 0}
+  m_LocalPosition: {x: -84.45448, y: -7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6173,8 +6196,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1034720735
-  m_SortingLayer: -2
+  m_SortingLayerID: -2122349319
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -74680,7 +74703,7 @@ Transform:
   m_GameObject: {fileID: 1681167684}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.198616, y: 5.0940685, z: -10.029586}
+  m_LocalPosition: {x: -24.298615, y: 5.1140685, z: -10.029586}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75028,6 +75051,10 @@ PrefabInstance:
       value: Adventurer
       objectReference: {fileID: 0}
     - target: {fileID: 2275507966165780266, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
+      propertyPath: _life
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2275507966165780266, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
       propertyPath: pause
       value: 
       objectReference: {fileID: 1384548219}
@@ -75257,11 +75284,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8161678892979535710, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -102.49
+      value: -102.59
       objectReference: {fileID: 0}
     - target: {fileID: 8161678892979535710, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.96
+      value: -4.94
       objectReference: {fileID: 0}
     - target: {fileID: 8161678892979535710, guid: c18d0f63d7933454eade8543c4eb39ee, type: 3}
       propertyPath: m_LocalPosition.z

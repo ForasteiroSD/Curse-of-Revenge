@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour
 
         //Getting component references
         _composer = GameObject.Find(Constants.HIERARCHY_CINEMACHINE_CAMERA).GetComponent<CinemachinePositionComposer>();
+        // _composer = FindFirstObjectByType<CinemachinePositionComposer>();
         _adventurer = GameObject.Find(Constants.HIERARCHY_PLAYER).GetComponent<Adventurer>();
         _rb = GameObject.Find(Constants.HIERARCHY_PLAYER).GetComponent<Rigidbody2D>();
         

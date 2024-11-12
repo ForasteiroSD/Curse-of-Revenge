@@ -489,8 +489,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _horSpeed: 2
-  _unitsToMove: 15
-  _returnOnlyOnBorder: 1
   _idleTime: 2
   _chaseSpeedMultiplier: 1.1
   _maxChasePos: {fileID: 2997881579931530333}
@@ -508,6 +506,7 @@ MonoBehaviour:
   _revengePointsQuantity: 1
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
+  _move: 0.2
   _projectile: {fileID: 6381486311329653466, guid: b3b98302d19dcf843af988510f5b7d84, type: 3}
   _attackPos: {fileID: 2105801607711498229}
   _instatiateDelay: 0.7
