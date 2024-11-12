@@ -1409,6 +1409,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470556556}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &526679129 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9166175059205743006, guid: 7e03a04f19c48c3478662e478f69bec6, type: 3}
+  m_PrefabInstance: {fileID: 1300222122}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &528091455
 GameObject:
   m_ObjectHideFlags: 0
@@ -24746,6 +24751,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mushroom
       objectReference: {fileID: 0}
+    - target: {fileID: 5680268951532209026, guid: 6d65ef01c8efcf1498ccc95dc30a1b00, type: 3}
+      propertyPath: pos
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680268951532209026, guid: 6d65ef01c8efcf1498ccc95dc30a1b00, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 526679129}
+    - target: {fileID: 5680268951532209026, guid: 6d65ef01c8efcf1498ccc95dc30a1b00, type: 3}
+      propertyPath: fireKnight
+      value: 
+      objectReference: {fileID: 7810769910770032419, guid: 46fd51250e3de41469616366b3e1dee7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

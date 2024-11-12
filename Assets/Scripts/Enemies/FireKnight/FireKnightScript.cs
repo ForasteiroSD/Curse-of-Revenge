@@ -38,6 +38,7 @@ public class FireKnightScript : MonoBehaviour
     [SerializeField] float _health = 20f;
     [SerializeField] float _hitDelay = 1f;
     [SerializeField] float[] _attackDamages;
+    [SerializeField] float _dodgeChange = 0.7f;
     [SerializeField] int _maxDeffendCount = 2;
 
     //States
@@ -52,7 +53,6 @@ public class FireKnightScript : MonoBehaviour
     bool _isUsingSPAttack = false;
     int _currentAttack = 0;
     int _deffendCount = 0;
-    bool _idleIsRunning = false;
 
 
     void Awake()
@@ -219,7 +219,7 @@ public class FireKnightScript : MonoBehaviour
 
         Vector2 distance = _player.transform.position - _knightPos.position;
         if (Mathf.Abs(distance.x) < _attackDistance) {
-            if (Random.Range(1, 10) > 7) {
+            if (Random.Range(0f, 1f) > _dodgeChange) {
                 Vector3 direction = new Vector3(1, 0, 0);
                 if (_horSpeed > 0) direction = new Vector3(-1, 0, 0);
 
@@ -274,17 +274,11 @@ public class FireKnightScript : MonoBehaviour
 
     IEnumerator IdleTimeout(float delay) {
 
-        // if (_idleIsRunning) yield break;
-
-        _idleIsRunning = true;
-
         _animator.SetBool("Idle", true);
 
         yield return new WaitForSecondsRealtime(delay);
 
         if (_rolling || _defend || _isAttacking == 0) yield break;
-
-        _idleIsRunning = false;
         
         _idle = false;
 
