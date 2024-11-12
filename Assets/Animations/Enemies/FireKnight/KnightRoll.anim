@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightRolll
+  m_Name: KnightRoll
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -182,9 +182,9 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.083333336
-        value: -0.13982755
-        inSlope: 0
-        outSlope: 0
+        value: -0.15103582
+        inSlope: -0.15451133
+        outSlope: -0.15451133
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -257,7 +257,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.083333336
-        value: 0.11302362
+        value: 0.1354401
         inSlope: -0.34349048
         outSlope: -0.34349048
         tangentMode: 136
@@ -588,9 +588,9 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.083333336
-        value: -0.13982755
-        inSlope: 0
-        outSlope: 0
+        value: -0.15103582
+        inSlope: -0.15451133
+        outSlope: -0.15451133
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -663,7 +663,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.083333336
-        value: 0.11302362
+        value: 0.1354401
         inSlope: -0.34349048
         outSlope: -0.34349048
         tangentMode: 136
@@ -726,4 +726,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: StartRoll
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5833333
+    functionName: StopRolling
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

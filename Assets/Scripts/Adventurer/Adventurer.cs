@@ -66,7 +66,7 @@ public class Adventurer : MonoBehaviour
     //Camera Control
     private CameraController _cameraController; 
 
-    [SerializeField] private PauseScript pause;
+    private PauseScript _pause;
 
     void Awake()
     {
@@ -85,6 +85,7 @@ public class Adventurer : MonoBehaviour
 
         //Get Hierarchy Elements
         _cameraController = FindFirstObjectByType<CameraController>();
+        _pause = FindFirstObjectByType<PauseScript>();
     }
 
     void FixedUpdate()
@@ -131,7 +132,7 @@ public class Adventurer : MonoBehaviour
     {
         if (inputValue.isPressed)
         { 
-            pause.PauseGame();
+            _pause.PauseGame();
         }
         
     }

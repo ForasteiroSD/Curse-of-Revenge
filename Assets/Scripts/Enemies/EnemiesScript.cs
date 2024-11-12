@@ -21,7 +21,6 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected Transform _maxChasePos;
     [SerializeField] protected Transform _minChasePos;
 
-    [SerializeField] protected LayerMask _playerLayer;
     [SerializeField] protected float _attackDistance = 1.5f;
     [SerializeField] protected float _attackCooldown = 1.5f;
     [SerializeField] protected float _attackDamage = 1f;
@@ -150,7 +149,9 @@ public class EnemiesScript : MonoBehaviour
     {
         if(_death) return;
 
-        _health -= damage * _damageReceivedMult;
+        damage *= _damageReceivedMult;
+        damage = Mathf.Ceil(damage);
+        _health -= damage;
 
         Vector3 position = GetTextPosition();
         GameObject text = Instantiate(_textDamage, position, Quaternion.identity);

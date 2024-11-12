@@ -125,7 +125,9 @@ public class NBScript : EnemiesScript
     {
         if (_changingPhase || _death) return;
 
-        _health -= damage * _damageReceivedMult;
+        damage *= _damageReceivedMult;
+        damage = Mathf.Ceil(damage);
+        _health -= damage;
 
         Vector3 position = GetTextPosition();
         GameObject text = Instantiate(_textDamage, position, Quaternion.identity);

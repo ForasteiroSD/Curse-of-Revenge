@@ -45,6 +45,8 @@ public class Adventurer_Attack : MonoBehaviour
             else _adventurer._moveSpeed = _adventurer._originalMoveSpeed;
         }
 
+        if(!_adventurer._isAttacking) _adventurer._moveSpeed = _adventurer._originalMoveSpeed;
+
         //Reset the attack combo if player takes to long to attack again
         if(_attackEnded && Time.time > _lastAttackTime + _maxKeepComboTime)
         {
@@ -75,7 +77,15 @@ public class Adventurer_Attack : MonoBehaviour
     {
         if (collision.CompareTag(Constants.TAG_ENEMY))
         {
-            collision.gameObject.GetComponent<EnemiesScript>().GetHit(_attackDamage[_attackCounter-1]);
+            EnemiesScript script = collision.gameObject.GetComponent<EnemiesScript>();
+            if(script)
+            {
+                script.GetHit(_attackDamage[_attackCounter-1]);
+            } else
+            {
+                collision.gameObject.GetComponent<FireKnightScript>().GetHit(_attackDamage[_attackCounter-1]);
+            }
+            
         }
         else if(collision.CompareTag(Constants.TAG_PROJECTILE))
         {

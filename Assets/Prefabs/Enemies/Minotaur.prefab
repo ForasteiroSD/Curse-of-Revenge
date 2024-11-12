@@ -492,9 +492,6 @@ MonoBehaviour:
   _chaseSpeedMultiplier: 1.1
   _maxChasePos: {fileID: 3738371332664674671}
   _minChasePos: {fileID: 9079381745319800585}
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
   _attackDistance: 2
   _attackCooldown: 1.7
   _attackDamage: 1
@@ -566,8 +563,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2835693705993220001}
   - {fileID: 3738371332664674671}
   - {fileID: 9079381745319800585}
+  - {fileID: 2835693705993220001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
