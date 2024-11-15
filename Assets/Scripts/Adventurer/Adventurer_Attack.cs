@@ -83,7 +83,7 @@ public class Adventurer_Attack : MonoBehaviour
                 script.GetHit(_attackDamage[_attackCounter-1]);
             } else
             {
-                collision.gameObject.GetComponent<FireKnightScript>().GetHit(_attackDamage[_attackCounter-1]);
+                collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage[_attackCounter-1]);
             }
             
         }

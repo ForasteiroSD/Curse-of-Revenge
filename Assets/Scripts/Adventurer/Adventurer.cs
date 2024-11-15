@@ -231,7 +231,7 @@ public class Adventurer : MonoBehaviour
 
     public void GetHit(float damage)
     {
-        _life -= damage;
+        _life = Mathf.Max(0, _life-damage);
         print("My life: " + _life);
         
         if(_life > 0)
