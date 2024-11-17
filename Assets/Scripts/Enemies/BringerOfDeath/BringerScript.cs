@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -15,6 +14,7 @@ public class BringerScript : BossScript
     [SerializeField] Transform _bringerPos;
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] GameObject _textDamage;
+    [SerializeField] GameObject _deathEffect;
     Transform _player;
     
     //Status
@@ -52,7 +52,6 @@ public class BringerScript : BossScript
     bool _teleport = false;
     int _currentAttack = 0;
     bool _isUsingAttack1 = false;
-
 
     void Awake()
     {
@@ -355,6 +354,9 @@ public class BringerScript : BossScript
         _idle = _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
+
+        _bringerPos.position = new Vector3(_bringerPos.position.x, _bringerPos.position.y+0.5f, _bringerPos.position.z);
+        Destroy(Instantiate(_deathEffect, _bringerPos.position, Quaternion.identity), 5f);
 
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
 
