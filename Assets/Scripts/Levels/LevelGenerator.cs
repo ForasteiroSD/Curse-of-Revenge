@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
+using Unity.VisualScripting;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -16,12 +17,15 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private int _belowLevelSizeDivisor = 3;
     private List<TilemapCollider2D> _instatiatedPatterns = new List<TilemapCollider2D>();
     private Transform _pattern;
+    private Transform _levelPatterns;
     private Vector3 _lastEndPosition;
 
     private void Awake() {
         _lastEndPosition = transform.position;
         int descendingRoom = UnityEngine.Random.Range(0, _mapSize);
         Transform lastPattern;
+        _levelPatterns = GameObject.Find("LevelPatterns").transform;
+
 
         //Spawn all upper patterns
         for(int i = 0; i < _mapSize; i++) {
@@ -31,7 +35,7 @@ public class LevelGenerator : MonoBehaviour
             }
             else {
                 _pattern = _upperPatterns[UnityEngine.Random.Range(0, _upperPatterns.Length)];
-                lastPattern = Instantiate(_pattern, _lastEndPosition, Quaternion.identity);
+                lastPattern = Instantiate(_pattern, _lastEndPosition, Quaternion.identity, _levelPatterns);
             }
 
             _lastEndPosition = lastPattern.Find("EndPosition").position;
@@ -39,11 +43,11 @@ public class LevelGenerator : MonoBehaviour
         
         //Spawn last pattern
         _pattern = _lastPattern;
-        Instantiate(_pattern, _lastEndPosition, Quaternion.identity);
+        Instantiate(_pattern, _lastEndPosition, Quaternion.identity, _levelPatterns);
     }
 
     private Transform SpawnDescendingLevelPart(Transform pattern, Vector3 spawnPosition, Quaternion rotation, int nivel) {
-        Transform newPattern = Instantiate(pattern, spawnPosition, rotation);
+        Transform newPattern = Instantiate(pattern, spawnPosition, rotation, _levelPatterns);
 
         //Ramdomly choses one side to be the descending side
         bool isDescendingSide = Random.value < 0.5f;
@@ -77,13 +81,13 @@ public class LevelGenerator : MonoBehaviour
             }
             else {
                 _pattern = _underGroundPatterns[UnityEngine.Random.Range(0, _underGroundPatterns.Length)];
-                lastPattern = Instantiate(_pattern, spawnPosition, rotation);
+                lastPattern = Instantiate(_pattern, spawnPosition, rotation, _levelPatterns);
                 spawnPosition = lastPattern.Find("EndPosition").position;
             }
         }
 
         //Spawn the closing pattern
         _pattern = _underGroundLastPatterns[UnityEngine.Random.Range(0, _underGroundLastPatterns.Length)];
-        Instantiate(_pattern, spawnPosition, rotation);
+        Instantiate(_pattern, spawnPosition, rotation, _levelPatterns);
     }
 }
