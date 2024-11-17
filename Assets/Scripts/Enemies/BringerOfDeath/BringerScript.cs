@@ -15,6 +15,7 @@ public class BringerScript : BossScript
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] GameObject _textDamage;
     [SerializeField] GameObject _deathEffect;
+    [SerializeField] Transform _middleArena;
     Transform _player;
     
     //Status
@@ -52,6 +53,7 @@ public class BringerScript : BossScript
     bool _teleport = false;
     int _currentAttack = 0;
     bool _isUsingAttack1 = false;
+    bool _isOnAttackCooldown = false;
 
     void Awake()
     {
@@ -169,60 +171,65 @@ public class BringerScript : BossScript
 
         _animator.SetTrigger("Cast");
 
-        int attackNumber = Random.Range(0, _spellsTypes.Length+2);
+        int attackNumber = Random.Range(0, 100);
 
-        //sequencial from left
-        if (attackNumber == _spellsTypes.Length)
+        //sequencial
+        if (attackNumber >= 90)
         {
-            Vector3 pos = _minPos.position;
-            pos.x += 1f;
-            float maxPos = _maxPos.position.x;
-            spell = Instantiate(_spellSequencial, pos, Quaternion.identity);
-            float animTIme = spell.GetComponentInChildren<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
-            Destroy(spell, 5);
-            pos.x += 2f;
-
-            while (pos.x < maxPos)
+            _animator.SetBool("SpellTeleport", true);
+            //from left
+            if (Random.Range(0, 2) == 0)
             {
-                yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
-                Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
+                Vector3 pos = _minPos.position;
+                pos.x += 1f;
+                float maxPos = _maxPos.position.x;
+                spell = Instantiate(_spellSequencial, pos, Quaternion.identity);
+                float animTIme = spell.GetComponentInChildren<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
+                Destroy(spell, 5);
                 pos.x += 2f;
-            }
-            yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
-            Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
-            yield return new WaitForSecondsRealtime(animTIme);
-            StopAttack();
-            yield break;
-        }
-        //sequencial from right
-        else if (attackNumber == _spellsTypes.Length + 1)
-        {
-            Vector3 pos = _maxPos.position;
-            pos.x -= 1f;
-            float minPos = _minPos.position.x;
-            spell = Instantiate(_spellSequencial, pos, Quaternion.identity);
-            float animTIme = spell.GetComponentInChildren<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
-            Destroy(spell, 5);
-            pos.x -= 2f;
 
-            while(pos.x > minPos) {
+                while (pos.x < maxPos)
+                {
+                    yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
+                    Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
+                    pos.x += 2f;
+                }
                 yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
                 Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
-                pos.x -= 2f;
+                yield return new WaitForSecondsRealtime(animTIme);
             }
-            yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
-            Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
-            yield return new WaitForSecondsRealtime(animTIme);
+            //from right
+            else
+            {
+                Vector3 pos = _maxPos.position;
+                pos.x -= 1f;
+                float minPos = _minPos.position.x;
+                spell = Instantiate(_spellSequencial, pos, Quaternion.identity);
+                float animTIme = spell.GetComponentInChildren<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
+                Destroy(spell, 5);
+                pos.x -= 2f;
+
+                while(pos.x > minPos) {
+                    yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
+                    Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
+                    pos.x -= 2f;
+                }
+                yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
+                Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
+                yield return new WaitForSecondsRealtime(animTIme);
+            }
+
+            _animator.SetBool("SpellTeleport", false);
             StopAttack();
             yield break;
         }
         //big spell
-        else if (attackNumber == 1)
+        else if (attackNumber >= 72)
         {
             float distMin = _player.position.x - _minPos.position.x;
             float distMax = _maxPos.position.x - _player.position.x;
 
-            spell = Instantiate(_spellsTypes[attackNumber], _player.transform.position, Quaternion.identity);
+            spell = Instantiate(_spellsTypes[attackNumber/18], _player.transform.position, Quaternion.identity);
             if (distMin > distMax)
             {
                 spell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
@@ -230,13 +237,13 @@ public class BringerScript : BossScript
             }
         }
         //double spell
-        else if (attackNumber == 3)
+        else if (attackNumber >= 54)
         {
-            spell = Instantiate(_spellsTypes[attackNumber], _player.transform.position, Quaternion.Euler(new Vector3(0, 0, 180)));
+            spell = Instantiate(_spellsTypes[attackNumber/18], _player.transform.position, Quaternion.Euler(new Vector3(0, 0, 180)));
         }
         else
         {
-            spell = Instantiate(_spellsTypes[attackNumber], _player.transform.position, Quaternion.identity);
+            spell = Instantiate(_spellsTypes[attackNumber/18], _player.transform.position, Quaternion.identity);
         }
 
         foreach (var animator in spell.GetComponentsInChildren<Animator>())
@@ -245,6 +252,31 @@ public class BringerScript : BossScript
         }
 
         Destroy(spell, 3);
+    }
+
+    //called by teleport spell 1 animation
+    void TeleportBackToGround()
+    {
+        float newPos;
+        float distMin = _player.position.x - _minPos.position.x;
+        float distMax = _maxPos.position.x - _player.position.x;
+
+        if (distMin > distMax)
+        {
+            newPos = Random.Range(_minPos.position.x + 1f, _player.position.x - _minDist);
+        }
+        else 
+        {
+            newPos = Random.Range(_player.position.x + _minDist, _maxPos.position.x - 1f);
+        }
+
+        transform.position = new Vector3(newPos, _minPos.position.y+0.5f, transform.position.z);
+    }
+
+    //called by teleport spell animation
+    void TeleportMiddleArena()
+    {
+        transform.position = _middleArena.position;
     }
 
     //called by event on cast attack animation
@@ -272,7 +304,18 @@ public class BringerScript : BossScript
         _isAttacking = 1;
         _currentAttack = 0;
 
-        StartCoroutine(IdleTimeout(_attackCooldown));
+        _isOnAttackCooldown = true;
+        StartCoroutine(AttackCooldown());
+    }
+
+    IEnumerator AttackCooldown()
+    {
+        _animator.SetBool("Idle", true);
+
+        yield return new WaitForSecondsRealtime(_attackCooldown);
+        
+        _isOnAttackCooldown = false;
+        _idle = false;
     }
 
     //called by input system
@@ -319,11 +362,12 @@ public class BringerScript : BossScript
 
     IEnumerator IdleTimeout(float delay)
     {
+        
         _animator.SetBool("Idle", true);
 
         yield return new WaitForSecondsRealtime(delay);
 
-        if (_isAttacking == 0) yield break;
+        if(_isOnAttackCooldown || _isAttacking == 0) yield break;
         
         _idle = false;
 

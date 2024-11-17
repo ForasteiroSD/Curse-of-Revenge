@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2107733672162746146}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.5, y: -0.56, z: 0}
+  m_LocalPosition: {x: -13.5, y: -0.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -113,6 +113,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce51872ea9640044f897bfc0e595a550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3909478656183003904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4357681693580106042}
+  m_Layer: 0
+  m_Name: MiddleArena
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4357681693580106042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3909478656183003904}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.42, y: 5.49, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4731000930209389281}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4009326250418175173
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +173,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4357681693580106042}
   - {fileID: 8365603389101584581}
   - {fileID: 1987542545242358469}
   - {fileID: 5557740592741982036}
@@ -172,7 +204,7 @@ Transform:
   m_GameObject: {fileID: 4579304081016923856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.240002, y: -0.56, z: 0}
+  m_LocalPosition: {x: 21.54, y: -0.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -374,6 +406,8 @@ MonoBehaviour:
   _bringerPos: {fileID: 9191723740623620729}
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
+  _deathEffect: {fileID: 3116781963016949925, guid: c82e31d277f76804fa155a6a2221d796, type: 3}
+  _middleArena: {fileID: 4357681693580106042}
   _valuePerRevengePoint: 1
   _revengePointsQuantity: 1
   _horSpeed: 2
@@ -384,12 +418,12 @@ MonoBehaviour:
   _teleportDelay: 1
   _minDist: 10
   _damageReceivedMult: 0.8
-  _health: 2000000
+  _health: 100000
   _hitDelay: 1
   _attackDamages:
   - 5
   - 7
-  _dodgeChange: 0.3
+  _dodgeChange: 0.2
   _spellsTypes:
   - {fileID: 863510054191176158, guid: 3afd607652828214da63a14b18824bef, type: 3}
   - {fileID: 5061476389108573253, guid: 2dc3b4db4580bd0428c7951fd030a990, type: 3}
