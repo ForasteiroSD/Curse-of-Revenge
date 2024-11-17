@@ -40,6 +40,9 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected GameObject _textDamage;
 
     [SerializeField] protected float _move = 0.2f;
+
+    [SerializeField] private float _minVerticalDistanceToChase = 2f;
+
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -88,7 +91,7 @@ public class EnemiesScript : MonoBehaviour
 
     public virtual void PlayerInRange()
     {
-        if (_player.position.x >= _minChasePos.position.x && _player.position.x <= _maxChasePos.position.x)
+        if (_player.position.x >= _minChasePos.position.x && _player.position.x <= _maxChasePos.position.x && Mathf.Abs(_player.position.y - transform.position.y) <= _minVerticalDistanceToChase)
         {
             _isChasing = true;
         }

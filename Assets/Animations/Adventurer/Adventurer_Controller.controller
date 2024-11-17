@@ -502,6 +502,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Hurt
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsWallSliding
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -9041659941280667548}
   m_Solo: 0
@@ -847,6 +850,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: IsWallSliding
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsFalling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5565744670318082832}
