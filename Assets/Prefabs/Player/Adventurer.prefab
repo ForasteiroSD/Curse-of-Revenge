@@ -30,14 +30,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794134259058792953}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.882, y: -1.903, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -102.654236, y: -4.9997196, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 0.36017215}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8216514386394563746}
   - {fileID: 2568286449121672429}
   - {fileID: 8646350527406121176}
+  - {fileID: 5195027971388399077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6506364751665826789
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 736617381
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -3316437661583186769, guid: a9bf4d5ed3e04c24b91f72b3c4b517cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -248,6 +249,8 @@ MonoBehaviour:
   _velocityDecreaserAfterWallJump: 0.4
   _slideForce: 10
   _slideCooldown: 1
+  _timeToFallThroughPlatform: 0.3
+  _specialAttack: {fileID: 4964598218284269314, guid: bc7793aa88a69b240b264049d7fe611b, type: 3}
 --- !u!1 &3592947567303743405
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa91d2874555f848bb0dc23614cbd42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teste: 2.3
 --- !u!1 &7637928585456660460
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +499,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00019907951, y: -0.57044184}
+  m_Offset: {x: 0.00019907951, y: -0.57880366}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -505,7 +509,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.3181224, y: 0.08558577}
+  m_Size: {x: 0.3181224, y: 0.102309465}
   m_EdgeRadius: 0
 --- !u!114 &3520706100463628969
 MonoBehaviour:
@@ -519,3 +523,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90bfcf7a880ee8439d38a0939bcd26a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &9162159038330503787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5195027971388399077}
+  m_Layer: 3
+  m_Name: SpecialAttack Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5195027971388399077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9162159038330503787}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.815, y: -0.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8161678892979535710}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
