@@ -10,6 +10,10 @@ public class FlyingEyeScript : EnemiesScript
 
     [SerializeField] LayerMask _groundLayer;
     [SerializeField] Transform _flyHeightPos;
+    [SerializeField] float _unitsToMove;
+
+    float _startPos;
+    float _endPos;
     bool _goingUp = false;
     bool _goingDown = false;
 
@@ -246,7 +250,7 @@ public class FlyingEyeScript : EnemiesScript
         _rb.linearVelocityX = 0;
         _rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
 
         DropRevengePoint();
 

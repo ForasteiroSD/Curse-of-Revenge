@@ -470,15 +470,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _horSpeed: 2.5
-  _unitsToMove: 10
-  _returnOnlyOnBorder: 0
   _idleTime: 2
   _chaseSpeedMultiplier: 1.2
   _maxChasePos: {fileID: 8415786888061539061}
   _minChasePos: {fileID: 750554656073840421}
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
   _attackDistance: 1.1
   _attackCooldown: 2
   _attackDamage: 1
@@ -489,11 +484,13 @@ MonoBehaviour:
   _revengePointsQuantity: 1
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
+  _move: 0.2
   _verSpeed: 3
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
   _flyHeightPos: {fileID: 1944374084806312873}
+  _unitsToMove: 10
 --- !u!1 &8240468170109290860
 GameObject:
   m_ObjectHideFlags: 0

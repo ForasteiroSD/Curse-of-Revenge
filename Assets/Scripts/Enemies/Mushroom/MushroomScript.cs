@@ -16,8 +16,6 @@ public class MushroomScript : EnemiesScript
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
-        _startPos = transform.position.x;
-        _endPos = _startPos + _unitsToMove;
     }
 
     protected override IEnumerator Attack()

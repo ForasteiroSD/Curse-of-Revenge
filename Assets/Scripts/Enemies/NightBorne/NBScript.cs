@@ -28,8 +28,6 @@ public class NBScript : EnemiesScript
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
-        _startPos = transform.position.x;
-        _endPos = _startPos + _unitsToMove;
     }
 
     // Update is called once per frame
@@ -127,7 +125,9 @@ public class NBScript : EnemiesScript
     {
         if (_changingPhase || _death) return;
 
-        _health -= damage * _damageReceivedMult;
+        damage *= _damageReceivedMult;
+        damage = Mathf.Ceil(damage);
+        _health -= damage;
 
         Vector3 position = GetTextPosition();
         GameObject text = Instantiate(_textDamage, position, Quaternion.identity);
@@ -200,7 +200,7 @@ public class NBScript : EnemiesScript
         //aply dash force
         _rb.AddForceX(_dashForce * MathF.Sign(_horSpeed), ForceMode2D.Impulse);
 
-        Destroy(dashEffect, 2f);
+        Destroy(dashEffect, 4f);
 
         yield return new WaitForSeconds(0.5f);
 

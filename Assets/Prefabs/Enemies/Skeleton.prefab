@@ -98,8 +98,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5428021, y: -0.12686783}
-  m_Size: {x: 0.85330296, y: 1.0877677}
+  m_Offset: {x: 0.7599449, y: -0.13387203}
+  m_Size: {x: 0.89533234, y: 1.0457401}
   m_Direction: 0
 --- !u!114 &7195418638055543282
 MonoBehaviour:
@@ -315,15 +315,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _horSpeed: 2
-  _unitsToMove: 20
-  _returnOnlyOnBorder: 1
   _idleTime: 2
   _chaseSpeedMultiplier: 1.4
   _maxChasePos: {fileID: 286440964504020463}
   _minChasePos: {fileID: 6604126062227941602}
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
   _attackDistance: 1.25
   _attackCooldown: 2
   _attackDamage: 1

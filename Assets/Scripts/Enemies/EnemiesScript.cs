@@ -6,15 +6,11 @@ using Utils;
 public class EnemiesScript : MonoBehaviour
 {
     protected Animator _animator;
-
+    
     protected Rigidbody2D _rb;
 
     [SerializeField] protected float _horSpeed = 2f;
-    [SerializeField] protected float _unitsToMove;
-    [SerializeField] protected bool _returnOnlyOnBorder = false;
-    protected float _startPos;
-    protected float _endPos;
-
+    
     [SerializeField] protected float _idleTime = 2f;
     protected bool _idle = false;
 
@@ -25,7 +21,6 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected Transform _maxChasePos;
     [SerializeField] protected Transform _minChasePos;
 
-    [SerializeField] protected LayerMask _playerLayer;
     [SerializeField] protected float _attackDistance = 1.5f;
     [SerializeField] protected float _attackCooldown = 1.5f;
     [SerializeField] protected float _attackDamage = 1f;
@@ -43,13 +38,13 @@ public class EnemiesScript : MonoBehaviour
 
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] protected GameObject _textDamage;
+
+    [SerializeField] protected float _move = 0.2f;
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
-        _startPos = transform.position.x;
-        _endPos = _startPos + _unitsToMove;
     }
 
     protected virtual void Update()
@@ -69,22 +64,9 @@ public class EnemiesScript : MonoBehaviour
     {
         if (_idle) return;
 
-        if (_horSpeed > 1)
-        {
-            if (!_returnOnlyOnBorder && _rb.position.x > _endPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
-        }
-
-        else
-        {
-            if (!_returnOnlyOnBorder && _rb.position.x < _startPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
+        if (transform.position.x <= _minChasePos.position.x || transform.position.x >= _maxChasePos.position.x) {
+            StartCoroutine(Idle());
+            return;
         }
 
         //return from idle animation in case was in it
@@ -106,7 +88,7 @@ public class EnemiesScript : MonoBehaviour
 
     public virtual void PlayerInRange()
     {
-        if (_player.position.x > _minChasePos.position.x && _player.position.x < _maxChasePos.position.x)
+        if (_player.position.x >= _minChasePos.position.x && _player.position.x <= _maxChasePos.position.x)
         {
             _isChasing = true;
         }
@@ -121,6 +103,7 @@ public class EnemiesScript : MonoBehaviour
     {
         if (_death) return;
         _horSpeed *= -1;
+        transform.position = new Vector3(transform.position.x + Mathf.Sign(_horSpeed) * _move, transform.position.y, transform.position.z);
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(_horSpeed), transform.localScale.y, transform.localScale.z);
     }
 
@@ -166,7 +149,9 @@ public class EnemiesScript : MonoBehaviour
     {
         if(_death) return;
 
-        _health -= damage * _damageReceivedMult;
+        damage *= _damageReceivedMult;
+        damage = Mathf.Ceil(damage);
+        _health -= damage;
 
         Vector3 position = GetTextPosition();
         GameObject text = Instantiate(_textDamage, position, Quaternion.identity);
@@ -244,12 +229,11 @@ public class EnemiesScript : MonoBehaviour
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
 
         DropRevengePoint();
 
         yield return new WaitForSeconds(3);
-
 
         Destroy(gameObject);
     }
@@ -258,8 +242,7 @@ public class EnemiesScript : MonoBehaviour
     {
         for (int i = 0; i < _revengePointsQuantity; i++)
         {
-            float posX = Random.Range(-1.5f, 1.5f);
-            GameObject revengePoint = Instantiate(_revengePoint, new Vector3(transform.position.x + posX, transform.position.y, transform.position.z), Quaternion.identity);
+            GameObject revengePoint = Instantiate(_revengePoint, transform.position, Quaternion.identity);
             revengePoint.GetComponent<RevengePoint>().value = _valuePerRevengePoint;
         }
     }
