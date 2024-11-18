@@ -4,14 +4,12 @@ using TMPro;
 using UnityEngine;
 using Utils;
 
-public class FireKnightScript : MonoBehaviour
+public class FireKnightScript : BossScript
 {
     //Referencies
     Animator _animator;
     Rigidbody2D _rb;
     CapsuleCollider2D _collider;
-    [SerializeField] Transform _maxChasePos;
-    [SerializeField] Transform _minChasePos;
     [SerializeField] Transform _knightPos;
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] GameObject _textDamage;
@@ -45,7 +43,6 @@ public class FireKnightScript : MonoBehaviour
     bool _idle = false;
     int _isAttacking = 1;
     bool _giveHit = false;
-    // bool _hit = false;
     bool _death = false;
     bool _rolling = false;
     bool _defend = false;
@@ -53,6 +50,7 @@ public class FireKnightScript : MonoBehaviour
     bool _isUsingSPAttack = false;
     int _currentAttack = 0;
     int _deffendCount = 0;
+    bool _isUsingFirstAttack = false;
 
 
     void Awake()
@@ -66,10 +64,8 @@ public class FireKnightScript : MonoBehaviour
 
     void Update()
     {
-        if (_isUsingSPAttack || _currentAttack == 1 || _defend)
+        if (_isUsingSPAttack || _isUsingFirstAttack || _defend)
         {
-            if (_currentAttack == 1 && _animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "KnightAttack1") _currentAttack++;
-
             Vector2 distance = _player.transform.position - _knightPos.position;
 
             if(distance.x >= 0 && _horSpeed < 0) Flip();
@@ -107,7 +103,7 @@ public class FireKnightScript : MonoBehaviour
     }
 
     //called by adventurer
-    public void GetHit(float damage)
+    public override void GetHit(float damage)
     {
         if(_death) return;
 
@@ -157,6 +153,7 @@ public class FireKnightScript : MonoBehaviour
                 _canUseSPAttack = false;
             } else {
                 _giveHit = false;
+                _isUsingFirstAttack = true;
                 _animator.SetTrigger("Attack");
                 _currentAttack = 1;
             }
@@ -164,13 +161,20 @@ public class FireKnightScript : MonoBehaviour
 
     }
 
+    void StopFirstAttack()
+    {
+        _isUsingFirstAttack = false;
+    }
+
     //called by event on air attack animation
-    void JumpAirAttack() {
+    void JumpAirAttack()
+    {
         _rb.AddForceY(_airAttackJumpForce, ForceMode2D.Impulse);
     }
 
     //called by event on air attack animation
-    void StopAirFalling() {
+    void StopAirFalling()
+    {
         if (_collider.IsTouchingLayers(LayerMask.GetMask("Ground"))) {
             _animator.SetBool("AirAttack", false);
             _isAttacking = 1;
@@ -180,18 +184,21 @@ public class FireKnightScript : MonoBehaviour
     }
 
     //called by event on special attack animation
-    void StopSpecialAttack() {
+    void StopSpecialAttack()
+    {
         _isUsingSPAttack = false;
         StartCoroutine(SPAttackCooldown());
     }
 
-    IEnumerator SPAttackCooldown() {
+    IEnumerator SPAttackCooldown()
+    {
         yield return new WaitForSecondsRealtime(_attackSPCooldown);
         _canUseSPAttack = true;
     }
 
     //called by events on attack animations
-    void GoToNextAttack() {
+    void GoToNextAttack()
+    {
         if (_giveHit) {
             _currentAttack++;
             Vector2 distance = _player.transform.position - _knightPos.position;
@@ -206,20 +213,22 @@ public class FireKnightScript : MonoBehaviour
     }
 
     //also called by attack 3 animation
-    void StopAttack() {
+    void StopAttack()
+    {
         _isAttacking = 1;
 
         StartCoroutine(IdleTimeout(_attackCooldown));
     }
 
     //called by input system
-    void OnAttack() {
+    void OnAttack()
+    {
 
         if (_isAttacking == 0 || _rolling || _defend || !_idle) return;
 
         Vector2 distance = _player.transform.position - _knightPos.position;
         if (Mathf.Abs(distance.x) < _attackDistance) {
-            if (Random.Range(0f, 1f) > _dodgeChange) {
+            if (Random.Range(0f, 1f) <= _dodgeChange) {
                 Vector3 direction = new Vector3(1, 0, 0);
                 if (_horSpeed > 0) direction = new Vector3(-1, 0, 0);
 
@@ -249,13 +258,15 @@ public class FireKnightScript : MonoBehaviour
     }
 
     //called by defend animation
-    void StopDefend() {
+    void StopDefend()
+    {
         _defend = false;
         StartCoroutine(IdleTimeout(_hitDelay));
     }
 
     //called by rolling animation
-    void StartRoll() {
+    void StartRoll()
+    {
         if(_deffendCount != _maxDeffendCount) {
             Vector2 distance = _player.transform.position - _knightPos.position;
             if(distance.x >= 0 && _horSpeed > 0) Flip();
@@ -266,13 +277,15 @@ public class FireKnightScript : MonoBehaviour
     }
 
     //called by rolling animation
-    void StopRolling() {
+    void StopRolling()
+    {
         _rolling = false;
         Flip();
         StartCoroutine(IdleTimeout(_hitDelay));
     }
 
-    IEnumerator IdleTimeout(float delay) {
+    IEnumerator IdleTimeout(float delay)
+    {
 
         _animator.SetBool("Idle", true);
 

@@ -13,6 +13,7 @@ public class GroundDetector : MonoBehaviour
     //Scripts
     private Adventurer _adventurer;
     private Collider2D _collider;
+    private Rigidbody2D _playerRb;
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class GroundDetector : MonoBehaviour
         _animator = gameObject.transform.parent.gameObject.GetComponent<Animator>();
         _adventurer = gameObject.transform.parent.gameObject.GetComponent<Adventurer>();
         _collider = GetComponent<Collider2D>();
+        _playerRb = gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>();
 
         //Find objects
         _player = GameObject.Find(Constants.HIERARCHY_PLAYER);
@@ -28,8 +30,9 @@ public class GroundDetector : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Touched ground
-        if (collision.CompareTag(Constants.TAG_GROUND))
+        if (collision.CompareTag(Constants.TAG_GROUND) || collision.CompareTag(Constants.TAG_PLATFORM))
         {
+            _adventurer._isJumping = false;
             _adventurer._canJump = true;
             _adventurer._canMove = true;
 
@@ -39,7 +42,6 @@ public class GroundDetector : MonoBehaviour
                 _adventurer._considerPreJump = false;
                 _adventurer.OnJump();
             }
-            else _animator.SetBool(Constants.ANIM_IS_FALLING, false);
 
             //If player pressed the slide button a few time earlier, still consider the slide
             if (Time.time <= _adventurer._lastSlideAttemptTime + _adventurer._preSlideTimeLimit) _adventurer.OnSlide();
@@ -51,6 +53,7 @@ public class GroundDetector : MonoBehaviour
                 Vector3 scale = playerGO.transform.localScale;
 
                 playerGO.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+                _animator.SetBool(Constants.ANIM_IS_WALL_SLIDING, false);
                 _adventurer._canWallJump = false;
             }
         }
@@ -59,8 +62,10 @@ public class GroundDetector : MonoBehaviour
     void OnTriggerStay2D(Collider2D collision)
     {
         //While on ground, can jump again
-        if (collision.CompareTag(Constants.TAG_GROUND)) {
+        if (collision.CompareTag(Constants.TAG_GROUND) || collision.CompareTag(Constants.TAG_PLATFORM)) {
                _adventurer._canJump = true;
+
+               if(Mathf.Abs(_playerRb.linearVelocityY) <= 0.0001) _animator.SetBool(Constants.ANIM_IS_FALLING, false);
             //    _animator.SetBool(Constants.ANIM_IS_FALLING, false);
         }
     }
@@ -68,10 +73,10 @@ public class GroundDetector : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         //When leaving the ground
-        if (collision.CompareTag(Constants.TAG_GROUND) && _player.activeInHierarchy && !_collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if ((collision.CompareTag(Constants.TAG_GROUND) || collision.CompareTag(Constants.TAG_PLATFORM)) && _player.activeInHierarchy && !_collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         // if (collision.CompareTag(Constants.TAG_GROUND) && _player.activeInHierarchy)
         {
-            if (!_animator.GetBool(Constants.ANIM_IS_FALLING))
+            if (!_animator.GetBool(Constants.ANIM_IS_FALLING) && !_adventurer._isDead)
             {
                 _animator.SetTrigger(Constants.ANIM_FALL);
                 _animator.SetBool(Constants.ANIM_IS_FALLING, true);

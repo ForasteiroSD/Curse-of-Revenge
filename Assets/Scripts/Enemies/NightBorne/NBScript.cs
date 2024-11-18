@@ -1,11 +1,12 @@
-using System;
 using System.Collections;
+using System;
 using TMPro;
 using UnityEngine;
 using Utils;
 
 public class NBScript : EnemiesScript
 {
+    [SerializeField] int _maxConsecutiveAttacks = 3;
     [SerializeField] float _SecondPhaseTreshold = 25f;
     int _phase = 1;
     [SerializeField] float _dashDistance = 8f;
@@ -39,20 +40,8 @@ public class NBScript : EnemiesScript
         {
             float distance = _player.transform.position.x - transform.position.x;
 
-            if (distance > 0)
-            {
-                if (_horSpeed < 0)
-                {
-                    Flip();
-                }
-            }
-            else
-            {
-                if (_horSpeed > 0)
-                {
-                    Flip();
-                }
-            }
+            if(distance >= 0 && _horSpeed < 0) Flip();
+            else if(distance < 0 && _horSpeed > 0) Flip();
             return;
         }
 
@@ -85,20 +74,8 @@ public class NBScript : EnemiesScript
 
         float distance = _player.transform.position.x - transform.position.x;
 
-        if (distance > 0)
-        {
-            if (_horSpeed < 0)
-            {
-                Flip();
-            }
-        }
-        else
-        {
-            if (_horSpeed > 0)
-            {
-                Flip();
-            }
-        }
+        if(distance >= 0 && _horSpeed < 0) Flip();
+        else if(distance < 0 && _horSpeed > 0) Flip();
 
         if (Mathf.Abs(distance) < _attackDistance && !_changingPhase)
         {
@@ -150,6 +127,40 @@ public class NBScript : EnemiesScript
         {
             if (!_death) StartCoroutine(Death());
         }
+    }
+
+    protected override IEnumerator Attack()
+    {
+        if (_death) yield break;
+
+        //get into attack mode
+        _rb.linearVelocityX = 0;
+        _isAttacking = 0;
+
+        int quant = UnityEngine.Random.Range(0, _maxConsecutiveAttacks);
+        _animator.SetTrigger(Constants.ATTACK_ENEMY);
+        _animator.SetBool(Constants.IDLE_ENEMY, true);
+
+        while (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Enemy Attack"))
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        float time = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+
+        print(quant);
+
+        for (int i=0; i<quant; i++)
+        {
+            yield return new WaitForSecondsRealtime(time-0.1f);
+            _animator.SetTrigger(Constants.ATTACK_ENEMY);
+        }
+
+        //wait for attack cooldown
+        yield return new WaitForSeconds(_attackCooldown);
+
+        _isAttacking = 1;
+
     }
 
     IEnumerator ChangePhase()

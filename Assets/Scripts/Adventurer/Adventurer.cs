@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Utils;
+using Unity.VisualScripting;
 
 public class Adventurer : MonoBehaviour
 {
     //Player Variables
     [SerializeField] public float life = 20;
     public bool _isDead { get; private set; } = false;
+    private CapsuleCollider2D _playerCollider;
 
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
@@ -33,6 +35,7 @@ public class Adventurer : MonoBehaviour
     public bool _canJump { get; set; } = true;
     public float _lastJumpTime { get; private set; } = -10;
     public float _originalFallingSpeed { get; private set; }
+    public bool _isJumping { get; set; } = false;
     [SerializeField] public float _preJumpTimeLimit { get; private set; } = .3f;
     [SerializeField] private float _fallGravityScaleMultiplier = 3f;
     [SerializeField] private float _jumpHeight = 2.5f;
@@ -66,6 +69,10 @@ public class Adventurer : MonoBehaviour
     //Camera Control
     private CameraController _cameraController; 
 
+    //Platform
+    private GameObject _platform;
+    [SerializeField] private float _timeToFallThroughPlatform = .25f;
+
     private PauseScript _pause;
 
     void Awake()
@@ -73,6 +80,7 @@ public class Adventurer : MonoBehaviour
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _playerCollider = GetComponent<CapsuleCollider2D>();
         
         //Set gravity scales
         _gravityScale = _rb.gravityScale;
@@ -162,6 +170,14 @@ public class Adventurer : MonoBehaviour
 
         if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isDead)
         {
+            _isJumping = true;
+
+            //If player is on platform
+            if(_moveDirection.y < 0 && _platform != null) {
+                StartCoroutine(FallThroughPlatform());
+                return;
+            }
+
             //If player jump while attacking, moveSpeed would be set to 0. So, set it back to the original value
             _moveSpeed = _originalMoveSpeed;
 
@@ -237,20 +253,21 @@ public class Adventurer : MonoBehaviour
         if(life > 0)
         {
             _isGettingHit = true;
-            _animator.SetTrigger(Constants.ANIM_GET_HIT);
+            if(!_isSliding && !_canWallJump) _animator.SetTrigger(Constants.ANIM_GET_HIT);
         }
         else if(!_isDead)
         {
+            _isDead = true;
             StartCoroutine(Die());
         }
     }
 
     IEnumerator Die()
     {
+        // GetComponentInParent<PlayerInput>().enabled = false;
         _canMove = false;
         _canJump = false;
         _canWallJump = false;
-        _isDead = true;
         _rb.linearVelocityX = 0;
         _maxFallingSpeed = _originalFallingSpeed;
         _animator.SetTrigger(Constants.ANIM_DIE);
@@ -273,6 +290,23 @@ public class Adventurer : MonoBehaviour
 
         yield return new WaitForSeconds(_stopTimeAfterWallJump);
         _isWallJumping = false;
+    }
+
+    IEnumerator FallThroughPlatform() {
+        BoxCollider2D platformCollider = _platform.GetComponent<BoxCollider2D>();
+
+        Physics2D.IgnoreCollision(_playerCollider, platformCollider);
+        yield return new WaitForSeconds(_timeToFallThroughPlatform);
+        Physics2D.IgnoreCollision(_playerCollider, platformCollider, false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.CompareTag(Constants.TAG_PLATFORM)) _platform = other.gameObject;
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag(Constants.TAG_PLATFORM)) _platform = null;
     }
 
     bool AnimatorIsPlaying()

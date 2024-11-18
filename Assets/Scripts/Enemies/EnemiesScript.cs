@@ -40,6 +40,7 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected GameObject _textDamage;
 
     [SerializeField] protected float _move = 0.2f;
+
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -117,20 +118,8 @@ public class EnemiesScript : MonoBehaviour
 
         float distance = _player.transform.position.x - transform.position.x;
 
-        if (distance > 0)
-        {
-            if (_horSpeed < 0)
-            {
-                Flip();
-            }
-        }
-        else
-        {
-            if (_horSpeed > 0)
-            {
-                Flip();
-            }
-        }
+        if(distance >= 0 && _horSpeed < 0) Flip();
+        else if(distance < 0 && _horSpeed > 0) Flip();
 
         if (Mathf.Abs(distance) < _attackDistance)
         {
