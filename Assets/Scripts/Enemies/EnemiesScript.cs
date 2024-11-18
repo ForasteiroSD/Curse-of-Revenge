@@ -27,7 +27,7 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected float _damageReceivedMult = 0.8f;
     protected int _isAttacking = 1;
 
-    [SerializeField] protected float _health = 20f;
+    [SerializeField] public float _health = 20f;
     [SerializeField] protected float _hitDelay = 1f;
     protected bool _hit = false;
 
