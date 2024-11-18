@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Utils;
 using Unity.VisualScripting;
+using Unity.Mathematics;
 
 public class Adventurer : MonoBehaviour
 {
@@ -73,6 +74,12 @@ public class Adventurer : MonoBehaviour
     private GameObject _platform;
     [SerializeField] private float _timeToFallThroughPlatform = .25f;
 
+    //Special Attack
+    private float _lastSpecialAttackTime = -10;
+    public bool _isUsingSpecialAttack { get; private set; } = false;
+    [SerializeField] private float _specialAttackCooldown = 10f;
+    [SerializeField] private GameObject _specialAttack;
+
     private PauseScript _pause;
 
     void Awake()
@@ -134,6 +141,9 @@ public class Adventurer : MonoBehaviour
 
         //Set _isGettingHit to false if hit animation already ended
         if (_isGettingHit && !AnimatorIsPlaying("Adventurer_Hurt")) _isGettingHit = false;
+
+        //Set _isUsingSpecialAttack to false if hit animation already ended
+        if (_isUsingSpecialAttack && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Adventurer_Special_Attack")) _isUsingSpecialAttack = false;
     }
 
     public void OnPause(InputValue inputValue)
@@ -168,7 +178,7 @@ public class Adventurer : MonoBehaviour
         if(_considerPreJump) _lastJumpTime = Time.time;
         else _considerPreJump = true;
 
-        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isDead)
+        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
         {
             _isJumping = true;
 
@@ -211,7 +221,7 @@ public class Adventurer : MonoBehaviour
         _lastSlideAttemptTime = Time.time;
 
         //If can slide
-        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isDead)
+        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
         {
             _canMove = false;
             _isSliding = true;
@@ -221,9 +231,18 @@ public class Adventurer : MonoBehaviour
         }
     }
 
+    private void OnSpecialAttack() {
+        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isUsingSpecialAttack) {
+            _lastSpecialAttackTime = Time.time;
+            _rb.linearVelocityX = 0;
+            _isUsingSpecialAttack = true;
+            _animator.SetTrigger(Constants.ANIM_SPECIAL_ATTACK);
+        }
+    }
+
     void MovePlayer()
     {
-        if(_canMove && !_isWallJumping && !_isDead)
+        if(_canMove && !_isWallJumping && !_isUsingSpecialAttack && !_isDead)
         {
             Vector3 scale = transform.localScale;
             bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon && !_isAttacking;
@@ -260,6 +279,10 @@ public class Adventurer : MonoBehaviour
             _isDead = true;
             StartCoroutine(Die());
         }
+    }
+
+    private void CastSpecialAttack() {
+        Destroy(Instantiate(_specialAttack, transform.Find("SpecialAttack Position").transform.position, Quaternion.identity), 10);
     }
 
     IEnumerator Die()

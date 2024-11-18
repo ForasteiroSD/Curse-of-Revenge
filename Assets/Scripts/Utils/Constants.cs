@@ -16,6 +16,7 @@ namespace Utils {
         public const string ANIM_DIE = "Die";
         public const string ANIM_ATTACK = "Attack";
         public const string ANIM_ATTACK_COUNTER = "AttackNumber";
+        public const string ANIM_SPECIAL_ATTACK = "SpecialAttack";
 
         public const string IDLE_ENEMY = "Idle";
         public const string ATTACK_ENEMY = "Attack";
