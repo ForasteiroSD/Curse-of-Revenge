@@ -8,6 +8,7 @@ public class BossRoomEntry : MonoBehaviour
     public AudioClip clip;
     [SerializeField] GameObject _bossPrefab;
     [SerializeField] Transform _bossPosition;
+    [SerializeField] GameObject _bossHealthBar;
 
     Animator _animWallBlocker;
 
@@ -21,6 +22,7 @@ public class BossRoomEntry : MonoBehaviour
                 audioManager.TrocarMusica(bossMusic, 1f);
             GetComponent<BoxCollider2D>().enabled = false; // Remove o trigger para que ele não ative novamente
             Instantiate(_bossPrefab, _bossPosition.position, Quaternion.identity);
+            _bossHealthBar.SetActive(true);
         }
     }
 
@@ -38,5 +40,6 @@ public class BossRoomEntry : MonoBehaviour
         audioManager.TrocarMusica(clip);
 
         Destroy(gameObject, 1f);
+        Destroy(_bossHealthBar);
     }
 }
