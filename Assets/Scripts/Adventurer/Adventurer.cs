@@ -8,7 +8,7 @@ using Utils;
 public class Adventurer : MonoBehaviour
 {
     //Player Variables
-    [SerializeField] private float _life = 20;
+    [SerializeField] public float life = 20;
     public bool _isDead { get; private set; } = false;
 
     //Controls
@@ -231,10 +231,10 @@ public class Adventurer : MonoBehaviour
 
     public void GetHit(float damage)
     {
-        _life = Mathf.Max(0, _life-damage);
-        print("My life: " + _life);
+        life = Mathf.Max(0, life-damage);
+        print("My life: " + life);
         
-        if(_life > 0)
+        if(life > 0)
         {
             _isGettingHit = true;
             _animator.SetTrigger(Constants.ANIM_GET_HIT);
