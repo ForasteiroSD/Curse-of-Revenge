@@ -148,8 +148,6 @@ public class NBScript : EnemiesScript
 
         float time = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
 
-        print(quant);
-
         for (int i=0; i<quant; i++)
         {
             yield return new WaitForSecondsRealtime(time-0.1f);
