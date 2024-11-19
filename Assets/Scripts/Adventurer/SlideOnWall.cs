@@ -9,6 +9,7 @@ public class SlideOnWall : MonoBehaviour
 
     //Scripts
     private Adventurer _adventurer;
+    [SerializeField] private float teste;
 
     private void Awake()
     {
@@ -31,7 +32,8 @@ public class SlideOnWall : MonoBehaviour
             //}
             //else
             //{
-                _animator.SetBool(Constants.ANIM_IS_WALL_SLIDING, true);
+                
+                _adventurer._canWallJump = true;
                 _adventurer._canMove = false;
             //}
         }
@@ -40,10 +42,9 @@ public class SlideOnWall : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         //While falling on wall, slide on it
-        if (collision.CompareTag(Constants.TAG_GROUND) && _playerRb.linearVelocityY < 0)
-        {
+        if (collision.CompareTag(Constants.TAG_GROUND) && _playerRb.linearVelocityY < teste) {
             _adventurer._maxFallingSpeed = _adventurer._wallMaxFallingSpeed;
-            _adventurer._canWallJump = true;
+            _animator.SetBool(Constants.ANIM_IS_WALL_SLIDING, true);
         }
     }
 

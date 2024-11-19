@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Utils;
+using Unity.VisualScripting;
+using Unity.Mathematics;
+using UnityEngine.UI;
+using TMPro;
 
 public class Adventurer : MonoBehaviour
 {
     //Player Variables
-    [SerializeField] private float _life = 20;
+    [SerializeField] public float life = 20;
     public bool _isDead { get; private set; } = false;
+    private CapsuleCollider2D _playerCollider;
 
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
@@ -33,6 +38,7 @@ public class Adventurer : MonoBehaviour
     public bool _canJump { get; set; } = true;
     public float _lastJumpTime { get; private set; } = -10;
     public float _originalFallingSpeed { get; private set; }
+    public bool _isJumping { get; set; } = false;
     [SerializeField] public float _preJumpTimeLimit { get; private set; } = .3f;
     [SerializeField] private float _fallGravityScaleMultiplier = 3f;
     [SerializeField] private float _jumpHeight = 2.5f;
@@ -66,13 +72,34 @@ public class Adventurer : MonoBehaviour
     //Camera Control
     private CameraController _cameraController; 
 
+    //Platform
+    private GameObject _platform;
+    [SerializeField] private float _timeToFallThroughPlatform = .25f;
+
+    //Special Attack
+    private float _lastSpecialAttackTime = -10;
+    private Image _specialAttackBackgroundUI;
+    private Image _specialAttackIconUI;
+    private TextMeshProUGUI _specialAttackTextUI;
+    private bool _canUseSpecialAttack = true;
+    public bool _isUsingSpecialAttack { get; private set; } = false;
+    [SerializeField] private int _specialAttackCooldown = 10;
+    [SerializeField] private GameObject _specialAttack;
+
     private PauseScript _pause;
 
     void Awake()
     {
+        //Get Elements
+        GameObject ColldownsUI = GameObject.Find("Cooldowns").transform.Find("SpecialAttack").gameObject;
+        _specialAttackBackgroundUI = ColldownsUI.transform.Find("Background").GetComponent<Image>();
+        _specialAttackIconUI = ColldownsUI.transform.Find("Icon").GetComponent<Image>();
+        _specialAttackTextUI = ColldownsUI.transform.Find("Time").GetComponent<TextMeshProUGUI>();
+
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _playerCollider = GetComponent<CapsuleCollider2D>();
         
         //Set gravity scales
         _gravityScale = _rb.gravityScale;
@@ -126,6 +153,9 @@ public class Adventurer : MonoBehaviour
 
         //Set _isGettingHit to false if hit animation already ended
         if (_isGettingHit && !AnimatorIsPlaying("Adventurer_Hurt")) _isGettingHit = false;
+
+        //Set _isUsingSpecialAttack to false if hit animation already ended
+        if (_isUsingSpecialAttack && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Adventurer_Special_Attack")) _isUsingSpecialAttack = false;
     }
 
     public void OnPause(InputValue inputValue)
@@ -160,8 +190,16 @@ public class Adventurer : MonoBehaviour
         if(_considerPreJump) _lastJumpTime = Time.time;
         else _considerPreJump = true;
 
-        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isDead)
+        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
         {
+            _isJumping = true;
+
+            //If player is on platform
+            if(_moveDirection.y < 0 && _platform != null) {
+                StartCoroutine(FallThroughPlatform());
+                return;
+            }
+
             //If player jump while attacking, moveSpeed would be set to 0. So, set it back to the original value
             _moveSpeed = _originalMoveSpeed;
 
@@ -195,7 +233,7 @@ public class Adventurer : MonoBehaviour
         _lastSlideAttemptTime = Time.time;
 
         //If can slide
-        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isDead)
+        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
         {
             _canMove = false;
             _isSliding = true;
@@ -205,9 +243,19 @@ public class Adventurer : MonoBehaviour
         }
     }
 
+    private void OnSpecialAttack() {
+        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isUsingSpecialAttack && _canUseSpecialAttack) {
+            _lastSpecialAttackTime = Time.time;
+            _rb.linearVelocityX = 0;
+            _isUsingSpecialAttack = true;
+            _animator.SetTrigger(Constants.ANIM_SPECIAL_ATTACK);
+            StartCoroutine(SpecialAttackCooldown());
+        }
+    }
+
     void MovePlayer()
     {
-        if(_canMove && !_isWallJumping && !_isDead)
+        if(_canMove && !_isWallJumping && !_isUsingSpecialAttack && !_isDead)
         {
             Vector3 scale = transform.localScale;
             bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon && !_isAttacking;
@@ -231,26 +279,31 @@ public class Adventurer : MonoBehaviour
 
     public void GetHit(float damage)
     {
-        _life = Mathf.Max(0, _life-damage);
-        print("My life: " + _life);
+        life = Mathf.Max(0, life-damage);
+        print("My life: " + life);
         
-        if(_life > 0)
+        if(life > 0)
         {
             _isGettingHit = true;
-            _animator.SetTrigger(Constants.ANIM_GET_HIT);
+            if(!_isSliding && !_canWallJump) _animator.SetTrigger(Constants.ANIM_GET_HIT);
         }
         else if(!_isDead)
         {
+            _isDead = true;
             StartCoroutine(Die());
         }
     }
 
+    private void CastSpecialAttack() {
+        Destroy(Instantiate(_specialAttack, transform.Find("SpecialAttack Position").transform.position, Quaternion.identity), 10);
+    }
+
     IEnumerator Die()
     {
+        // GetComponentInParent<PlayerInput>().enabled = false;
         _canMove = false;
         _canJump = false;
         _canWallJump = false;
-        _isDead = true;
         _rb.linearVelocityX = 0;
         _maxFallingSpeed = _originalFallingSpeed;
         _animator.SetTrigger(Constants.ANIM_DIE);
@@ -273,6 +326,43 @@ public class Adventurer : MonoBehaviour
 
         yield return new WaitForSeconds(_stopTimeAfterWallJump);
         _isWallJumping = false;
+    }
+
+    IEnumerator FallThroughPlatform() {
+        BoxCollider2D platformCollider = _platform.GetComponent<BoxCollider2D>();
+
+        Physics2D.IgnoreCollision(_playerCollider, platformCollider);
+        yield return new WaitForSeconds(_timeToFallThroughPlatform);
+        Physics2D.IgnoreCollision(_playerCollider, platformCollider, false);
+    }
+
+    IEnumerator SpecialAttackCooldown() {
+        _canUseSpecialAttack = false;
+
+        int time = _specialAttackCooldown;
+        _specialAttackTextUI.text = Convert.ToString(_specialAttackCooldown);
+        _specialAttackBackgroundUI.color = new Color32(136,136,136,255);
+        _specialAttackIconUI.color = new Color32(136,136,136,255);
+
+        while(time != 0) {
+            _specialAttackTextUI.enabled = true;
+            yield return new WaitForSecondsRealtime(1);
+            _specialAttackTextUI.text = Convert.ToString(--time);
+        }
+        
+        _specialAttackBackgroundUI.color = new Color32(255,255,255,255);
+        _specialAttackIconUI.color = new Color32(255,255,255,255);
+        _specialAttackTextUI.enabled = false;
+        _canUseSpecialAttack = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.CompareTag(Constants.TAG_PLATFORM)) _platform = other.gameObject;
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag(Constants.TAG_PLATFORM)) _platform = null;
     }
 
     bool AnimatorIsPlaying()

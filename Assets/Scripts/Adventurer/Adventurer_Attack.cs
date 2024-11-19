@@ -59,7 +59,7 @@ public class Adventurer_Attack : MonoBehaviour
     {
         _lastAttackAttmeptTime = Time.time;
 
-        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && _adventurer._canJump && !_adventurer._isGettingHit && !_adventurer._isDead)
+        if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && !_adventurer._isJumping && !_adventurer._isGettingHit && !_adventurer._isDead)
         {
             _adventurer._isAttacking = true;
             _attackEnded = false;
@@ -83,7 +83,7 @@ public class Adventurer_Attack : MonoBehaviour
                 script.GetHit(_attackDamage[_attackCounter-1]);
             } else
             {
-                collision.gameObject.GetComponent<FireKnightScript>().GetHit(_attackDamage[_attackCounter-1]);
+                collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage[_attackCounter-1]);
             }
             
         }
