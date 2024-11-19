@@ -27,7 +27,7 @@ public class Adventurer : MonoBehaviour
     private Vector2 _moveDirection;
     public bool _canMove { get; set; } = true;
     [SerializeField] public float _originalMoveSpeed { get; set; } = 5f;
-    [SerializeField] public float _moveSpeed { get; set; } = 5f;
+    public float _moveSpeed = 5f;
 
     //Jump
     private bool _releasedJumpButton = false;
