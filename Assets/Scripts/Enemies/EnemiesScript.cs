@@ -222,9 +222,7 @@ public class EnemiesScript : MonoBehaviour
 
         DropRevengePoint();
 
-        yield return new WaitForSeconds(3);
-
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject, 3);
     }
 
     protected void DropRevengePoint()

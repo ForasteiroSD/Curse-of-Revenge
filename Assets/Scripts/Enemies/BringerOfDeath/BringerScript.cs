@@ -406,9 +406,7 @@ public class BringerScript : BossScript
 
         DropRevengePoint();
 
-        yield return new WaitForSeconds(3);
-
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject, 3);
     }
 
     void DropRevengePoint()

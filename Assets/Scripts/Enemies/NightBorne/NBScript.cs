@@ -236,7 +236,7 @@ public class NBScript : EnemiesScript
 
         FindFirstObjectByType<BossRoomEntry>().RemoveWallBlocker();
         
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 
     protected override Vector3 GetTextPosition()
