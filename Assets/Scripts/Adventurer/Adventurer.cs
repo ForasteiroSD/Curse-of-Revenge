@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 using Utils;
 using Unity.VisualScripting;
 using Unity.Mathematics;
+using UnityEngine.UI;
+using TMPro;
 
 public class Adventurer : MonoBehaviour
 {
@@ -76,14 +78,24 @@ public class Adventurer : MonoBehaviour
 
     //Special Attack
     private float _lastSpecialAttackTime = -10;
+    private Image _specialAttackBackgroundUI;
+    private Image _specialAttackIconUI;
+    private TextMeshProUGUI _specialAttackTextUI;
+    private bool _canUseSpecialAttack = true;
     public bool _isUsingSpecialAttack { get; private set; } = false;
-    [SerializeField] private float _specialAttackCooldown = 10f;
+    [SerializeField] private int _specialAttackCooldown = 10;
     [SerializeField] private GameObject _specialAttack;
 
     private PauseScript _pause;
 
     void Awake()
     {
+        //Get Elements
+        GameObject ColldownsUI = GameObject.Find("Cooldowns").transform.Find("SpecialAttack").gameObject;
+        _specialAttackBackgroundUI = ColldownsUI.transform.Find("Background").GetComponent<Image>();
+        _specialAttackIconUI = ColldownsUI.transform.Find("Icon").GetComponent<Image>();
+        _specialAttackTextUI = ColldownsUI.transform.Find("Time").GetComponent<TextMeshProUGUI>();
+
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -232,11 +244,12 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnSpecialAttack() {
-        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isUsingSpecialAttack) {
+        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isUsingSpecialAttack && _canUseSpecialAttack) {
             _lastSpecialAttackTime = Time.time;
             _rb.linearVelocityX = 0;
             _isUsingSpecialAttack = true;
             _animator.SetTrigger(Constants.ANIM_SPECIAL_ATTACK);
+            StartCoroutine(SpecialAttackCooldown());
         }
     }
 
@@ -321,6 +334,26 @@ public class Adventurer : MonoBehaviour
         Physics2D.IgnoreCollision(_playerCollider, platformCollider);
         yield return new WaitForSeconds(_timeToFallThroughPlatform);
         Physics2D.IgnoreCollision(_playerCollider, platformCollider, false);
+    }
+
+    IEnumerator SpecialAttackCooldown() {
+        _canUseSpecialAttack = false;
+
+        int time = _specialAttackCooldown;
+        _specialAttackTextUI.text = Convert.ToString(_specialAttackCooldown);
+        _specialAttackBackgroundUI.color = new Color32(136,136,136,255);
+        _specialAttackIconUI.color = new Color32(136,136,136,255);
+
+        while(time != 0) {
+            _specialAttackTextUI.enabled = true;
+            yield return new WaitForSecondsRealtime(1);
+            _specialAttackTextUI.text = Convert.ToString(--time);
+        }
+        
+        _specialAttackBackgroundUI.color = new Color32(255,255,255,255);
+        _specialAttackIconUI.color = new Color32(255,255,255,255);
+        _specialAttackTextUI.enabled = false;
+        _canUseSpecialAttack = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
