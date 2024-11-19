@@ -50,15 +50,8 @@ public class KingScript : EnemiesScript
         string anim;
         float attackCooldown;
 
-        if(Random.Range(0, 2) == 1)
-        {
-            anim = "Attack2";
-            attackCooldown = _attack2Cooldown;
-        } else
-        {
-            anim = "Attack1";
-            attackCooldown = _attackCooldown;
-        }
+        anim = "Attack1";
+        attackCooldown = _attackCooldown;
 
         _animator.SetTrigger(anim);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
@@ -72,7 +65,9 @@ public class KingScript : EnemiesScript
 
     protected override IEnumerator Hit()
     {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("KingAttack1")) yield break;
         _hit = true;
+        _animator.SetTrigger(Constants.HIT_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
         _rb.linearVelocityX = 0;
 

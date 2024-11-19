@@ -15,6 +15,7 @@ public class BringerScript : BossScript
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] GameObject _textDamage;
     [SerializeField] GameObject _deathEffect;
+    [SerializeField] GameObject _sequencialEffect;
     [SerializeField] Transform _middleArena;
     Transform _player;
     
@@ -277,6 +278,7 @@ public class BringerScript : BossScript
     void TeleportMiddleArena()
     {
         transform.position = _middleArena.position;
+        Destroy(Instantiate(_sequencialEffect, new Vector3(_bringerPos.position.x, _bringerPos.position.y+1f, _bringerPos.position.z), Quaternion.identity), 7);
     }
 
     //called by event on cast attack animation
