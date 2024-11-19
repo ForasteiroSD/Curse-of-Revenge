@@ -42,6 +42,7 @@ public class GroundDetector : MonoBehaviour
                 _adventurer._considerPreJump = false;
                 _adventurer.OnJump();
             }
+            else if(Mathf.Abs(_playerRb.linearVelocityY) <= 0.6f) _animator.SetBool(Constants.ANIM_IS_FALLING, false);
 
             //If player pressed the slide button a few time earlier, still consider the slide
             if (Time.time <= _adventurer._lastSlideAttemptTime + _adventurer._preSlideTimeLimit) _adventurer.OnSlide();
@@ -65,7 +66,7 @@ public class GroundDetector : MonoBehaviour
         if (collision.CompareTag(Constants.TAG_GROUND) || collision.CompareTag(Constants.TAG_PLATFORM)) {
                _adventurer._canJump = true;
 
-               if(Mathf.Abs(_playerRb.linearVelocityY) <= 0.0001) _animator.SetBool(Constants.ANIM_IS_FALLING, false);
+               if(Mathf.Abs(_playerRb.linearVelocityY) <= 0.6f) _animator.SetBool(Constants.ANIM_IS_FALLING, false);
             //    _animator.SetBool(Constants.ANIM_IS_FALLING, false);
         }
     }

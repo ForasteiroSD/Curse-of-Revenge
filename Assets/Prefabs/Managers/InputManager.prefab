@@ -91,6 +91,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90bfcf7a880ee8439d38a0939bcd26a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &962097316760297221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 889183631915341498}
+  m_Layer: 3
+  m_Name: SpecialAttack Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &889183631915341498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962097316760297221}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.815, y: -0.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1479051091968598145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5909201924481517593
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +341,7 @@ Transform:
   - {fileID: 1712584851934632829}
   - {fileID: 5072984469488575282}
   - {fileID: 1314135656530034439}
+  - {fileID: 889183631915341498}
   m_Father: {fileID: 5381614557916044574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4578470668550673466
@@ -520,7 +552,9 @@ MonoBehaviour:
   _velocityDecreaserAfterWallJump: 0.4
   _slideForce: 10
   _slideCooldown: 1
-  _timeToFallThroughPlatform: 0.25
+  _timeToFallThroughPlatform: 0.3
+  _specialAttackCooldown: 10
+  _specialAttack: {fileID: 4964598218284269314, guid: bc7793aa88a69b240b264049d7fe611b, type: 3}
 --- !u!1 &9166175059205743006
 GameObject:
   m_ObjectHideFlags: 0
