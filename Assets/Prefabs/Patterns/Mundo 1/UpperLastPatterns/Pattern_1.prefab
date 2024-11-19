@@ -28000,12 +28000,8 @@ CompositeCollider2D:
         Y: 64062500
       - X: 1250000000
         Y: 50000000
-      - X: 1175937536
+      - X: 1180000000
         Y: 50000000
-      - X: 1170000000
-        Y: 42812500
-      - X: 1170000000
-        Y: 40000000
       - X: 1160000000
         Y: 30000000
       - X: 1120000000
@@ -28429,9 +28425,7 @@ CompositeCollider2D:
       - {x: 121.00003, y: 6.40625}
       - {x: 125, y: 6.406221}
       - {x: 124.99998, y: 5}
-      - {x: 117.59374, y: 4.9999905}
-      - {x: 117, y: 4.281241}
-      - {x: 116.99999, y: 3.9999928}
+      - {x: 117.99999, y: 4.9999924}
       - {x: 115.999985, y: 3}
       - {x: 111.999985, y: 2.9999924}
       - {x: 110.999985, y: 2}
@@ -28830,7 +28824,7 @@ Transform:
   m_GameObject: {fileID: 3749012761630310040}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -84.45448, y: -9.064342, z: 0}
+  m_LocalPosition: {x: -84.45448, y: -8.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28983,8 +28977,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1034720735
-  m_SortingLayer: -2
+  m_SortingLayerID: -2122349319
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -29282,13 +29276,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7527240558207478508}
   - component: {fileID: 8359710675892910723}
+  - component: {fileID: 3514662750655910645}
   m_Layer: 0
   m_Name: BossEntrys
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7527240558207478508
 Transform:
   m_ObjectHideFlags: 0
@@ -29298,7 +29293,7 @@ Transform:
   m_GameObject: {fileID: 6207951041394417079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -55.3496, y: -6.8325577, z: 0.07703338}
+  m_LocalPosition: {x: -55.3496, y: -5.39, z: 0.07703338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29317,6 +29312,28 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!95 &3514662750655910645
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207951041394417079}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c8fdb5c501ee58a4fb0762cba0ef3d7a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6621368942648925664
 GameObject:
   m_ObjectHideFlags: 0

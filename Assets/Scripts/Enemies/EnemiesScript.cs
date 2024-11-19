@@ -27,7 +27,7 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected float _damageReceivedMult = 0.8f;
     protected int _isAttacking = 1;
 
-    [SerializeField] protected float _health = 20f;
+    [SerializeField] public float _health = 20f;
     [SerializeField] protected float _hitDelay = 1f;
     protected bool _hit = false;
 
@@ -40,6 +40,7 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected GameObject _textDamage;
 
     [SerializeField] protected float _move = 0.2f;
+
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -117,20 +118,8 @@ public class EnemiesScript : MonoBehaviour
 
         float distance = _player.transform.position.x - transform.position.x;
 
-        if (distance > 0)
-        {
-            if (_horSpeed < 0)
-            {
-                Flip();
-            }
-        }
-        else
-        {
-            if (_horSpeed > 0)
-            {
-                Flip();
-            }
-        }
+        if(distance >= 0 && _horSpeed < 0) Flip();
+        else if(distance < 0 && _horSpeed > 0) Flip();
 
         if (Mathf.Abs(distance) < _attackDistance)
         {
@@ -233,9 +222,7 @@ public class EnemiesScript : MonoBehaviour
 
         DropRevengePoint();
 
-        yield return new WaitForSeconds(3);
-
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject, 3);
     }
 
     protected void DropRevengePoint()

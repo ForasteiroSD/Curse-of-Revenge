@@ -254,9 +254,7 @@ public class FlyingEyeScript : EnemiesScript
 
         DropRevengePoint();
 
-        yield return new WaitForSeconds(3);
-
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject, 3);
     }
 
     protected override Vector3 GetTextPosition()

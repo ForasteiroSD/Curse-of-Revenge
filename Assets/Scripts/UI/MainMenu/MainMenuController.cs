@@ -20,4 +20,9 @@ public class MainMenuController : MonoBehaviour
         mainMixer.SetFloat("MainVolume", volume);
     }
 
+    public void MenuPrincipal()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
 }
