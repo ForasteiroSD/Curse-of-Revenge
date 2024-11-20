@@ -261,10 +261,11 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnHeal() {
-        // if(_healPotionsLeft > 0 && life != _maxLife) {
-        if(_healPotionsLeft > 0) {
+        if(_healPotionsLeft > 0 && life != _maxLife && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isJumping && !_isUsingSpecialAttack) {
+        // if(_healPotionsLeft > 0) {
             _healPotionsLeft--;
-            if(_healEffect != null) Destroy(Instantiate(_healEffect, transform.position, Quaternion.identity, this.transform), 2);
+            Transform SpawnPosition = transform.Find("HealingEffect Position");
+            if(_healEffect != null) Destroy(Instantiate(_healEffect, SpawnPosition.position, Quaternion.identity, SpawnPosition), 2);
             life = Mathf.Min(_maxLife, life + _haelLifeAmount);
         }
     }
