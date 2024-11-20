@@ -89,8 +89,8 @@ public class Adventurer : MonoBehaviour
 
     //Heal
     private int _healPotionsLeft = 200;
+    private bool _isHealing = false;
     [SerializeField] private int _haelLifeAmount = 5;
-    [SerializeField] private GameObject _healEffect;
 
     private PauseScript _pause;
 
@@ -163,6 +163,12 @@ public class Adventurer : MonoBehaviour
 
         //Set _isUsingSpecialAttack to false if hit animation already ended
         if (_isUsingSpecialAttack && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Adventurer_Special_Attack")) _isUsingSpecialAttack = false;
+
+        //Set _isHealing to false if hit animation already ended
+        if (_isHealing && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Adventurer_Healing")) {
+            _canMove = true;
+            _isHealing = false;
+        }
     }
 
     public void OnPause(InputValue inputValue)
@@ -197,7 +203,7 @@ public class Adventurer : MonoBehaviour
         if(_considerPreJump) _lastJumpTime = Time.time;
         else _considerPreJump = true;
 
-        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
+        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isUsingSpecialAttack && !_isHealing && !_isDead)
         {
             _isJumping = true;
 
@@ -251,7 +257,7 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnSpecialAttack() {
-        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isUsingSpecialAttack && _canUseSpecialAttack) {
+        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && _canUseSpecialAttack) {
             _lastSpecialAttackTime = Time.time;
             _rb.linearVelocityX = 0;
             _isUsingSpecialAttack = true;
@@ -264,15 +270,19 @@ public class Adventurer : MonoBehaviour
         if(_healPotionsLeft > 0 && life != _maxLife && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isJumping && !_isUsingSpecialAttack) {
         // if(_healPotionsLeft > 0) {
             _healPotionsLeft--;
-            Transform SpawnPosition = transform.Find("HealingEffect Position");
-            if(_healEffect != null) Destroy(Instantiate(_healEffect, SpawnPosition.position, Quaternion.identity, SpawnPosition), 2);
+            
+            _canMove = false;
+            _isHealing = true;
+            _rb.linearVelocityX = 0;
+
+            _animator.SetTrigger(Constants.ANIM_HEAL);
             life = Mathf.Min(_maxLife, life + _haelLifeAmount);
         }
     }
 
     void MovePlayer()
     {
-        if(_canMove && !_isWallJumping && !_isUsingSpecialAttack && !_isDead)
+        if(_canMove && !_isWallJumping && !_isUsingSpecialAttack && !_isHealing && !_isDead)
         {
             Vector3 scale = transform.localScale;
             bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon && !_isAttacking;
