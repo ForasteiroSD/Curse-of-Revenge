@@ -545,6 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 20
   _analogDeadZone: 0.3
+  _moveSpeed: 5
   _fallGravityScaleMultiplier: 3
   _jumpHeight: 4
   _wallMaxFallingSpeed: 2
@@ -555,6 +556,8 @@ MonoBehaviour:
   _timeToFallThroughPlatform: 0.3
   _specialAttackCooldown: 10
   _specialAttack: {fileID: 4964598218284269314, guid: bc7793aa88a69b240b264049d7fe611b, type: 3}
+  _haelLifeAmount: 5
+  _healEffect: {fileID: 1125107236595345122, guid: 45af70c56ea4dfa46b8b477fc90088e4, type: 3}
 --- !u!1 &9166175059205743006
 GameObject:
   m_ObjectHideFlags: 0

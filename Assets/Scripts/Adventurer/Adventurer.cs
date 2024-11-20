@@ -12,9 +12,10 @@ using TMPro;
 public class Adventurer : MonoBehaviour
 {
     //Player Variables
-    [SerializeField] public float life = 20;
-    public bool _isDead { get; private set; } = false;
+    private float _maxLife;
     private CapsuleCollider2D _playerCollider;
+    public bool _isDead { get; private set; } = false;
+    [SerializeField] public float life = 20;
 
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
@@ -86,6 +87,11 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private int _specialAttackCooldown = 10;
     [SerializeField] private GameObject _specialAttack;
 
+    //Heal
+    private int _healPotionsLeft = 200;
+    [SerializeField] private int _haelLifeAmount = 5;
+    [SerializeField] private GameObject _healEffect;
+
     private PauseScript _pause;
 
     void Awake()
@@ -109,6 +115,7 @@ public class Adventurer : MonoBehaviour
         //Set original variables values
         _originalFallingSpeed = _maxFallingSpeed;
         _originalMoveSpeed = _moveSpeed;
+        _maxLife = life;
 
         //Get Hierarchy Elements
         _cameraController = FindFirstObjectByType<CameraController>();
@@ -250,6 +257,15 @@ public class Adventurer : MonoBehaviour
             _isUsingSpecialAttack = true;
             _animator.SetTrigger(Constants.ANIM_SPECIAL_ATTACK);
             StartCoroutine(SpecialAttackCooldown());
+        }
+    }
+
+    private void OnHeal() {
+        // if(_healPotionsLeft > 0 && life != _maxLife) {
+        if(_healPotionsLeft > 0) {
+            _healPotionsLeft--;
+            if(_healEffect != null) Destroy(Instantiate(_healEffect, transform.position, Quaternion.identity, this.transform), 2);
+            life = Mathf.Min(_maxLife, life + _haelLifeAmount);
         }
     }
 
