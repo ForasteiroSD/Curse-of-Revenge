@@ -20415,6 +20415,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Management
       objectReference: {fileID: 0}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: _belowLevelSizeDivisor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: _underGroundLastPatterns.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: '_underGroundLastPatterns.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2736146572052352567, guid: db5dcdc4567f53045805e9ce62d7cfff, type: 3}
     - target: {fileID: 6167792464633153427, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -127.4037

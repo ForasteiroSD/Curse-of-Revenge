@@ -78,16 +78,31 @@ public class LevelGenerator : MonoBehaviour
                 _pattern = _underGroundDescendingPatterns[UnityEngine.Random.Range(0, _underGroundDescendingPatterns.Length)];
                 lastPattern = SpawnDescendingLevelPart(_pattern, spawnPosition, rotation, nivel+1);
                 spawnPosition = lastPattern.Find("EndPosition").position;
+                if(rotation == Quaternion.Euler(0f, 180, 0f)) MirrorEnemies(lastPattern);
             }
             else {
                 _pattern = _underGroundPatterns[UnityEngine.Random.Range(0, _underGroundPatterns.Length)];
                 lastPattern = Instantiate(_pattern, spawnPosition, rotation, _levelPatterns);
                 spawnPosition = lastPattern.Find("EndPosition").position;
+                if(rotation == Quaternion.Euler(0f, 180, 0f)) MirrorEnemies(lastPattern);
             }
         }
 
         //Spawn the closing pattern
         _pattern = _underGroundLastPatterns[UnityEngine.Random.Range(0, _underGroundLastPatterns.Length)];
-        Instantiate(_pattern, spawnPosition, rotation, _levelPatterns);
+        lastPattern = Instantiate(_pattern, spawnPosition, rotation, _levelPatterns);
+        if(rotation == Quaternion.Euler(0f, 180, 0f)) MirrorEnemies(lastPattern);
+    }
+
+    private void MirrorEnemies(Transform pattern) {
+
+        EnemiesScript[] enemies = pattern.GetComponentsInChildren<EnemiesScript>();
+
+        if(enemies != null) {
+            foreach(EnemiesScript enemie in enemies) {
+                (enemie._minChasePos, enemie._maxChasePos) = (enemie._maxChasePos, enemie._minChasePos);
+                enemie.gameObject.transform.localScale = new Vector3(enemie.gameObject.transform.localScale.x*(-1), enemie.gameObject.transform.localScale.y, enemie.gameObject.transform.localScale.z);
+            }
+        }
     }
 }
