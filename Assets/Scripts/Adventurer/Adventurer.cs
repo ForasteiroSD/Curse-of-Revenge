@@ -88,8 +88,12 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private GameObject _specialAttack;
 
     //Heal
-    private int _healPotionsLeft = 200;
+    private int _maxHealPotions = 3;
+    private int _healPotionsLeft;
     private bool _isHealing = false;
+    private Image _healPotionBackgroundUI;
+    private Image _healPotionIconUI;
+    private Animator _healPotionAnimator;
     [SerializeField] private int _haelLifeAmount = 5;
 
     private PauseScript _pause;
@@ -97,10 +101,17 @@ public class Adventurer : MonoBehaviour
     void Awake()
     {
         //Get Elements
-        GameObject ColldownsUI = GameObject.Find("Cooldowns").transform.Find("SpecialAttack").gameObject;
-        _specialAttackBackgroundUI = ColldownsUI.transform.Find("Background").GetComponent<Image>();
-        _specialAttackIconUI = ColldownsUI.transform.Find("Icon").GetComponent<Image>();
-        _specialAttackTextUI = ColldownsUI.transform.Find("Time").GetComponent<TextMeshProUGUI>();
+        GameObject colldownsUI = GameObject.Find("Cooldowns");
+        GameObject specialAttackUI = colldownsUI.transform.Find("SpecialAttack").gameObject;
+        GameObject healPotionUI = colldownsUI.transform.Find("HealPotion").gameObject;
+
+        _specialAttackBackgroundUI = specialAttackUI.transform.Find("Background").GetComponent<Image>();
+        _specialAttackIconUI = specialAttackUI.transform.Find("Icon").GetComponent<Image>();
+        _specialAttackTextUI = specialAttackUI.transform.Find("Time").GetComponent<TextMeshProUGUI>();
+
+        _healPotionBackgroundUI = healPotionUI.transform.Find("Background").GetComponent<Image>();
+        _healPotionIconUI = healPotionUI.transform.Find("Icon").GetComponent<Image>();
+        _healPotionAnimator = healPotionUI.transform.Find("Icon").GetComponent<Animator>();
 
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
@@ -116,6 +127,7 @@ public class Adventurer : MonoBehaviour
         _originalFallingSpeed = _maxFallingSpeed;
         _originalMoveSpeed = _moveSpeed;
         _maxLife = life;
+        _healPotionsLeft = _maxHealPotions;
 
         //Get Hierarchy Elements
         _cameraController = FindFirstObjectByType<CameraController>();
@@ -267,13 +279,19 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnHeal() {
-        if(_healPotionsLeft > 0 && life != _maxLife && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isJumping && !_isUsingSpecialAttack) {
-        // if(_healPotionsLeft > 0) {
+        if(_healPotionsLeft > 0 && life != _maxLife && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isJumping && !_isUsingSpecialAttack && !_isHealing) {
+            //Setting correct values for variables
             _healPotionsLeft--;
-            
             _canMove = false;
             _isHealing = true;
-            _rb.linearVelocityX = 0;
+            _rb.linearVelocityX = 0; //Stop moving
+
+            //Setting UI
+            _healPotionAnimator.SetInteger("PotionsLeft", _healPotionsLeft);
+            if(_healPotionsLeft == 0) {
+                _healPotionBackgroundUI.color = new Color32(136,136,136,255);
+                _healPotionIconUI.color = new Color32(136,136,136,255);
+            }
 
             _animator.SetTrigger(Constants.ANIM_HEAL);
             life = Mathf.Min(_maxLife, life + _haelLifeAmount);
