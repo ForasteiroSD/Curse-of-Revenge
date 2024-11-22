@@ -27,6 +27,7 @@ public class NBScript : EnemiesScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
     }
@@ -105,6 +106,7 @@ public class NBScript : EnemiesScript
         damage *= _damageReceivedMult;
         damage = Mathf.Ceil(damage);
         _health -= damage;
+        SFXManager.TocarSFX(4);
 
         Vector3 position = GetTextPosition();
         GameObject text = Instantiate(_textDamage, position, Quaternion.identity);
@@ -136,6 +138,7 @@ public class NBScript : EnemiesScript
         //get into attack mode
         _rb.linearVelocityX = 0;
         _isAttacking = 0;
+        SFXManager.TocarSFX(9);
 
         int quant = UnityEngine.Random.Range(0, _maxConsecutiveAttacks);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
@@ -151,6 +154,7 @@ public class NBScript : EnemiesScript
         for (int i=0; i<quant; i++)
         {
             yield return new WaitForSecondsRealtime(time-0.1f);
+            SFXManager.TocarSFX(9);
             _animator.SetTrigger(Constants.ATTACK_ENEMY);
         }
 
@@ -165,6 +169,7 @@ public class NBScript : EnemiesScript
     {
         _rb.linearVelocityX = 0;
         _changingPhase = true;
+        SFXManager.TocarSFX(10);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
         GameObject effect = Instantiate(_Phase2Effect, new Vector2(transform.position.x, transform.position.y-1f), Quaternion.identity);
         Destroy(effect, 5f);
@@ -229,7 +234,7 @@ public class NBScript : EnemiesScript
         _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
-
+        SFXManager.TocarSFX(11);
         yield return new WaitForSecondsRealtime(2.15f);
 
         DropRevengePoint();

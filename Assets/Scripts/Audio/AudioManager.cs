@@ -3,33 +3,48 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource audioSource;
+    public AudioSource musica;
+    public AudioSource sfx;
+    
+    [SerializeField]
+    public AudioClip[] efeitos;
+    [SerializeField]
+    public AudioClip[] musicas;
 
-    public void TrocarMusica(AudioClip clip, float fadeDuration = 0.5f)
+    public void TocarSFX(int index)
     {
-        StartCoroutine(FadeOutIn(clip, fadeDuration));
+        
+        sfx.PlayOneShot(efeitos[index]);
     }
 
-    private IEnumerator FadeOutIn(AudioClip newClip, float duration)
+
+public void TrocarMusica(int indexMusica, float fadeDuration = 0.5f)
     {
-        if (audioSource.isPlaying)
+        StartCoroutine(FadeOutIn(indexMusica, fadeDuration));
+    }
+    
+    
+
+    private IEnumerator FadeOutIn(int indexMusica, float duration)
+    {
+        if (musica.isPlaying)
         {
             // Fade Out
             for (float t = 0; t < duration; t += Time.deltaTime)
             {
-                audioSource.volume = Mathf.Lerp(1, 0, t / duration);
+                musica.volume = Mathf.Lerp(1, 0, t / duration);
                 yield return null;
             }
-            audioSource.Stop();
+            musica.Stop();
         }
 
-        audioSource.clip = newClip;
-        audioSource.Play();
+        musica.clip = musicas[indexMusica];
+        musica.Play();
 
         // Fade In
         for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            audioSource.volume = Mathf.Lerp(0, 1, t / duration);
+            musica.volume = Mathf.Lerp(0, 1, t / duration);
             yield return null;
         }
     }

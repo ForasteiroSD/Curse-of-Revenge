@@ -10,6 +10,7 @@ public class FireKnightScript : BossScript
     Animator _animator;
     Rigidbody2D _rb;
     CapsuleCollider2D _collider;
+    AudioManager SFXManager;
     [SerializeField] Transform _knightPos;
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] GameObject _textDamage;
@@ -57,6 +58,7 @@ public class FireKnightScript : BossScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
         StartCoroutine(SPAttackCooldown());

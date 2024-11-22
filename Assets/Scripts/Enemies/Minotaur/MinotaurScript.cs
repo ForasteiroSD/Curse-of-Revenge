@@ -10,6 +10,7 @@ public class MinotaurScript : EnemiesScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
     }

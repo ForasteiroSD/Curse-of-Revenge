@@ -9,6 +9,7 @@ public class EnemiesScript : MonoBehaviour
     protected Animator _animator;
     protected Rigidbody2D _rb;
     protected Transform _player;
+    public AudioManager SFXManager;
     [SerializeField] public Transform _maxChasePos;
     [SerializeField] public Transform _minChasePos;
     [SerializeField] private GameObject _revengePoint;
@@ -42,6 +43,7 @@ public class EnemiesScript : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _player = FindFirstObjectByType<Adventurer>().transform;
     }
 
@@ -171,6 +173,7 @@ public class EnemiesScript : MonoBehaviour
         damage *= _damageReceivedMult;
         damage = Mathf.Ceil(damage);
         _health -= damage;
+        SFXManager.TocarSFX(4);
 
         Vector3 position = GetTextPosition();
         GameObject text = Instantiate(_textDamage, position, Quaternion.identity);
@@ -249,11 +252,11 @@ public class EnemiesScript : MonoBehaviour
         _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
-
+        
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
-
+        
         DropRevengePoint();
-
+        SFXManager.TocarSFX(5);
         Destroy(transform.parent.gameObject, 4);
     }
 

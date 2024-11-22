@@ -8,11 +8,15 @@ using Unity.VisualScripting;
 using Unity.Mathematics;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class Adventurer : MonoBehaviour
 {
     //Player Variables
     [SerializeField] public float life = 20;
+    public AudioManager SFXManager;
+    
+    
     public bool _isDead { get; private set; } = false;
     private CapsuleCollider2D _playerCollider;
 
@@ -246,6 +250,7 @@ public class Adventurer : MonoBehaviour
     private void OnSpecialAttack() {
         if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isUsingSpecialAttack && _canUseSpecialAttack) {
             _lastSpecialAttackTime = Time.time;
+            SFXManager.TocarSFX(2);
             _rb.linearVelocityX = 0;
             _isUsingSpecialAttack = true;
             _animator.SetTrigger(Constants.ANIM_SPECIAL_ATTACK);
@@ -284,6 +289,7 @@ public class Adventurer : MonoBehaviour
         
         if(life > 0)
         {
+            SFXManager.TocarSFX(1);
             _isGettingHit = true;
             if(!_isSliding && !_canWallJump) _animator.SetTrigger(Constants.ANIM_GET_HIT);
         }
@@ -307,7 +313,7 @@ public class Adventurer : MonoBehaviour
         _rb.linearVelocityX = 0;
         _maxFallingSpeed = _originalFallingSpeed;
         _animator.SetTrigger(Constants.ANIM_DIE);
-
+        SFXManager.TocarSFX(3);
         yield return new WaitForSecondsRealtime(1.5f);
         SceneManager.LoadScene("MainMenu");
     }
