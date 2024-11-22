@@ -9,7 +9,7 @@ public class EnemiesScript : MonoBehaviour
     
     protected Rigidbody2D _rb;
 
-    [SerializeField] protected float _horSpeed = 2f;
+    [SerializeField] public float _horSpeed = 2f;
     
     [SerializeField] protected float _idleTime = 2f;
     protected bool _idle = false;
@@ -18,8 +18,8 @@ public class EnemiesScript : MonoBehaviour
     [SerializeField] protected float _chaseSpeedMultiplier = 1.1f;
 
     protected Transform _player;
-    [SerializeField] protected Transform _maxChasePos;
-    [SerializeField] protected Transform _minChasePos;
+    [SerializeField] public Transform _maxChasePos;
+    [SerializeField] public Transform _minChasePos;
 
     [SerializeField] protected float _attackDistance = 1.5f;
     [SerializeField] protected float _attackCooldown = 1.5f;
@@ -89,15 +89,43 @@ public class EnemiesScript : MonoBehaviour
 
     public virtual void PlayerInRange()
     {
+
         if (_player.position.x >= _minChasePos.position.x && _player.position.x <= _maxChasePos.position.x)
         {
             _isChasing = true;
+            return;
         }
-        else
+
+
+        if (_isAttacking == 1 && !_hit && !_death)
         {
-            _rb.linearVelocityX = 0;
-            _isChasing = false;
+            if (transform.position.x <= _minChasePos.position.x + 0.5)
+            {
+                if (_player.position.x <= _minChasePos.position.x && _player.position.x >= _minChasePos.position.x - _attackDistance)
+                {
+                    float distance = _player.transform.position.x - transform.position.x;
+
+                    if(distance >= 0 && _horSpeed < 0) Flip();
+                    else if(distance < 0 && _horSpeed > 0) Flip();
+
+                    StartCoroutine(Attack());
+                }
+            }
+            else if (transform.position.x >= _maxChasePos.position.x - 0.5)
+            {
+                if (_player.position.x >= _maxChasePos.position.x && _player.position.x <= _maxChasePos.position.x + _attackDistance)
+                {
+                    float distance = _player.transform.position.x - transform.position.x;
+
+                    if(distance >= 0 && _horSpeed < 0) Flip();
+                    else if(distance < 0 && _horSpeed > 0) Flip();
+
+                    StartCoroutine(Attack());
+                }
+            }
         }
+
+        _isChasing = false;
     }
 
     protected virtual void Flip()
@@ -105,7 +133,7 @@ public class EnemiesScript : MonoBehaviour
         if (_death) return;
         _horSpeed *= -1;
         transform.position = new Vector3(transform.position.x + Mathf.Sign(_horSpeed) * _move, transform.position.y, transform.position.z);
-        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(_horSpeed), transform.localScale.y, transform.localScale.z);
+        transform.localScale = new Vector3(transform.localScale.x * (-1), transform.localScale.y, transform.localScale.z);
     }
 
     protected virtual void Chase()
@@ -222,7 +250,7 @@ public class EnemiesScript : MonoBehaviour
 
         DropRevengePoint();
 
-        Destroy(transform.parent.gameObject, 3);
+        Destroy(transform.parent.gameObject, 4);
     }
 
     protected void DropRevengePoint()
