@@ -14,6 +14,7 @@ public class MushroomScript : EnemiesScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        indexSFX = 15;
         SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<BoxCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
@@ -25,6 +26,7 @@ public class MushroomScript : EnemiesScript
 
         //get into attack mode
         _rb.linearVelocityX = 0;
+        SFXManager.TocarSFX(indexSFX);
         _isAttacking = 0;
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
