@@ -9,12 +9,12 @@ public class EnemiesScript : MonoBehaviour
     protected Animator _animator;
     protected Rigidbody2D _rb;
     protected Transform _player;
-    public AudioManager SFXManager;
+    protected AudioManager SFXManager;
     [SerializeField] public Transform _maxChasePos;
     [SerializeField] public Transform _minChasePos;
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] protected GameObject _textDamage;
-
+    public int indexSFX = 4;
 
     //Status
     [SerializeField] public float _health = 20f;
@@ -43,7 +43,7 @@ public class EnemiesScript : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-        SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _player = FindFirstObjectByType<Adventurer>().transform;
     }
 
@@ -202,6 +202,7 @@ public class EnemiesScript : MonoBehaviour
         //get into attack mode
         _rb.linearVelocityX = 0;
         _isAttacking = 0;
+        SFXManager.TocarSFX(indexSFX);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
 

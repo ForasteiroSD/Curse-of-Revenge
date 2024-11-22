@@ -58,7 +58,7 @@ public class FireKnightScript : BossScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-        SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
         StartCoroutine(SPAttackCooldown());
@@ -108,7 +108,8 @@ public class FireKnightScript : BossScript
     public override void GetHit(float damage)
     {
         if(_death) return;
-
+        
+        SFXManager.TocarSFX(4);
         float defending = 1;
         if (_defend) defending = 0.5f;
 

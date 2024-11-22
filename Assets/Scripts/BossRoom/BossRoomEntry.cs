@@ -29,7 +29,7 @@ public class BossRoomEntry : MonoBehaviour
 
     private void Start()
     {
-        audioManager = FindFirstObjectByType<AudioManager>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     public void RemoveWallBlocker()

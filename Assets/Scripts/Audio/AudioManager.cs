@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AudioManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class AudioManager : MonoBehaviour
 
     public void TocarSFX(int index)
     {
-        
+        print(efeitos[index].name);
         sfx.PlayOneShot(efeitos[index]);
     }
 
