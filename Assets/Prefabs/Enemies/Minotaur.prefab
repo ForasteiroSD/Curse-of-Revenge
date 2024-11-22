@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 259542021903076919}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.17, y: 0, z: 0}
+  m_LocalPosition: {x: 2.53, y: -0.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -189,7 +189,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.15490441, y: -0.17532104}
+  m_Offset: {x: 0.19839896, y: -0.17532104}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -199,7 +199,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.015352637, y: 0.05695583}
+  m_Size: {x: 0.015352637, y: 0.056955814}
   m_EdgeRadius: 0
 --- !u!114 &1082191527315064287
 MonoBehaviour:
@@ -487,22 +487,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8727dd899b4aa4695c40f715e26a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxChasePos: {fileID: 3738371332664674671}
+  _minChasePos: {fileID: 9079381745319800585}
+  _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
+  _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
+  _health: 20
   _horSpeed: 3
   _idleTime: 2
   _chaseSpeedMultiplier: 1.1
-  _maxChasePos: {fileID: 3738371332664674671}
-  _minChasePos: {fileID: 9079381745319800585}
   _attackDistance: 2
   _attackCooldown: 1.7
   _attackDamage: 1
   _damageReceivedMult: 0.8
-  _health: 20
   _hitDelay: 1
   _valuePerRevengePoint: 1
   _revengePointsQuantity: 1
-  _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
-  _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
-  _move: 0.3
+  _move: 0.5
 --- !u!1 &5373555888718052239
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +528,7 @@ Transform:
   m_GameObject: {fileID: 5373555888718052239}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.52, y: 0, z: 0}
+  m_LocalPosition: {x: -2.93, y: -0.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

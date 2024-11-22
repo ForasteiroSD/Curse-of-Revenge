@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2107733672162746146}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.5, y: -0.56, z: 0}
+  m_LocalPosition: {x: -6.09, y: -0.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -138,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 3909478656183003904}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.42, y: 5.49, z: 0}
+  m_LocalPosition: {x: 11.31, y: 4.83, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -204,7 +204,7 @@ Transform:
   m_GameObject: {fileID: 4579304081016923856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.54, y: -0.56, z: 0}
+  m_LocalPosition: {x: 28.22, y: -0.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -407,6 +407,7 @@ MonoBehaviour:
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
   _deathEffect: {fileID: 3116781963016949925, guid: c82e31d277f76804fa155a6a2221d796, type: 3}
+  _sequencialEffect: {fileID: 2469981250760493540, guid: cd81ae40f8110b54a8f7e423180a5854, type: 3}
   _middleArena: {fileID: 4357681693580106042}
   _valuePerRevengePoint: 1
   _revengePointsQuantity: 1

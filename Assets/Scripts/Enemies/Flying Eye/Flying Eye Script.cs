@@ -126,7 +126,7 @@ public class FlyingEyeScript : EnemiesScript
         Vector3 direction = new Vector3(1, 0, 0);
         if (_horSpeed < 0) direction = new Vector3(-1, 0, 0);
 
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 1f), direction, 1.5f, _groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), direction, 1.5f, _groundLayer);
 
         //if there's a wall in front and it's height is greater then height the eye can go up
         if (hit.collider != null)
