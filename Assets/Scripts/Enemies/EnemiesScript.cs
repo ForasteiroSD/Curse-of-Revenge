@@ -9,11 +9,12 @@ public class EnemiesScript : MonoBehaviour
     protected Animator _animator;
     protected Rigidbody2D _rb;
     protected Transform _player;
+    protected AudioManager SFXManager;
     [SerializeField] public Transform _maxChasePos;
     [SerializeField] public Transform _minChasePos;
     [SerializeField] private GameObject _revengePoint;
     [SerializeField] protected GameObject _textDamage;
-
+    public int indexSFX = 4;
 
     //Status
     [SerializeField] public float _health = 20f;
@@ -42,6 +43,7 @@ public class EnemiesScript : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _player = FindFirstObjectByType<Adventurer>().transform;
     }
 
@@ -171,6 +173,7 @@ public class EnemiesScript : MonoBehaviour
         damage *= _damageReceivedMult;
         damage = Mathf.Ceil(damage);
         _health -= damage;
+        SFXManager.TocarSFX(4);
 
         Vector3 position = GetTextPosition();
         GameObject text = Instantiate(_textDamage, position, Quaternion.identity);
@@ -199,6 +202,7 @@ public class EnemiesScript : MonoBehaviour
         //get into attack mode
         _rb.linearVelocityX = 0;
         _isAttacking = 0;
+        SFXManager.TocarSFX(indexSFX);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
 
@@ -249,11 +253,11 @@ public class EnemiesScript : MonoBehaviour
         _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
-
+        
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
-
+        
         DropRevengePoint();
-
+        SFXManager.TocarSFX(5);
         Destroy(transform.parent.gameObject, 4);
     }
 

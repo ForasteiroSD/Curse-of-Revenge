@@ -7,7 +7,8 @@ public class BringerScript : BossScript
 {
     //Referencies
     Animator _animator;
-    Rigidbody2D _rb;
+    Rigidbody2D _rb; 
+    AudioManager SFXManager;
     CapsuleCollider2D _collider;
     [SerializeField] Transform _minPos;
     [SerializeField] Transform _maxPos;
@@ -60,6 +61,7 @@ public class BringerScript : BossScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
         StartCoroutine(UpdateSpellSpeed());
@@ -126,7 +128,7 @@ public class BringerScript : BossScript
         if(_death) return;
 
         damage = Mathf.Ceil(damage * _damageReceivedMult);
-        
+        SFXManager.TocarSFX(4);
         _health -= damage;
 
         Vector3 position = GetTextPosition();

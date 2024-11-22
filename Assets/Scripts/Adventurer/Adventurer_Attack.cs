@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using Utils;
 
@@ -61,6 +62,7 @@ public class Adventurer_Attack : MonoBehaviour
 
         if (!_adventurer._isAttacking && !_adventurer._isSliding && !_adventurer._canWallJump && !_adventurer._isJumping && !_adventurer._isGettingHit && !_adventurer._isDead)
         {
+            _adventurer.SFXManager.TocarSFX(0);
             _adventurer._isAttacking = true;
             _attackEnded = false;
 

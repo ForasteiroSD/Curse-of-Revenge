@@ -21,6 +21,8 @@ public class FlyingEyeScript : EnemiesScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        indexSFX = 7;
+        SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CircleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
         _startPos = transform.position.x;
@@ -207,6 +209,7 @@ public class FlyingEyeScript : EnemiesScript
 
         //get into attack mode
         _rb.linearVelocityX = 0;
+        SFXManager.TocarSFX(indexSFX);
         _isAttacking = 0;
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
 
