@@ -20469,7 +20469,7 @@ PrefabInstance:
       objectReference: {fileID: 2736146572052352567, guid: c65e9abc29202ab4a93fe7091862ea45, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _underGroundLastPatterns.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: '_underGroundLastPatterns.Array.data[1]'
@@ -20483,6 +20483,10 @@ PrefabInstance:
       propertyPath: '_underGroundLastPatterns.Array.data[3]'
       value: 
       objectReference: {fileID: 2736146572052352567, guid: 265a57769a48f3e44883ed2e90ac04ff, type: 3}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: '_underGroundLastPatterns.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2736146572052352567, guid: db5dcdc4567f53045805e9ce62d7cfff, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _underGroundDescendingPatterns.Array.size
       value: 4
