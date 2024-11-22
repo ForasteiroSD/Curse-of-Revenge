@@ -19,10 +19,13 @@ public class ChestRoomDoorController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        _enemies.SetActive(true);
-        _door.GetComponent<Animator>().SetTrigger("Close");
         Destroy(_collider);
-        StartCoroutine(OpenDoor());
+        if(Random.Range(0, 2) == 0)
+        {
+            _enemies.SetActive(true);
+            _door.GetComponent<Animator>().SetTrigger("Close");
+            StartCoroutine(OpenDoor());
+        }
     }
 
     IEnumerator OpenDoor()
@@ -34,7 +37,7 @@ public class ChestRoomDoorController : MonoBehaviour
 
         _door.GetComponent<Animator>().SetTrigger("Open");
 
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(4f);
 
         Destroy(_door);
         Destroy(_enemies);

@@ -250,7 +250,7 @@ public class EnemiesScript : MonoBehaviour
 
         DropRevengePoint();
 
-        Destroy(transform.parent.gameObject, 3);
+        Destroy(transform.parent.gameObject, 4);
     }
 
     protected void DropRevengePoint()
