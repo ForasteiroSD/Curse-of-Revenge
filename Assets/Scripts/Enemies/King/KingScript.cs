@@ -18,6 +18,13 @@ public class KingScript : EnemiesScript
     protected override void Update()
     {
 
+        if (_attackedOnBorder && _isAttacking == 1)
+        {
+            StartCoroutine(Idle());
+            _attackedOnBorder = false;
+            return;
+        }
+        
         if (_isAttacking == 0)
         {
             float distance = _player.transform.position.x - transform.position.x;
@@ -28,6 +35,7 @@ public class KingScript : EnemiesScript
         }
 
         if (_hit || _death) return;
+
 
         if (_isChasing)
         {

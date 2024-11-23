@@ -20689,6 +20689,10 @@ PrefabInstance:
       value: Management
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: _belowLevelSizeDivisor
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _upperPatterns.Array.size
       value: 6
       objectReference: {fileID: 0}
