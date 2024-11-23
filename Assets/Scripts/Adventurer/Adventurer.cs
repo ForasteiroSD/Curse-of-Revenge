@@ -15,10 +15,10 @@ public class Adventurer : MonoBehaviour
     //Player Variables
     [SerializeField] public float life = 20;
     public AudioManager SFXManager;
-    
-    
-    public bool _isDead { get; private set; } = false;
+    private float _maxLife;
     private CapsuleCollider2D _playerCollider;
+    public bool _isDead { get; private set; } = false;
+    [SerializeField] public float life = 20;
 
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
@@ -31,7 +31,7 @@ public class Adventurer : MonoBehaviour
     private Vector2 _moveDirection;
     public bool _canMove { get; set; } = true;
     [SerializeField] public float _originalMoveSpeed { get; set; } = 5f;
-    [SerializeField] public float _moveSpeed { get; set; } = 5f;
+    public float _moveSpeed = 5f;
 
     //Jump
     private bool _releasedJumpButton = false;
@@ -84,21 +84,41 @@ public class Adventurer : MonoBehaviour
     private float _lastSpecialAttackTime = -10;
     private Image _specialAttackBackgroundUI;
     private Image _specialAttackIconUI;
+    private Image _specialAttackCommandUI;
     private TextMeshProUGUI _specialAttackTextUI;
     private bool _canUseSpecialAttack = true;
     public bool _isUsingSpecialAttack { get; private set; } = false;
     [SerializeField] private int _specialAttackCooldown = 10;
     [SerializeField] private GameObject _specialAttack;
 
-    private PauseScript _pause;
+    //Heal
+    private int _maxHealPotions = 3;
+    private int _healPotionsLeft;
+    private bool _isHealing = false;
+    private Image _healPotionBackgroundUI;
+    private Image _healPotionIconUI;
+    private Image _healPotionCommandUI;
+    private Animator _healPotionAnimator;
+    [SerializeField] private int _haelLifeAmount = 5;
+
+    public PauseScript _pause { get; private set; }
 
     void Awake()
     {
         //Get Elements
-        GameObject ColldownsUI = GameObject.Find("Cooldowns").transform.Find("SpecialAttack").gameObject;
-        _specialAttackBackgroundUI = ColldownsUI.transform.Find("Background").GetComponent<Image>();
-        _specialAttackIconUI = ColldownsUI.transform.Find("Icon").GetComponent<Image>();
-        _specialAttackTextUI = ColldownsUI.transform.Find("Time").GetComponent<TextMeshProUGUI>();
+        GameObject colldownsUI = GameObject.Find("Cooldowns");
+        GameObject specialAttackUI = colldownsUI.transform.Find("SpecialAttack").gameObject;
+        GameObject healPotionUI = colldownsUI.transform.Find("HealPotion").gameObject;
+
+        _specialAttackBackgroundUI = specialAttackUI.transform.Find("Background").GetComponent<Image>();
+        _specialAttackIconUI = specialAttackUI.transform.Find("Icon").GetComponent<Image>();
+        _specialAttackCommandUI = specialAttackUI.transform.Find("Control").GetComponent<Image>();
+        _specialAttackTextUI = specialAttackUI.transform.Find("Time").GetComponent<TextMeshProUGUI>();
+
+        _healPotionBackgroundUI = healPotionUI.transform.Find("Background").GetComponent<Image>();
+        _healPotionIconUI = healPotionUI.transform.Find("Icon").GetComponent<Image>();
+        _healPotionCommandUI = healPotionUI.transform.Find("Control").GetComponent<Image>();
+        _healPotionAnimator = healPotionUI.transform.Find("Icon").GetComponent<Animator>();
 
         //Get Components
         _rb = GetComponent<Rigidbody2D>();
@@ -113,6 +133,8 @@ public class Adventurer : MonoBehaviour
         //Set original variables values
         _originalFallingSpeed = _maxFallingSpeed;
         _originalMoveSpeed = _moveSpeed;
+        _maxLife = life;
+        _healPotionsLeft = _maxHealPotions;
 
         //Get Hierarchy Elements
         _cameraController = FindFirstObjectByType<CameraController>();
@@ -160,6 +182,12 @@ public class Adventurer : MonoBehaviour
 
         //Set _isUsingSpecialAttack to false if hit animation already ended
         if (_isUsingSpecialAttack && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Adventurer_Special_Attack")) _isUsingSpecialAttack = false;
+
+        //Set _isHealing to false if hit animation already ended
+        if (_isHealing && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Adventurer_Healing")) {
+            _canMove = true;
+            _isHealing = false;
+        }
     }
 
     public void OnPause(InputValue inputValue)
@@ -194,7 +222,7 @@ public class Adventurer : MonoBehaviour
         if(_considerPreJump) _lastJumpTime = Time.time;
         else _considerPreJump = true;
 
-        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
+        if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isUsingSpecialAttack && !_isHealing && !_isDead)
         {
             _isJumping = true;
 
@@ -248,7 +276,7 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnSpecialAttack() {
-        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isUsingSpecialAttack && _canUseSpecialAttack) {
+        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && !_pause.isPaused && _canUseSpecialAttack) {
             _lastSpecialAttackTime = Time.time;
             SFXManager.TocarSFX(2);
             _rb.linearVelocityX = 0;
@@ -258,9 +286,30 @@ public class Adventurer : MonoBehaviour
         }
     }
 
+    private void OnHeal() {
+        if(_healPotionsLeft > 0 && life != _maxLife && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isJumping && !_isUsingSpecialAttack && !_pause.isPaused && !_isHealing) {
+            //Setting correct values for variables
+            _healPotionsLeft--;
+            _canMove = false;
+            _isHealing = true;
+            _rb.linearVelocityX = 0; //Stop moving
+
+            //Setting UI
+            _healPotionAnimator.SetInteger("PotionsLeft", _healPotionsLeft);
+            if(_healPotionsLeft == 0) {
+                _healPotionCommandUI.color = new Color32(136,136,136,255);
+                _healPotionBackgroundUI.color = new Color32(136,136,136,255);
+                _healPotionIconUI.color = new Color32(136,136,136,255);
+            }
+
+            _animator.SetTrigger(Constants.ANIM_HEAL);
+            life = Mathf.Min(_maxLife, life + _haelLifeAmount);
+        }
+    }
+
     void MovePlayer()
     {
-        if(_canMove && !_isWallJumping && !_isUsingSpecialAttack && !_isDead)
+        if(_canMove && !_isWallJumping && !_isUsingSpecialAttack && !_isHealing && !_isDead)
         {
             Vector3 scale = transform.localScale;
             bool isRunning = Mathf.Abs(_moveDirection.x) > Mathf.Epsilon && !_isAttacking;
@@ -347,16 +396,18 @@ public class Adventurer : MonoBehaviour
 
         int time = _specialAttackCooldown;
         _specialAttackTextUI.text = Convert.ToString(_specialAttackCooldown);
+        _specialAttackCommandUI.color = new Color32(136,136,136,255);
         _specialAttackBackgroundUI.color = new Color32(136,136,136,255);
         _specialAttackIconUI.color = new Color32(136,136,136,255);
 
         while(time != 0) {
             _specialAttackTextUI.enabled = true;
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSeconds(1);
             _specialAttackTextUI.text = Convert.ToString(--time);
         }
         
-        _specialAttackBackgroundUI.color = new Color32(255,255,255,255);
+        _specialAttackCommandUI.color = new Color32(226,201,165,255);
+        _specialAttackBackgroundUI.color = new Color32(255,219,187,255);
         _specialAttackIconUI.color = new Color32(255,255,255,255);
         _specialAttackTextUI.enabled = false;
         _canUseSpecialAttack = true;

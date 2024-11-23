@@ -240,8 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90019456157e2a41bd07a38633a3ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 20
+  life: 10
   _analogDeadZone: 0.3
+  _moveSpeed: 5
   _fallGravityScaleMultiplier: 3
   _jumpHeight: 4
   _wallMaxFallingSpeed: 2
@@ -252,6 +253,7 @@ MonoBehaviour:
   _timeToFallThroughPlatform: 0.3
   _specialAttackCooldown: 10
   _specialAttack: {fileID: 4964598218284269314, guid: bc7793aa88a69b240b264049d7fe611b, type: 3}
+  _haelLifeAmount: 10
 --- !u!1 &3592947567303743405
 GameObject:
   m_ObjectHideFlags: 0

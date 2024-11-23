@@ -25,7 +25,10 @@ public class HealthBar : MonoBehaviour
     {
         if (RedBarSlider.value != adventurer.life)
         {
-            RedBarSlider.value = adventurer.life;
+            if(RedBarSlider.value > adventurer.life) RedBarSlider.value = adventurer.life;
+            else {
+                RedBarSlider.value = Mathf.Lerp(RedBarSlider.value, adventurer.life, lerpSpeed*5);
+            }
         }
 
         if (RedBarSlider.value != YellowBarSlider.value)

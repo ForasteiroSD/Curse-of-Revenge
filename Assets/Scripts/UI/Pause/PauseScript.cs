@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
@@ -11,7 +12,7 @@ public class PauseScript : MonoBehaviour
     public GameObject configsMenu;
 
     public bool isPaused;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         pauseMenu.SetActive(false);
@@ -28,6 +29,7 @@ public class PauseScript : MonoBehaviour
     {
         pauseMenu.SetActive(true);
         configsMenu.SetActive(false);
+        isPaused = true;
         Time.timeScale = 0f;
     }
 
@@ -35,6 +37,7 @@ public class PauseScript : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         pauseMenu.SetActive(false);
+        isPaused = false;
         Time.timeScale = 1f;
     }
 
