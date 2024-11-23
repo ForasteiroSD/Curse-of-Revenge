@@ -10,10 +10,7 @@ public class FlyingEyeScript : EnemiesScript
 
     [SerializeField] LayerMask _groundLayer;
     [SerializeField] Transform _flyHeightPos;
-    [SerializeField] float _unitsToMove;
 
-    float _startPos;
-    float _endPos;
     bool _goingUp = false;
     bool _goingDown = false;
 
@@ -25,8 +22,6 @@ public class FlyingEyeScript : EnemiesScript
         SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CircleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
-        _startPos = transform.position.x;
-        _endPos = _startPos + _unitsToMove;
     }
 
     // Update is called once per frame
@@ -65,9 +60,9 @@ public class FlyingEyeScript : EnemiesScript
         }
         else
         {
-            _rb.linearVelocityY = 0;
-
             if (_isAttacking == 0 || _hit) return;
+
+            _rb.linearVelocityY = 0;
 
             if (_isChasing)
             {
@@ -83,22 +78,9 @@ public class FlyingEyeScript : EnemiesScript
     {
         if(_idle) return;
 
-        if (_horSpeed > 1)
-        {
-            if (_rb.position.x > _endPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
-        }
-
-        else
-        {
-            if (_rb.position.x < _startPos && !_isChasing)
-            {
-                StartCoroutine(Idle());
-                return;
-            }
+        if (transform.position.x <= _minChasePos.position.x || transform.position.x >= _maxChasePos.position.x) {
+            StartCoroutine(Idle());
+            return;
         }
 
         _rb.linearVelocityX = _horSpeed;
@@ -106,17 +88,17 @@ public class FlyingEyeScript : EnemiesScript
 
     public override void PlayerInRange()
     {
+
         if(_goingDown || _goingUp) return;
 
-        if (_player.position.x > _minChasePos.position.x && _player.position.x < _maxChasePos.position.x)
+        if (_player.position.x >= _minChasePos.position.x && _player.position.x <= _maxChasePos.position.x)
         {
             _isChasing = true;
-        }
-        else
-        {
+        } else {
             _rb.linearVelocityX = 0;
             _isChasing = false;
         }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -178,20 +160,8 @@ public class FlyingEyeScript : EnemiesScript
 
         float distance = _player.transform.position.x - transform.position.x;
 
-        if (distance > 0)
-        {
-            if (_horSpeed < 0)
-            {
-                Flip();
-            }
-        }
-        else
-        {
-            if (_horSpeed > 0)
-            {
-                Flip();
-            }
-        }
+        if(distance >= 0 && _horSpeed < 0) Flip();
+        else if(distance < 0 && _horSpeed > 0) Flip();
 
         if (Mathf.Abs(distance) < _attackDistance)
         {
@@ -224,7 +194,6 @@ public class FlyingEyeScript : EnemiesScript
     {
         _rb.linearVelocityX = 0;
         _idle = true;
-
         yield return new WaitForSeconds(_idleTime);
 
         if (_isChasing) yield break;
