@@ -469,21 +469,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f518226596736e44a9ff3d206fe391d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxChasePos: {fileID: 8415786888061539061}
+  _minChasePos: {fileID: 750554656073840421}
+  _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
+  _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
+  _health: 2
   _horSpeed: 2.5
   _idleTime: 2
   _chaseSpeedMultiplier: 1.2
-  _maxChasePos: {fileID: 8415786888061539061}
-  _minChasePos: {fileID: 750554656073840421}
   _attackDistance: 1.1
   _attackCooldown: 2
   _attackDamage: 1
   _damageReceivedMult: 1
-  _health: 2
   _hitDelay: 1
   _valuePerRevengePoint: 1
   _revengePointsQuantity: 1
-  _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
-  _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
   _move: 0.2
   _verSpeed: 3
   _groundLayer:

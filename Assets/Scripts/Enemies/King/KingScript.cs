@@ -6,8 +6,6 @@ public class KingScript : EnemiesScript
 {
     CapsuleCollider2D _collider;
 
-    [SerializeField] float _attack2Cooldown;
-
     protected override void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -39,29 +37,6 @@ public class KingScript : EnemiesScript
         {
             Move();
         }
-    }
-
-    protected override IEnumerator Attack()
-    {
-        if (_death) yield break;
-
-        //get into attack mode
-        _rb.linearVelocityX = 0;
-        _isAttacking = 0;
-        string anim;
-        float attackCooldown;
-
-        anim = "Attack1";
-        attackCooldown = _attackCooldown;
-
-        _animator.SetTrigger(anim);
-        _animator.SetBool(Constants.IDLE_ENEMY, true);
-
-        //wait for attack cooldown
-        yield return new WaitForSeconds(attackCooldown);
-
-        _isAttacking = 1;
-
     }
 
     protected override IEnumerator Hit()
