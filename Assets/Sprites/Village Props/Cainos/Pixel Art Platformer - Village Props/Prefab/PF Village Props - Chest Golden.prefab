@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 6930122694965717509}
   - component: {fileID: 6491913702539827632}
   - component: {fileID: -6481186291204602604}
+  - component: {fileID: 2911564140376827967}
   m_Layer: 0
   m_Name: PF Village Props - Chest Golden
   m_TagString: Untagged
@@ -155,4 +156,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564a40ab997e88549a733c999c980526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
+  _valuePerRevengePoint: 5
+  _revengePointsQuantity: 4
   animator: {fileID: 6491913702539827632}
+--- !u!70 &2911564140376827967
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6930122694965717508}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 2039
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.025374517, y: 0.8517478}
+  m_Size: {x: 5.12008, y: 1.7528635}
+  m_Direction: 1
