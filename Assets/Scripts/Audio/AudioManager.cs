@@ -14,8 +14,10 @@ public class AudioManager : MonoBehaviour
 
     public void TocarSFX(int index)
     {
-        print(efeitos[index].name);
-        sfx.PlayOneShot(efeitos[index]);
+        if(efeitos.Length - 1 >= index) {
+            print(efeitos[index].name);
+            sfx.PlayOneShot(efeitos[index]);
+        }
     }
 
 

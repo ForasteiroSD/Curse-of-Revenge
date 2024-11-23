@@ -14,11 +14,10 @@ public class Adventurer : MonoBehaviour
 {
     //Player Variables
     [SerializeField] public float life = 20;
-    public AudioManager SFXManager;
+    public AudioManager SFXManager { get; set; }
     private float _maxLife;
     private CapsuleCollider2D _playerCollider;
     public bool _isDead { get; private set; } = false;
-    [SerializeField] public float life = 20;
 
     //Controls
     [SerializeField] private float _analogDeadZone = .3f;
@@ -106,6 +105,9 @@ public class Adventurer : MonoBehaviour
     void Awake()
     {
         //Get Elements
+        SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+
+        //Get UI Elements
         GameObject colldownsUI = GameObject.Find("Cooldowns");
         GameObject specialAttackUI = colldownsUI.transform.Find("SpecialAttack").gameObject;
         GameObject healPotionUI = colldownsUI.transform.Find("HealPotion").gameObject;
