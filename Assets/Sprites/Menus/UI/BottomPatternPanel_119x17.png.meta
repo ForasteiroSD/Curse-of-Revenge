@@ -108,10 +108,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 119
+        width: 44
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -120,6 +120,50 @@ TextureImporter:
       bones: []
       spriteID: 429c194494fa12fe0800000000000000
       internalID: -1215497695195444956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BottomPatternPanel_119x17_1
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 0
+        width: 44
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc1f790621f9c324bbf573fb98d3bcdc
+      internalID: -6839145013646411171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BottomPatternPanel_119x17_2
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 2
+        width: 27
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ed21d383274b284daee36f3fbc7ccc0
+      internalID: -555647462
       vertices: []
       indices: 
       edges: []
@@ -140,6 +184,7 @@ TextureImporter:
     nameFileIdTable:
       BottomPatternPanel_119x17_0: -1215497695195444956
       BottomPatternPanel_119x17_1: -6839145013646411171
+      BottomPatternPanel_119x17_2: -555647462
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

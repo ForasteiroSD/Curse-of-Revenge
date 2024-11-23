@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -9,23 +10,28 @@ public class ScoreUI : MonoBehaviour
     float _revengeFontSize;
     Color _revengeFontColor;
     int _currentScore;
+    private bool _isScaling = false;
+    private Animator _animator;
     
     private void Awake()
     {
         _revengeText = GetComponent<TextMeshProUGUI>();
+        _animator = GetComponent<Animator>();
         _revengeFontSize = _revengeText.fontSize;
         _revengeFontColor = _revengeText.color;
     }
 
-    public async void  UpdateScore(int value)
+    public void  UpdateScore(int value)
     {
         _currentScore += value;
         _revengeText.text = $"{_currentScore.ToString("D4")}";
-        _revengeText.color = Color.yellow;
-        _revengeText.fontSize = _revengeFontSize * 1.1f;
-        await Task.Delay(500);
-        _revengeText.fontSize = _revengeFontSize;
-        _revengeText.color = _revengeFontColor;
-        
+        if(!_isScaling) {
+            _isScaling = true;
+            _animator.SetTrigger("GetPoint");
+        }
+    }
+
+    private void FinishAnimation() {
+        _isScaling = false;
     }
 }

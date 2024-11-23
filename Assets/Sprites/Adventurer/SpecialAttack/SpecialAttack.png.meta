@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 9857bd450a06c0543815275fa6715cda
+guid: 0deef690677a8ef4f939c539f33dac0d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 566513498488786285
-    second: TopPatternBG_116x67_0
+      213: 7117094784649661573
+    second: SpecialAttack_0
   - first:
-      213: -6251755295980627755
-    second: TopPatternBG_116x67_1
+      213: -7176108868762451826
+    second: SpecialAttack_1
   - first:
-      213: -4398948527504115278
-    second: TopPatternBG_116x67_2
+      213: -54158711721284132
+    second: SpecialAttack_2
   - first:
-      213: 242414721397739274
-    second: TopPatternBG_116x67_3
+      213: -8186174842249578565
+    second: SpecialAttack_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,45 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TopPatternBG_116x67_0
+      name: SpecialAttack_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 110
-        height: 67
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d6d43ed7609acd700800000000000000
-      internalID: 566513498488786285
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TopPatternBG_116x67_1
-      rect:
-        serializedVersion: 2
-        x: 114
-        y: 0
-        width: 110
-        height: 67
+        width: 29
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 880e3e8a0af5e094fb124e255b6374bb
-      internalID: -6251755295980627755
+      spriteID: 58c04d7affff4c260800000000000000
+      internalID: 7117094784649661573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpecialAttack_1
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 0
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8042e72107596c90800000000000000
+      internalID: -7176108868762451826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpecialAttack_2
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 0
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdd2c5a40f69f3ff0800000000000000
+      internalID: -54158711721284132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpecialAttack_3
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 0
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb7797a6a5dd46e80800000000000000
+      internalID: -8186174842249578565
       vertices: []
       indices: 
       edges: []
@@ -156,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: fea219401ac79ac4ba51add1bc3301e5
     internalID: 0
     vertices: []
     indices: 
@@ -166,11 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TopPatternBG_116x67_0: 566513498488786285
-      TopPatternBG_116x67_1: -6251755295980627755
-      TopPatternBG_116x67_2: -4398948527504115278
-      TopPatternBG_116x67_3: 242414721397739274
-      TopPatternBG_116x67_4: 1202550643
+      SpecialAttack_0: 7117094784649661573
+      SpecialAttack_1: -7176108868762451826
+      SpecialAttack_2: -54158711721284132
+      SpecialAttack_3: -8186174842249578565
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

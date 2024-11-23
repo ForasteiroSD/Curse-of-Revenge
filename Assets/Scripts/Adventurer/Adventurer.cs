@@ -81,6 +81,7 @@ public class Adventurer : MonoBehaviour
     private float _lastSpecialAttackTime = -10;
     private Image _specialAttackBackgroundUI;
     private Image _specialAttackIconUI;
+    private Image _specialAttackCommandUI;
     private TextMeshProUGUI _specialAttackTextUI;
     private bool _canUseSpecialAttack = true;
     public bool _isUsingSpecialAttack { get; private set; } = false;
@@ -93,10 +94,11 @@ public class Adventurer : MonoBehaviour
     private bool _isHealing = false;
     private Image _healPotionBackgroundUI;
     private Image _healPotionIconUI;
+    private Image _healPotionCommandUI;
     private Animator _healPotionAnimator;
     [SerializeField] private int _haelLifeAmount = 5;
 
-    private PauseScript _pause;
+    public PauseScript _pause { get; private set; }
 
     void Awake()
     {
@@ -107,10 +109,12 @@ public class Adventurer : MonoBehaviour
 
         _specialAttackBackgroundUI = specialAttackUI.transform.Find("Background").GetComponent<Image>();
         _specialAttackIconUI = specialAttackUI.transform.Find("Icon").GetComponent<Image>();
+        _specialAttackCommandUI = specialAttackUI.transform.Find("Control").GetComponent<Image>();
         _specialAttackTextUI = specialAttackUI.transform.Find("Time").GetComponent<TextMeshProUGUI>();
 
         _healPotionBackgroundUI = healPotionUI.transform.Find("Background").GetComponent<Image>();
         _healPotionIconUI = healPotionUI.transform.Find("Icon").GetComponent<Image>();
+        _healPotionCommandUI = healPotionUI.transform.Find("Control").GetComponent<Image>();
         _healPotionAnimator = healPotionUI.transform.Find("Icon").GetComponent<Animator>();
 
         //Get Components
@@ -269,7 +273,7 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnSpecialAttack() {
-        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && _canUseSpecialAttack) {
+        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && !_pause.isPaused && _canUseSpecialAttack) {
             _lastSpecialAttackTime = Time.time;
             _rb.linearVelocityX = 0;
             _isUsingSpecialAttack = true;
@@ -279,7 +283,7 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnHeal() {
-        if(_healPotionsLeft > 0 && life != _maxLife && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isJumping && !_isUsingSpecialAttack && !_isHealing) {
+        if(_healPotionsLeft > 0 && life != _maxLife && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isJumping && !_isUsingSpecialAttack && !_pause.isPaused && !_isHealing) {
             //Setting correct values for variables
             _healPotionsLeft--;
             _canMove = false;
@@ -289,6 +293,7 @@ public class Adventurer : MonoBehaviour
             //Setting UI
             _healPotionAnimator.SetInteger("PotionsLeft", _healPotionsLeft);
             if(_healPotionsLeft == 0) {
+                _healPotionCommandUI.color = new Color32(136,136,136,255);
                 _healPotionBackgroundUI.color = new Color32(136,136,136,255);
                 _healPotionIconUI.color = new Color32(136,136,136,255);
             }
@@ -386,16 +391,18 @@ public class Adventurer : MonoBehaviour
 
         int time = _specialAttackCooldown;
         _specialAttackTextUI.text = Convert.ToString(_specialAttackCooldown);
+        _specialAttackCommandUI.color = new Color32(136,136,136,255);
         _specialAttackBackgroundUI.color = new Color32(136,136,136,255);
         _specialAttackIconUI.color = new Color32(136,136,136,255);
 
         while(time != 0) {
             _specialAttackTextUI.enabled = true;
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSeconds(1);
             _specialAttackTextUI.text = Convert.ToString(--time);
         }
         
-        _specialAttackBackgroundUI.color = new Color32(255,255,255,255);
+        _specialAttackCommandUI.color = new Color32(226,201,165,255);
+        _specialAttackBackgroundUI.color = new Color32(255,219,187,255);
         _specialAttackIconUI.color = new Color32(255,255,255,255);
         _specialAttackTextUI.enabled = false;
         _canUseSpecialAttack = true;
