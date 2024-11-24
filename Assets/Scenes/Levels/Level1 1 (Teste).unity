@@ -25998,8 +25998,12 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: _lastPattern
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _upperPatterns.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: '_upperPatterns.Array.data[0]'
@@ -26025,6 +26029,10 @@ PrefabInstance:
       propertyPath: '_upperPatterns.Array.data[5]'
       value: 
       objectReference: {fileID: 2736146572052352567, guid: 86edc55a5ff974a4d95e01babca3dba6, type: 3}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: '_upperPatterns.Array.data[6]'
+      value: 
+      objectReference: {fileID: 3209448992099232610, guid: 7af43302f9bcf6b4bbc77fbed06edeb1, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _descendingPatterns.Array.size
       value: 4
