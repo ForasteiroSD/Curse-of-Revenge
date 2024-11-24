@@ -4,7 +4,7 @@ public class MovingPlatform : MonoBehaviour
 {
     [SerializeField] private Transform[] waypoints; // Pontos de movimento
     [SerializeField] private float speed = 2f; // Velocidade de movimento
-    [SerializeField] private float checkDistance = 0.1f; // Distância mínima para trocar de waypoint
+    [SerializeField] private float checkDistance = 0.05f; // Distância mínima para trocar de waypoint
     [SerializeField] private float movementOffset = 0f; // Offset inicial (em segundos)
 
     private Transform targetWaypoint; // Próximo ponto
