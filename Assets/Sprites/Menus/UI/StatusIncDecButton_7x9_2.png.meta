@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 195a250513a9d154d8b200652e5375b1
+guid: 7772a90304741084c94e319b2da7a32a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8434124247007698823
-    second: StatusIncDecButton_7x9_0
+      213: -1584028387463873918
+    second: StatusIncDecButton_7x9_2_0
+  - first:
+      213: 8679910088991847829
+    second: StatusIncDecButton_7x9_2_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +103,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StatusIncDecButton_7x9_0
+      name: StatusIncDecButton_7x9_2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 7
+        width: 9
         height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -115,30 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78f176611570c0570800000000000000
-      internalID: 8434124247007698823
+      spriteID: 28ab41bf296640ae0800000000000000
+      internalID: -1584028387463873918
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StatusIncDecButton_7x9_1
+      name: StatusIncDecButton_7x9_2_1
       rect:
         serializedVersion: 2
-        x: 7
+        x: 10
         y: 0
-        width: 7
+        width: 9
         height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 303097aa26178e441a26f80b308c027d
-      internalID: -1179216221
+      spriteID: 59530b0ec3c357870800000000000000
+      internalID: 8679910088991847829
       vertices: []
       indices: 
       edges: []
@@ -147,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6f92fe6ef34883f4f85b2c91a1011f62
+    spriteID: 79fc868f64845b149935a502ebdbfc63
     internalID: 0
     vertices: []
     indices: 
@@ -157,8 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      StatusIncDecButton_7x9_0: 8434124247007698823
-      StatusIncDecButton_7x9_1: -1179216221
+      StatusIncDecButton_7x9_2_0: -1584028387463873918
+      StatusIncDecButton_7x9_2_1: 8679910088991847829
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

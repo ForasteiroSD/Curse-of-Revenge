@@ -20,7 +20,7 @@ public class Adventurer_Attack : MonoBehaviour
     [SerializeField] private float _preAttackTimeLimit = .2f;
     [SerializeField] private float _attackCooldown = .1f;
     [SerializeField] private float _maxKeepComboTime = .5f;
-    [SerializeField] private float[] _attackDamage;
+    [SerializeField] private float _attackDamage;
 
     private void Awake()
     {
@@ -82,10 +82,12 @@ public class Adventurer_Attack : MonoBehaviour
             EnemiesScript script = collision.gameObject.GetComponent<EnemiesScript>();
             if(script)
             {
-                script.GetHit(_attackDamage[_attackCounter-1]);
+                if(_attackCounter < 3) script.GetHit(_attackDamage);
+                else  script.GetHit(_attackDamage + 2);
             } else
             {
-                collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage[_attackCounter-1]);
+                if(_attackCounter < 3) collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage);
+                else collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage + 2);
             }
             
         }
