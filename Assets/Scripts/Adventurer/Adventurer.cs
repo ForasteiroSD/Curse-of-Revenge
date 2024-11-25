@@ -365,8 +365,9 @@ public class Adventurer : MonoBehaviour
         _maxFallingSpeed = _originalFallingSpeed;
         _animator.SetTrigger(Constants.ANIM_DIE);
         SFXManager.TocarSFX(3);
+        FindFirstObjectByType<GameManager>().SaveGame();
         yield return new WaitForSecondsRealtime(1.5f);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Upgrade");
     }
 
     IEnumerator WallJump(float jumpForce)

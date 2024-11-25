@@ -6,7 +6,8 @@ public class GameData {
     public int _lifeUpgradeLevel { get; private set; }
     public int _healBottlesUpgradeLevel { get; private set; }
     public int _healAmountUpgradeLevel { get; private set; }
-    public int _DamageUpgradeLevel { get; private set; }
+    public int _damageUpgradeLevel { get; private set; }
+    public int _specialDamageUpgradeLevel { get; private set; }
     public int _specialCooldownUpgradeLevel { get; private set; }
 
     //General
@@ -16,7 +17,8 @@ public class GameData {
         _lifeUpgradeLevel = gameManager._lifeUpgradeLevel;
         _healBottlesUpgradeLevel = gameManager._healBottlesUpgradeLevel;
         _healAmountUpgradeLevel = gameManager._healAmountUpgradeLevel;
-        _DamageUpgradeLevel = gameManager._DamageUpgradeLevel;
+        _damageUpgradeLevel = gameManager._damageUpgradeLevel;
+        _specialDamageUpgradeLevel = gameManager._specialDamageUpgradeLevel;
         _specialCooldownUpgradeLevel = gameManager._specialCooldownUpgradeLevel;
         _revengePointsAmount = gameManager._revengePointsAmount;
     }

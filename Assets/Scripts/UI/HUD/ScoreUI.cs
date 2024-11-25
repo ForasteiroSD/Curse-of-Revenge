@@ -13,8 +13,9 @@ public class ScoreUI : MonoBehaviour
     private bool _isScaling = false;
     private Animator _animator;
     
-    private void Awake()
+    private void Start()
     {
+        _currentScore = FindFirstObjectByType<GameManager>()._revengePointsAmount;
         _revengeText = GetComponent<TextMeshProUGUI>();
         _animator = GetComponent<Animator>();
         _revengeFontSize = _revengeText.fontSize;

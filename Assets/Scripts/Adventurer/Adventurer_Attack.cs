@@ -20,7 +20,7 @@ public class Adventurer_Attack : MonoBehaviour
     [SerializeField] private float _preAttackTimeLimit = .2f;
     [SerializeField] private float _attackCooldown = .1f;
     [SerializeField] private float _maxKeepComboTime = .5f;
-    [SerializeField] private float _attackDamage;
+    private float _attackDamage = 1;
 
     private void Awake()
     {
