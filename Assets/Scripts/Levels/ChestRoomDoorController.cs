@@ -30,6 +30,11 @@ public class ChestRoomDoorController : MonoBehaviour
 
     IEnumerator OpenDoor()
     {
+
+        yield return new WaitForSeconds(1.5f);
+        
+        _enemies.GetComponent<Animator>().enabled = false;
+
         while (_enemies.GetComponentInChildren<EnemiesScript>() != null)
         {
             yield return new WaitForSecondsRealtime(1);
