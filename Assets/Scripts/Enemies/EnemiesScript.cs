@@ -35,7 +35,7 @@ public class EnemiesScript : MonoBehaviour
     protected bool _isChasing = false;
     protected int _isAttacking = 1;
     protected bool _hit = false;
-    protected bool _death = false;
+    public bool _death = false;
     protected bool _isOnBorder = false;
     protected bool _attackedOnBorder = false;
 

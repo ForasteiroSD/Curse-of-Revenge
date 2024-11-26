@@ -5,6 +5,7 @@ public class ChestRoomDoorController : MonoBehaviour
 {
     [SerializeField] GameObject _door;
     [SerializeField] GameObject _enemies;
+    [SerializeField] GameObject _chest;
     BoxCollider2D _collider;
 
     void Awake()
@@ -26,16 +27,34 @@ public class ChestRoomDoorController : MonoBehaviour
             _door.GetComponent<Animator>().SetTrigger("Close");
             StartCoroutine(OpenDoor());
         }
+        else
+        {
+            _chest.GetComponent<CapsuleCollider2D>().enabled = true;
+        }
     }
 
     IEnumerator OpenDoor()
     {
-        while (_enemies.GetComponentInChildren<EnemiesScript>() != null)
+
+        yield return new WaitForSeconds(1.5f);
+        
+        _enemies.GetComponent<Animator>().enabled = false;
+
+        int count;
+        while (true)
         {
+            count = 0;
+            EnemiesScript[] enemies = _enemies.GetComponentsInChildren<EnemiesScript>();
+            foreach (EnemiesScript enemy in enemies)
+            {
+                if(enemy._death) count++;
+            }
+            if(count == enemies.Length) break;
             yield return new WaitForSecondsRealtime(1);
         }
 
         _door.GetComponent<Animator>().SetTrigger("Open");
+        _chest.GetComponent<CapsuleCollider2D>().enabled = true;
 
         yield return new WaitForSecondsRealtime(4f);
 

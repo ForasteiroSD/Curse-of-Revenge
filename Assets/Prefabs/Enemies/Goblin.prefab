@@ -410,7 +410,8 @@ MonoBehaviour:
   _minChasePos: {fileID: 7017936966626344396}
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
-  _health: 20
+  indexSFX: 4
+  _health: 8
   _horSpeed: 2.8
   _idleTime: 2
   _chaseSpeedMultiplier: 1.1
@@ -419,11 +420,12 @@ MonoBehaviour:
   _attackDamage: 1
   _damageReceivedMult: 0.8
   _hitDelay: 1
-  _valuePerRevengePoint: 1
-  _revengePointsQuantity: 1
+  _valuePerRevengePoint: 3
+  _revengePointsQuantity: 2
   _move: 0.2
+  _death: 0
   _bombPrefab: {fileID: 3087662239644258542, guid: 90ecf00265a2b4044a103a283cbacc00, type: 3}
-  _bombDamage: 10
+  _bombDamage: 6
   _bombCooldown: 0.5
   _distanceToUseBomb: 10
   _bombForce: {x: 7.5, y: 3}

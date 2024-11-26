@@ -473,6 +473,7 @@ MonoBehaviour:
   _minChasePos: {fileID: 750554656073840421}
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
+  indexSFX: 4
   _health: 2
   _horSpeed: 2.5
   _idleTime: 2
@@ -490,7 +491,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _flyHeightPos: {fileID: 1944374084806312873}
-  _unitsToMove: 10
 --- !u!1 &8240468170109290860
 GameObject:
   m_ObjectHideFlags: 0

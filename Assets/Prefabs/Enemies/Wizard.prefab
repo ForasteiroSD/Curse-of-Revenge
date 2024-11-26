@@ -343,18 +343,20 @@ MonoBehaviour:
   _minChasePos: {fileID: 5199319503497574176}
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
-  _health: 20
+  indexSFX: 4
+  _health: 14
   _horSpeed: 4.33
   _idleTime: 2
   _chaseSpeedMultiplier: 1.1
   _attackDistance: 3
   _attackCooldown: 1.5
-  _attackDamage: 1
+  _attackDamage: 3
   _damageReceivedMult: 0.8
   _hitDelay: 1.5
-  _valuePerRevengePoint: 1
-  _revengePointsQuantity: 1
+  _valuePerRevengePoint: 4
+  _revengePointsQuantity: 2
   _move: 0.2
+  _death: 0
 --- !u!1 &4197635397150675249
 GameObject:
   m_ObjectHideFlags: 0
