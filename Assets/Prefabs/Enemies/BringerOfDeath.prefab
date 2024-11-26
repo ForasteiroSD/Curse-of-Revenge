@@ -409,8 +409,8 @@ MonoBehaviour:
   _deathEffect: {fileID: 3116781963016949925, guid: c82e31d277f76804fa155a6a2221d796, type: 3}
   _sequencialEffect: {fileID: 2469981250760493540, guid: cd81ae40f8110b54a8f7e423180a5854, type: 3}
   _middleArena: {fileID: 4357681693580106042}
-  _valuePerRevengePoint: 1
-  _revengePointsQuantity: 1
+  _valuePerRevengePoint: 10
+  _revengePointsQuantity: 8
   _horSpeed: 2
   _chaseSpeedMultiplier: 1.1
   _attackDistance: 2.5
@@ -419,11 +419,11 @@ MonoBehaviour:
   _teleportDelay: 1
   _minDist: 10
   _damageReceivedMult: 0.8
-  _health: 1
+  _health: 250
   _hitDelay: 1
   _attackDamages:
+  - 3
   - 5
-  - 7
   _dodgeChange: 0.2
   _spellsTypes:
   - {fileID: 863510054191176158, guid: 3afd607652828214da63a14b18824bef, type: 3}

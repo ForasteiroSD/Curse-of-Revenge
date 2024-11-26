@@ -406,8 +406,8 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  _valuePerRevengePoint: 1
-  _revengePointsQuantity: 1
+  _valuePerRevengePoint: 15
+  _revengePointsQuantity: 10
   _horSpeed: 5.5
   _chaseSpeedMultiplier: 1.1
   _attackDistance: 2
@@ -417,13 +417,13 @@ MonoBehaviour:
   _airAttackJumpForce: 12
   _rollingForce: 12
   _damageReceivedMult: 0.8
-  _health: 10000
+  _health: 350
   _hitDelay: 1
   _attackDamages:
   - 1
   - 2
-  - 3
-  - 15
+  - 5
+  - 8
   - 2
-  _dodgeChange: 0.3
+  _dodgeChange: 0.2
   _maxDeffendCount: 2

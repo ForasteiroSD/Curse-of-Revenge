@@ -7794,7 +7794,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -7821,12 +7821,12 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 99d0aa65f9d538b4f8906b33577a1626, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: -5550425257526537226, guid: fe01d5c53b41b8c44b9366946a4352ce, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -3352285371118752542, guid: fe01d5c53b41b8c44b9366946a4352ce, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -3352285371118752542, guid: fe01d5c53b41b8c44b9366946a4352ce, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -5550425257526537226, guid: fe01d5c53b41b8c44b9366946a4352ce, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -7561765283760099015, guid: fe01d5c53b41b8c44b9366946a4352ce, type: 3}
   m_TileMatrixArray:
@@ -8046,6 +8046,14 @@ PrefabInstance:
     - target: {fileID: 6930122694965717509, guid: 7f2681b23c23afc4fbb43c6dca9f41f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171357953964607655, guid: 7f2681b23c23afc4fbb43c6dca9f41f9, type: 3}
+      propertyPath: _valuePerRevengePoint
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171357953964607655, guid: 7f2681b23c23afc4fbb43c6dca9f41f9, type: 3}
+      propertyPath: _revengePointsQuantity
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
