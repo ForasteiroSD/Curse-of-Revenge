@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cainos.LucidEditor;
+using Utils;
 
 namespace Cainos.PixelArtPlatformer_VillageProps
 {
@@ -21,7 +22,6 @@ namespace Cainos.PixelArtPlatformer_VillageProps
             {
                 isOpened = value;
                 animator.SetBool("IsOpened", isOpened);
-                DropRevengePoints();
             }
         }
 
@@ -41,8 +41,8 @@ namespace Cainos.PixelArtPlatformer_VillageProps
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            GetComponent<CapsuleCollider2D>().enabled = false;
-            IsOpened = true;
+                GetComponent<CapsuleCollider2D>().enabled = false;
+                IsOpened = true;
         }
 
         //called by open animation
