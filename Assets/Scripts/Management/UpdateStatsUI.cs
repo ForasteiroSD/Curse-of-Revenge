@@ -17,7 +17,7 @@ public class UpdateStatsUI : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _revengePointsText;
     private GameManager _gameMenager;
 
-    private void Start() {
+    private void Awake() {
         //Getting Scripts
         _gameMenager = FindFirstObjectByType<GameManager>();
 
@@ -43,6 +43,12 @@ public class UpdateStatsUI : MonoBehaviour {
         else SetMaxLevel(_specialDamageText, _specialDamagePriceText);
         if(_gameMenager._specialCooldownUpgradeLevel < _gameMenager._specialCooldownPrices.Length) _specialCooldownPriceText.text = _gameMenager._specialCooldownPrices[_gameMenager._specialCooldownUpgradeLevel].ToString("000");
         else SetMaxLevel(_specialCooldownText, _specialCooldownPriceText);
+
+        // Updating locked habilities
+        if(_gameMenager._healBottlesUpgradeLevel > 0) {
+            GameObject.Find("Buttons").transform.Find("Regen").gameObject.SetActive(true);
+            GameObject.Find("Regen-Locked").SetActive(false);
+        }
     }
 
     private void SetMaxLevel(TextMeshProUGUI level, TextMeshProUGUI price) {

@@ -22,11 +22,18 @@ public class Adventurer_Attack : MonoBehaviour
     [SerializeField] private float _maxKeepComboTime = .5f;
     private float _attackDamage = 1;
 
+    //Stats
+    private int _damageUpgradeLevel;
+
     private void Awake()
     {
         _animator = GetComponentInParent<Animator>();
         _adventurer = GetComponentInParent<Adventurer>();
         _rb = GetComponentInParent<Rigidbody2D>();
+    }
+
+    private void Start() {
+        _damageUpgradeLevel = FindFirstObjectByType<GameManager>()._damageUpgradeLevel;
     }
 
     private void FixedUpdate()
@@ -82,12 +89,12 @@ public class Adventurer_Attack : MonoBehaviour
             EnemiesScript script = collision.gameObject.GetComponent<EnemiesScript>();
             if(script)
             {
-                if(_attackCounter < 3) script.GetHit(_attackDamage);
-                else  script.GetHit(_attackDamage + 2);
+                if(_attackCounter < 3) script.GetHit(_attackDamage + _damageUpgradeLevel);
+                else  script.GetHit(_attackDamage + _damageUpgradeLevel + 2);
             } else
             {
-                if(_attackCounter < 3) collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage);
-                else collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage + 2);
+                if(_attackCounter < 3) collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage + _damageUpgradeLevel);
+                else collision.gameObject.GetComponent<BossScript>().GetHit(_attackDamage + _damageUpgradeLevel + 2);
             }
             
         }

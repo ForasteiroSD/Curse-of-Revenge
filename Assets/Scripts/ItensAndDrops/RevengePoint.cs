@@ -19,8 +19,10 @@ public class RevengePoint : MonoBehaviour
         if (collider.CompareTag(Constants.TAG_PLAYER))
         {
             SFXManager.TocarSFX(13);
-            FindFirstObjectByType<GameManager>()._revengePointsAmount += value;
-            FindAnyObjectByType<ScoreUI>().UpdateScore(value);
+            GameManager gameManager = FindFirstObjectByType<GameManager>();
+            int newValue = Mathf.Min(9999, gameManager._revengePointsAmount + value);
+            gameManager._revengePointsAmount = newValue;
+            FindAnyObjectByType<ScoreUI>().UpdateScore(newValue);
             Destroy(gameObject);
         }
     }

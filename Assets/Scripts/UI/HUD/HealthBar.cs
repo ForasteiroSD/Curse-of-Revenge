@@ -6,6 +6,7 @@ public class HealthBar : MonoBehaviour
     public Slider RedBarSlider;
     public Slider YellowBarSlider;
     public Adventurer adventurer;
+    private float _playerMaxLife;
 
     [SerializeField] public float lerpSpeed;
     
@@ -14,10 +15,11 @@ public class HealthBar : MonoBehaviour
     {
         // Pegando vida máxima do player
         adventurer = FindFirstObjectByType<Adventurer>();
-        RedBarSlider.maxValue = adventurer.life;
-        YellowBarSlider.maxValue = adventurer.life;
-        RedBarSlider.value = adventurer.life;
-        YellowBarSlider.value = adventurer.life;
+        _playerMaxLife = adventurer._maxLife;
+        RedBarSlider.maxValue = _playerMaxLife;
+        YellowBarSlider.maxValue = _playerMaxLife;
+        RedBarSlider.value = _playerMaxLife;
+        YellowBarSlider.value = _playerMaxLife;
     }
     
     // Update is called once per frame

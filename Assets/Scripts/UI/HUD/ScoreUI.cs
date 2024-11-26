@@ -24,7 +24,7 @@ public class ScoreUI : MonoBehaviour
 
     public void  UpdateScore(int value)
     {
-        _currentScore += value;
+        _currentScore = value;
         _revengeText.text = $"{_currentScore.ToString("D4")}";
         if(!_isScaling) {
             _isScaling = true;

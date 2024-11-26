@@ -12,10 +12,13 @@ using UnityEngine.Audio;
 
 public class Adventurer : MonoBehaviour
 {
+    //Management
+    private GameManager _gameManager;
+
     //Player Variables
-    [SerializeField] public float life = 20;
+    public float life;
     public AudioManager SFXManager { get; set; }
-    private float _maxLife;
+    public float _maxLife { get; private set; } = 3;
     private CapsuleCollider2D _playerCollider;
     public bool _isDead { get; private set; } = false;
 
@@ -91,14 +94,21 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private GameObject _specialAttack;
 
     //Heal
-    private int _maxHealPotions = 3;
+    private int _maxHealPotions;
     private int _healPotionsLeft;
     private bool _isHealing = false;
     private Image _healPotionBackgroundUI;
     private Image _healPotionIconUI;
     private Image _healPotionCommandUI;
     private Animator _healPotionAnimator;
-    [SerializeField] private int _haelLifeAmount = 5;
+    private int _haelLifeAmount = 5;
+
+    //Stats
+    private int _lifeUpgradeLevel;
+    private int _healBottlesUpgradeLevel;
+    private int _healAmountUpgradeLevel;
+    private int _specialCooldownUpgradeLevel;
+    [SerializeField] private int _lifeSizeIncreasePerPoint = 40;
 
     public PauseScript _pause { get; private set; }
 
@@ -106,6 +116,7 @@ public class Adventurer : MonoBehaviour
     {
         //Get Elements
         SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        _gameManager = FindFirstObjectByType<GameManager>();
 
         //Get UI Elements
         GameObject colldownsUI = GameObject.Find("Cooldowns");
@@ -132,15 +143,42 @@ public class Adventurer : MonoBehaviour
         _fallGravityScale = _gravityScale * _fallGravityScaleMultiplier;
         _rb.gravityScale = _fallGravityScale;
 
+        //Getting stats
+        _lifeUpgradeLevel = _gameManager._lifeUpgradeLevel;
+        _healBottlesUpgradeLevel = _gameManager._healBottlesUpgradeLevel;
+        _healAmountUpgradeLevel = _gameManager._healAmountUpgradeLevel;
+        _specialCooldownUpgradeLevel = _gameManager._specialCooldownUpgradeLevel;
+
         //Set original variables values
         _originalFallingSpeed = _maxFallingSpeed;
         _originalMoveSpeed = _moveSpeed;
-        _maxLife = life;
         _healPotionsLeft = _maxHealPotions;
+        _maxLife += _lifeUpgradeLevel;
+        life = _maxLife;
+        _maxHealPotions = _healBottlesUpgradeLevel;
+        _healPotionsLeft = _maxHealPotions;
+        _haelLifeAmount += _healAmountUpgradeLevel;
 
         //Get Hierarchy Elements
         _cameraController = FindFirstObjectByType<CameraController>();
         _pause = FindFirstObjectByType<PauseScript>();
+    }
+
+    private void Start() {
+        //Setting UI hability icons (if it is locked or unlocked)
+        if(_maxHealPotions > 0) GameObject.Find("HealPotion_Locked").SetActive(false);
+        
+        //Setting UI Life size
+        Transform healthBar = GameObject.Find("HealthBar").transform;
+        RectTransform back = healthBar.Find("Back").GetComponent<RectTransform>();
+        RectTransform redLife = healthBar.Find("RedBar").GetComponent<RectTransform>();
+        RectTransform yellowLife = healthBar.Find("YellowBar").GetComponent<RectTransform>();
+        RectTransform frame = healthBar.Find("Frame").GetComponent<RectTransform>();
+        float increseAmount = _lifeSizeIncreasePerPoint * _lifeUpgradeLevel;
+        back.sizeDelta = new Vector2(back.sizeDelta[0] + increseAmount, back.sizeDelta[1]);
+        redLife.sizeDelta = new Vector2(redLife.sizeDelta[0] + increseAmount, redLife.sizeDelta[1]);
+        yellowLife.sizeDelta = new Vector2(yellowLife.sizeDelta[0] + increseAmount, yellowLife.sizeDelta[1]);
+        frame.sizeDelta = new Vector2(frame.sizeDelta[0] + increseAmount, frame.sizeDelta[1]);
     }
 
     void FixedUpdate()
@@ -278,7 +316,7 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnSpecialAttack() {
-        if(Time.time >= _lastSpecialAttackTime + _specialAttackCooldown && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && !_pause.isPaused && _canUseSpecialAttack) {
+        if((Time.time >= _lastSpecialAttackTime + _specialAttackCooldown - _specialCooldownUpgradeLevel) && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && !_pause.isPaused && _canUseSpecialAttack) {
             _lastSpecialAttackTime = Time.time;
             SFXManager.TocarSFX(2);
             _rb.linearVelocityX = 0;
@@ -297,7 +335,8 @@ public class Adventurer : MonoBehaviour
             _rb.linearVelocityX = 0; //Stop moving
 
             //Setting UI
-            _healPotionAnimator.SetInteger("PotionsLeft", _healPotionsLeft);
+            print("Amount left: " + _healPotionsLeft/_maxHealPotions);
+            _healPotionAnimator.SetFloat("AmountLeft", (float) _healPotionsLeft/_maxHealPotions);
             if(_healPotionsLeft == 0) {
                 _healPotionCommandUI.color = new Color32(136,136,136,255);
                 _healPotionBackgroundUI.color = new Color32(136,136,136,255);
@@ -397,8 +436,8 @@ public class Adventurer : MonoBehaviour
     IEnumerator SpecialAttackCooldown() {
         _canUseSpecialAttack = false;
 
-        int time = _specialAttackCooldown;
-        _specialAttackTextUI.text = Convert.ToString(_specialAttackCooldown);
+        int time = _specialAttackCooldown - _specialCooldownUpgradeLevel;
+        _specialAttackTextUI.text = Convert.ToString(time);
         _specialAttackCommandUI.color = new Color32(136,136,136,255);
         _specialAttackBackgroundUI.color = new Color32(136,136,136,255);
         _specialAttackIconUI.color = new Color32(136,136,136,255);

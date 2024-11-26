@@ -12,14 +12,14 @@ public class GameManager : MonoBehaviour {
     public int _specialDamageUpgradeLevel { get; private set; } = 0;
     public int _specialCooldownUpgradeLevel { get; private set; } = 0;
     public int[] _lifePrices { get; private set; } = {25, 50, 75, 100, 150, 200, 250, 300, 350, 450, 500, 550, 600, 700, 800, 900, 999};
-    public int[] _healBottlesPrices { get; private set; } = {400, 650, 900};
+    public int[] _healBottlesPrices { get; private set; } = {400, 700, 999};
     public int[] _healAmountPrices { get; private set; } = {100, 150, 200, 250, 300, 350, 400, 500, 600, 700};
     public int[] _damagePrices { get; private set; } = {100, 200, 300, 400, 500, 600, 700, 800, 999};
     public int[] _specialDamagePrices { get; private set; } = {100, 200, 300, 400, 500, 600, 700, 800, 999};
     public int[] _specialCooldownPrices { get; private set; } = {50, 100, 250, 450, 700};
 
     //General
-    public int _revengePointsAmount { get; set; } = 0;
+    public int _revengePointsAmount { get; set; } = 9999;
 
     //Texts
     private TextMeshProUGUI level;
@@ -90,6 +90,12 @@ public class GameManager : MonoBehaviour {
 
         if(_healBottlesUpgradeLevel < _healBottlesPrices.Length && UpdateRevengePoints(_healBottlesPrices[_healBottlesUpgradeLevel])) {
             _healBottlesUpgradeLevel++;
+
+            //Unlocking Regeneration upgrade option
+            if(_healBottlesUpgradeLevel == 1) {
+                GameObject.Find("Buttons").transform.Find("Regen").gameObject.SetActive(true);
+                GameObject.Find("Regen-Locked").SetActive(false);
+            }
 
             if(_healBottlesUpgradeLevel < _healBottlesPrices.Length) {
                 level.text = (_healBottlesUpgradeLevel).ToString();

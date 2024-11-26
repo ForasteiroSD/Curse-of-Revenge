@@ -19,6 +19,9 @@ public class Adventurer_SpecialAttack : MonoBehaviour
         Vector3 scale = transform.localScale;
         transform.localScale = new Vector3(scale.x * Mathf.Sign(_player.localScale.x), scale.y, scale.z);
         _speed *= Mathf.Sign(_player.localScale.x);
+
+        //Setting special attack upgrade level
+        _damage += FindFirstObjectByType<GameManager>()._specialDamageUpgradeLevel;
     }
 
     private void FixedUpdate() {
