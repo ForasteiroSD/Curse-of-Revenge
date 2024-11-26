@@ -98,6 +98,7 @@ public class EnemiesScript : MonoBehaviour
 
         if (_player.position.x >= _minChasePos.position.x && _player.position.x <= _maxChasePos.position.x)
         {
+            _isOnBorder = false;
             _isChasing = true;
             return;
         }
@@ -202,7 +203,6 @@ public class EnemiesScript : MonoBehaviour
         //get into attack mode
         _rb.linearVelocityX = 0;
         _isAttacking = 0;
-        SFXManager.TocarSFX(indexSFX);
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);
 
@@ -211,6 +211,11 @@ public class EnemiesScript : MonoBehaviour
 
         _isAttacking = 1;
 
+    }
+
+    void PlayAttackSound()
+    {
+        SFXManager.TocarSFX(indexSFX);
     }
 
     public void GiveDamage()

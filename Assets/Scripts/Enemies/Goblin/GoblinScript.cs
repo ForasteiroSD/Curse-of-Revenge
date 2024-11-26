@@ -20,6 +20,7 @@ public class GoblinScript : EnemiesScript
         SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
+        indexSFX = 17;
     }
 
     protected override void Chase()

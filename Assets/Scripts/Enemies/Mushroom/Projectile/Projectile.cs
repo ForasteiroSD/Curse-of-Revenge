@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] float _destroyTime;
     [SerializeField] float _moveSpeed;
     public float damage;
+    bool giveHit = false;
 
     void Awake()
     {
@@ -27,11 +28,12 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !giveHit)
         {
             if (gameObject.activeInHierarchy) {
                 _moveSpeed = 0;
                 _player.gameObject.GetComponent<Adventurer>().GetHit(damage);
+                giveHit = true;
 
                 StartCoroutine(DestroyProjectile(0));
             }
