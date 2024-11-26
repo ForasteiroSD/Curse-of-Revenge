@@ -23,7 +23,6 @@ public class MinotaurScript : EnemiesScript
         //get into attack mode
         _rb.linearVelocityX = 0;
         _isAttacking = 0;
-        SFXManager.TocarSFX(indexSFX);
 
         if(Random.Range(0, 2) == 1)
         {

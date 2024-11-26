@@ -13,6 +13,7 @@ public class KingScript : EnemiesScript
         SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
+        indexSFX = 15;
     }
 
     protected override void Update()
@@ -66,7 +67,7 @@ public class KingScript : EnemiesScript
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
 
-        yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
+        yield return new WaitForSeconds(2);
 
         DropRevengePoint();
 

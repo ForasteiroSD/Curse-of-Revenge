@@ -179,7 +179,6 @@ public class FlyingEyeScript : EnemiesScript
 
         //get into attack mode
         _rb.linearVelocityX = 0;
-        SFXManager.TocarSFX(indexSFX);
         _isAttacking = 0;
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
 
@@ -221,6 +220,7 @@ public class FlyingEyeScript : EnemiesScript
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
         _rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
+        SFXManager.TocarSFX(5);
 
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
 

@@ -309,6 +309,10 @@ public class Adventurer : MonoBehaviour
         }
     }
 
+    void PlayHealSound() {
+        SFXManager.TocarSFX(19);
+    }
+
     void MovePlayer()
     {
         if(_canMove && !_isWallJumping && !_isUsingSpecialAttack && !_isHealing && !_isDead)

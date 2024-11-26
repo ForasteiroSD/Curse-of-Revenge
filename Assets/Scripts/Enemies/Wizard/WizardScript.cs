@@ -13,6 +13,7 @@ public class WizardScript : EnemiesScript
         SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
+        indexSFX = 16;
     }
 
     protected override IEnumerator Attack()

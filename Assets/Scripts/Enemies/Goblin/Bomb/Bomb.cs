@@ -6,9 +6,11 @@ public class Bomb : MonoBehaviour
     Transform _player;
     Rigidbody2D _rb;
     public float damage;
+    protected AudioManager SFXManager;
 
     void Awake()
     {
+        SFXManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         _player = FindFirstObjectByType<Adventurer>().transform;
         _rb = GetComponent<Rigidbody2D>();
     }
@@ -16,6 +18,11 @@ public class Bomb : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, 7);
+    }
+
+    void PlayAudio()
+    {
+        SFXManager.TocarSFX(18);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
