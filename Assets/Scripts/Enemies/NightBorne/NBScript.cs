@@ -235,12 +235,20 @@ public class NBScript : EnemiesScript
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
         SFXManager.TocarSFX(11);
+        FindFirstObjectByType<GameManager>().SaveGame();
+
         yield return new WaitForSecondsRealtime(2.15f);
 
         DropRevengePoint();
 
         FindFirstObjectByType<BossRoomEntry>().RemoveWallBlocker();
         
+        yield return new WaitForSecondsRealtime(5f);
+
+        Adventurer adventurer = FindFirstObjectByType<Adventurer>();
+        if(!adventurer._slideUnlocked) adventurer.UnlockSlide();
+        FindFirstObjectByType<GameManager>().SaveGameWithoutFeedback();
+
         Destroy(transform.parent.gameObject);
     }
 

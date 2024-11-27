@@ -17,9 +17,12 @@ public class GameManager : MonoBehaviour {
     public int[] _damagePrices { get; private set; } = {100, 200, 300, 400, 500, 600, 700, 800, 999};
     public int[] _specialDamagePrices { get; private set; } = {100, 200, 300, 400, 500, 600, 700, 800, 999};
     public int[] _specialCooldownPrices { get; private set; } = {50, 100, 250, 450, 700};
+    public bool _specialAttackUnlocked { get; set; } = false;
+    public bool _slideUnlocked { get; set; } = false;
 
     //General
     public int _revengePointsAmount { get; set; } = 9999;
+    public int _level { get; set; } = 1;
 
     //Texts
     private TextMeshProUGUI level;
@@ -30,6 +33,13 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SaveGame() {
+        GameObject saveIcon = GameObject.Find("SavingICon");
+        if(saveIcon != null) saveIcon.GetComponent<Animator>().SetTrigger("Save");
+
+        SaveSystem.SaveGame(this);
+    }
+
+    public void SaveGameWithoutFeedback() {
         SaveSystem.SaveGame(this);
     }
 
@@ -45,6 +55,9 @@ public class GameManager : MonoBehaviour {
         _specialDamageUpgradeLevel = data._specialDamageUpgradeLevel;
         _specialCooldownUpgradeLevel = data._specialCooldownUpgradeLevel;
         _revengePointsAmount = data._revengePointsAmount;
+        _specialAttackUnlocked = data._specialAttackUnlocked;
+        _slideUnlocked = data._slideUnlocked;
+        _level = data._level;
     }
 
     private void FindTextElements(string name) {
@@ -162,7 +175,17 @@ public class GameManager : MonoBehaviour {
     }
 
     public void FinishUpdate() {
+        StartCoroutine(LoadLevel());
+    }
+
+    IEnumerator LoadLevel() {
+        _level = 1;
+
         SaveGame();
-        SceneManager.LoadScene("Game");
+        GameObject.Find("Ascend").GetComponent<Animator>().SetTrigger("Respawn");
+
+        yield return new WaitForSeconds(1);
+
+        SceneManager.LoadScene("Level 1");
     }
 }

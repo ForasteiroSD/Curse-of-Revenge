@@ -49,6 +49,12 @@ public class UpdateStatsUI : MonoBehaviour {
             GameObject.Find("Buttons").transform.Find("Regen").gameObject.SetActive(true);
             GameObject.Find("Regen-Locked").SetActive(false);
         }
+        if(_gameMenager._specialAttackUnlocked) {
+            GameObject.Find("Buttons").transform.Find("SpecialDamage").gameObject.SetActive(true);
+            GameObject.Find("SpecialDamage-Locked").SetActive(false);
+            GameObject.Find("Buttons").transform.Find("SpecialCooldown").gameObject.SetActive(true);
+            GameObject.Find("SpecialCooldown-Locked").SetActive(false);
+        }
     }
 
     private void SetMaxLevel(TextMeshProUGUI level, TextMeshProUGUI price) {

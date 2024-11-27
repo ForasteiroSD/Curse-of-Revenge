@@ -9,9 +9,12 @@ public class GameData {
     public int _damageUpgradeLevel { get; private set; }
     public int _specialDamageUpgradeLevel { get; private set; }
     public int _specialCooldownUpgradeLevel { get; private set; }
+    public bool _specialAttackUnlocked { get; private set; }
+    public bool _slideUnlocked { get; private set; }
 
     //General
     public int _revengePointsAmount { get; private set; }
+    public int _level { get; private set; }
 
     public GameData (GameManager gameManager) {
         _lifeUpgradeLevel = gameManager._lifeUpgradeLevel;
@@ -21,5 +24,8 @@ public class GameData {
         _specialDamageUpgradeLevel = gameManager._specialDamageUpgradeLevel;
         _specialCooldownUpgradeLevel = gameManager._specialCooldownUpgradeLevel;
         _revengePointsAmount = gameManager._revengePointsAmount;
+        _specialAttackUnlocked = gameManager._specialAttackUnlocked;
+        _slideUnlocked = gameManager._slideUnlocked;
+        _level = gameManager._level;
     }
 }

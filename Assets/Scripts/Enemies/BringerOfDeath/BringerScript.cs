@@ -406,11 +406,19 @@ public class BringerScript : BossScript
         _bringerPos.position = new Vector3(_bringerPos.position.x, _bringerPos.position.y+0.5f, _bringerPos.position.z);
         Destroy(Instantiate(_deathEffect, _bringerPos.position, Quaternion.identity), 5f);
 
+        FindFirstObjectByType<GameManager>().SaveGame();
+
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
 
         DropRevengePoint();
 
-        Destroy(transform.parent.gameObject, 3);
+        yield return new WaitForSecondsRealtime(5f);
+
+        Adventurer adventurer = FindFirstObjectByType<Adventurer>();
+        if(!adventurer._specialAttackUnlocked) adventurer.UnlockSpecialAttack();
+        FindFirstObjectByType<GameManager>().SaveGameWithoutFeedback();
+
+        Destroy(transform.parent.gameObject);
     }
 
     void DropRevengePoint()

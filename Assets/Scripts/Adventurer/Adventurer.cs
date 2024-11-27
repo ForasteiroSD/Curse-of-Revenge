@@ -14,6 +14,7 @@ public class Adventurer : MonoBehaviour
 {
     //Management
     private GameManager _gameManager;
+    private Animator _ascendingAnimator;
 
     //Player Variables
     public float life;
@@ -108,6 +109,8 @@ public class Adventurer : MonoBehaviour
     private int _healBottlesUpgradeLevel;
     private int _healAmountUpgradeLevel;
     private int _specialCooldownUpgradeLevel;
+    public bool _specialAttackUnlocked { get; private set; }
+    public bool _slideUnlocked { get; private set; }
     [SerializeField] private int _lifeSizeIncreasePerPoint = 40;
 
     public PauseScript _pause { get; private set; }
@@ -137,6 +140,7 @@ public class Adventurer : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _playerCollider = GetComponent<CapsuleCollider2D>();
+        _ascendingAnimator = GameObject.Find("AscendBackGround").GetComponent<Animator>();
         
         //Set gravity scales
         _gravityScale = _rb.gravityScale;
@@ -148,6 +152,8 @@ public class Adventurer : MonoBehaviour
         _healBottlesUpgradeLevel = _gameManager._healBottlesUpgradeLevel;
         _healAmountUpgradeLevel = _gameManager._healAmountUpgradeLevel;
         _specialCooldownUpgradeLevel = _gameManager._specialCooldownUpgradeLevel;
+        _specialAttackUnlocked = _gameManager._specialAttackUnlocked;
+        _slideUnlocked = _gameManager._slideUnlocked;
 
         //Set original variables values
         _originalFallingSpeed = _maxFallingSpeed;
@@ -167,6 +173,7 @@ public class Adventurer : MonoBehaviour
     private void Start() {
         //Setting UI hability icons (if it is locked or unlocked)
         if(_maxHealPotions > 0) GameObject.Find("HealPotion_Locked").SetActive(false);
+        if(_specialAttackUnlocked) GameObject.Find("SpecialAttack_Locked").SetActive(false);
         
         //Setting UI Life size
         Transform healthBar = GameObject.Find("HealthBar").transform;
@@ -305,7 +312,7 @@ public class Adventurer : MonoBehaviour
         _lastSlideAttemptTime = Time.time;
 
         //If can slide
-        if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
+        if (Mathf.Abs(_moveDirection.x) > 0 && _slideUnlocked && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
         {
             _canMove = false;
             _isSliding = true;
@@ -316,7 +323,7 @@ public class Adventurer : MonoBehaviour
     }
 
     private void OnSpecialAttack() {
-        if((Time.time >= _lastSpecialAttackTime + _specialAttackCooldown - _specialCooldownUpgradeLevel) && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && !_pause.isPaused && _canUseSpecialAttack) {
+        if((Time.time >= _lastSpecialAttackTime + _specialAttackCooldown - _specialCooldownUpgradeLevel) && _specialAttackUnlocked && !_isJumping && !_isDead && !_isAttacking && !_isGettingHit && !_isSliding && !_isHealing && !_isUsingSpecialAttack && !_pause.isPaused && _canUseSpecialAttack) {
             _lastSpecialAttackTime = Time.time;
             SFXManager.TocarSFX(2);
             _rb.linearVelocityX = 0;
@@ -394,6 +401,27 @@ public class Adventurer : MonoBehaviour
         Destroy(Instantiate(_specialAttack, transform.Find("SpecialAttack Position").transform.position, Quaternion.identity), 10);
     }
 
+    public void UnlockSpecialAttack() {
+        _specialAttackUnlocked = true;
+        _gameManager._specialAttackUnlocked = true;
+        GameObject.Find("SpecialAttack_Locked").SetActive(false);
+        GameObject.Find("SpecialAttackUnlocked").GetComponent<Animator>().SetTrigger("UnlockHability");
+    }
+
+    public void UnlockSlide() {
+        _slideUnlocked = true;
+        _gameManager._slideUnlocked = true;
+        GameObject.Find("SlideUnlocked").GetComponent<Animator>().SetTrigger("UnlockHability");
+    }
+
+    private void SpawnBegin() {
+        _isDead = true;
+    }
+
+    private void SpawnEnd() {
+        _isDead = false;
+    }
+
     IEnumerator Die()
     {
         // GetComponentInParent<PlayerInput>().enabled = false;
@@ -406,6 +434,10 @@ public class Adventurer : MonoBehaviour
         SFXManager.TocarSFX(3);
         FindFirstObjectByType<GameManager>().SaveGame();
         yield return new WaitForSecondsRealtime(1.5f);
+        _ascendingAnimator.SetTrigger("Ascend");
+        SFXManager.TocarSFX(14);
+        SFXManager.TrocarMusica(2, 6);
+        yield return new WaitForSecondsRealtime(5.6f);
         SceneManager.LoadScene("Upgrade");
     }
 
