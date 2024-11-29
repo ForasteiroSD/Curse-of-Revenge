@@ -11,7 +11,7 @@ public class MinotaurScript : EnemiesScript
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        indexSFX = 12;
+        indexSFX =20;
         _collider = GetComponent<CapsuleCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;
     }

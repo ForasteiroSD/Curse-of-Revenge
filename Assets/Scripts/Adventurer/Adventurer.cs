@@ -264,6 +264,7 @@ public class Adventurer : MonoBehaviour
 
         if (((_canJump && !_isSliding) || _canWallJump) && !_isGettingHit && !_isUsingSpecialAttack && !_isHealing && !_isDead)
         {
+            SFXManager.TocarSFX(21);
             _isJumping = true;
 
             //If player is on platform
@@ -307,6 +308,7 @@ public class Adventurer : MonoBehaviour
         //If can slide
         if (Mathf.Abs(_moveDirection.x) > 0 && _canJump && !_isSliding && (_lastSlideTime + _slideCooldown <= Time.time) && !_isAttacking && !_isGettingHit && !_isUsingSpecialAttack && !_isDead)
         {
+            SFXManager.TocarSFX(22);
             _canMove = false;
             _isSliding = true;
             _rb.AddForce(new Vector2(_moveDirection.x, 0) * _slideForce, ForceMode2D.Impulse);

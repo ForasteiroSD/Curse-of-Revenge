@@ -26420,6 +26420,50 @@ PrefabInstance:
       propertyPath: '_underGroundDescendingPatterns.Array.data[3]'
       value: 
       objectReference: {fileID: 2736146572052352567, guid: b9588fc7a9a22e543ab322774ba498f3, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: musicas.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3610a82f590d6f64f8cae131974d551e, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f177d6ba4e365b4438d6ebc8268c0c04, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: a96b9ba1a5c556f4caa8c7452bd23eea, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: faae74f7e63621f42a3a234ca29a60f1, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 94c2f5bf348813b46b24c130bb00e98d, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[5]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c4c647a87a3c24c4cbb57fe46319a6b1, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[6]'
+      value: 
+      objectReference: {fileID: 8300000, guid: e95d37ebbc5494d4099c4718b0551061, type: 3}
+    - target: {fileID: 6977810101172346778, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: 'musicas.Array.data[7]'
+      value: 
+      objectReference: {fileID: 8300000, guid: aef5209110f41ea49ba180d64b532131, type: 3}
+    - target: {fileID: 8008557856957936474, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: f177d6ba4e365b4438d6ebc8268c0c04, type: 3}
+    - target: {fileID: 8008557856957936474, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f177d6ba4e365b4438d6ebc8268c0c04, type: 3}
     - target: {fileID: 8997987195710511187, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: pauseMenu
       value: 
