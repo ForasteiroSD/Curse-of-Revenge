@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +11,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     public AudioClip[] musicas;
 
-    private int musicaAtual = 1;
+    private int musicaAtual;
+    private int primeiraMusica = 1;
+    private int ultimaMusica = 6;
+
     private bool trocandoMusica = false;
 
     public void TocarSFX(int index)
@@ -28,13 +30,23 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    private void Start()
+    {
+        TrocarMusica(Random.Range(primeiraMusica, ultimaMusica+1));
+    }
+
     private void Update()
     {
         // Verifica se a música terminou e ainda não está trocando
         if (!musica.isPlaying && !trocandoMusica)
         {
             trocandoMusica = true; 
-            musicaAtual = musicaAtual < 6 ? musicaAtual + 1 : 1;
+            int novaMusica = Random.Range(primeiraMusica, ultimaMusica+1);
+            while (novaMusica == musicaAtual)
+            {
+                novaMusica = Random.Range(primeiraMusica, ultimaMusica+1);
+            }
+            musicaAtual = novaMusica;
             TrocarMusica(musicaAtual);
         }
     }
