@@ -167,6 +167,8 @@ public class BringerScript : BossScript
 
     IEnumerator Spell()
     {
+        if(_death) yield break;
+
         _isAttacking = 0;
         _currentAttack = 2;
         _idle = true;
