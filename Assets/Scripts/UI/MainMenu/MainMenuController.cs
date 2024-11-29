@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     public AudioMixer mainMixer;
+    public AudioMixer SFXMixer;
     public void IniciarJogo()
     {
         SceneManager.LoadScene("Game");
@@ -15,9 +16,14 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
     }
 
-    public void MudarVolume(float volume)
+    public void MudarVolumeMusica(float volume)
     {
         mainMixer.SetFloat("MainVolume", volume);
+    }
+    
+    public void MudarVolumeSFX(float volume)
+    {
+        SFXMixer.SetFloat("MainVolume", volume);
     }
 
     public void MenuPrincipal()

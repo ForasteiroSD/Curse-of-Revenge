@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PauseScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
+    public AudioMixer SFXMixer;
     public GameObject pauseMenu;
     public GameObject configsMenu;
 
@@ -50,5 +51,10 @@ public class PauseScript : MonoBehaviour
     public void MudarVolume(float volume)
     {
         mainMixer.SetFloat("MainVolume", volume);
+    }
+    
+    public void MudarVolumeSFX(float volume)
+    {
+        SFXMixer.SetFloat("MainVolume", volume);
     }
 }
