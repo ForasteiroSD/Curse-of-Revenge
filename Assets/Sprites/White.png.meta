@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4a8e806e4a9e7f44b88143b352fdaa43
+guid: 293b110490b6e064db8ee90b6d6df48b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3255951769905477437
-    second: Stars_Background_Black_0
+      213: -6601691336363857274
+    second: White_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Stars_Background_Black_0
+      name: White_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 314
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3c8caf4bd1980d2d0800000000000000
-      internalID: -3255951769905477437
+      spriteID: 68a2243f4b41264a0800000000000000
+      internalID: -6601691336363857274
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Stars_Background_Black_0: -3255951769905477437
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
