@@ -441,7 +441,7 @@ public class Adventurer : MonoBehaviour
         FindFirstObjectByType<GameManager>().SaveGame();
         yield return new WaitForSecondsRealtime(1.5f);
         _ascendingAnimator.SetTrigger("Ascend");
-        SFXManager.TocarSFX(14);
+        SFXManager.TocarSFX(23);
         SFXManager.TrocarMusica(2, 6);
         yield return new WaitForSecondsRealtime(5.6f);
         SceneManager.LoadScene("Upgrade");
