@@ -167,6 +167,8 @@ public class BringerScript : BossScript
 
     IEnumerator Spell()
     {
+        if(_death) yield break;
+
         _isAttacking = 0;
         _currentAttack = 2;
         _idle = true;
@@ -411,6 +413,8 @@ public class BringerScript : BossScript
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
 
         DropRevengePoint();
+        
+        FindFirstObjectByType<BossRoomEntry2>().RemoveFloorBlocker();
 
         yield return new WaitForSecondsRealtime(5f);
 

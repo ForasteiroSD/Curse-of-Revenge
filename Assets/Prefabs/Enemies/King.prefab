@@ -557,7 +557,7 @@ MonoBehaviour:
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
   indexSFX: 4
-  _health: 15
+  _health: 14
   _horSpeed: 4
   _idleTime: 2
   _chaseSpeedMultiplier: 1.1
@@ -566,7 +566,7 @@ MonoBehaviour:
   _attackDamage: 3
   _damageReceivedMult: 0.8
   _hitDelay: 2
-  _valuePerRevengePoint: 2
-  _revengePointsQuantity: 5
+  _valuePerRevengePoint: 5
+  _revengePointsQuantity: 2
   _move: 0.2
   _death: 0
