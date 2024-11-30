@@ -418,17 +418,17 @@ MonoBehaviour:
   _attackDistance: 1.5
   _attackCooldown: 1.5
   _attackDamage: 1
-  _damageReceivedMult: 0.8
+  _damageReceivedMult: 1
   _hitDelay: 1
   _valuePerRevengePoint: 3
   _revengePointsQuantity: 2
-  _move: 0.2
+  _move: 0.3
   _death: 0
   _bombPrefab: {fileID: 3087662239644258542, guid: 90ecf00265a2b4044a103a283cbacc00, type: 3}
   _bombDamage: 6
   _bombCooldown: 0.5
-  _distanceToUseBomb: 10
-  _bombForce: {x: 7.5, y: 3}
+  _distanceToUseBomb: 6
+  _bombForce: {x: 6.5, y: 2.5}
   _bombPos: {fileID: 8750978975866287401}
 --- !u!1 &5110139329029451686
 GameObject:
@@ -455,7 +455,7 @@ Transform:
   m_GameObject: {fileID: 5110139329029451686}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.97406, y: 0, z: 0}
+  m_LocalPosition: {x: 2.16, y: -0.579, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -568,7 +568,7 @@ Transform:
   m_GameObject: {fileID: 7018037351541330231}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.27594, y: 0, z: 0}
+  m_LocalPosition: {x: -2.46, y: -0.579, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

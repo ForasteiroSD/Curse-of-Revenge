@@ -357,7 +357,7 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    void PlayHealSound() {
+    void Heal() {
         SFXManager.TocarSFX(19);
     }
 

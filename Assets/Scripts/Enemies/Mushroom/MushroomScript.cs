@@ -33,6 +33,8 @@ public class MushroomScript : EnemiesScript
 
         yield return new WaitForSeconds(_instatiateDelay);
 
+        if(_death) yield break;
+
         GameObject project = Instantiate(_projectile, _attackPos.position, Quaternion.identity);
         project.GetComponent<Projectile>().damage = _attackDamage;
 
