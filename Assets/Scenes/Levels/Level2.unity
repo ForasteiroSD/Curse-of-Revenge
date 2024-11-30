@@ -173,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _mapSize
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _lastPattern
@@ -181,7 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 3209448992099232610, guid: ffe113c2e899d294d9b1f98d9b163089, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _belowLevelSizeDivisor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _upperPatterns.Array.size
@@ -217,7 +217,7 @@ PrefabInstance:
       objectReference: {fileID: 3209448992099232610, guid: 7af43302f9bcf6b4bbc77fbed06edeb1, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _descendingPatterns.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _underGroundPatterns.Array.size
@@ -226,15 +226,15 @@ PrefabInstance:
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: '_descendingPatterns.Array.data[0]'
       value: 
-      objectReference: {fileID: 2736146572052352567, guid: 26d6eb7199d84b1479006827a6f3f9e8, type: 3}
+      objectReference: {fileID: 2736146572052352567, guid: 6eb9c3ccbde214541a765679adb94f28, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: '_descendingPatterns.Array.data[1]'
       value: 
-      objectReference: {fileID: 2736146572052352567, guid: 6eb9c3ccbde214541a765679adb94f28, type: 3}
+      objectReference: {fileID: 2736146572052352567, guid: 469eec1895d26e64d85c801fa94a6d67, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: '_descendingPatterns.Array.data[2]'
       value: 
-      objectReference: {fileID: 2736146572052352567, guid: 469eec1895d26e64d85c801fa94a6d67, type: 3}
+      objectReference: {fileID: 2736146572052352567, guid: d4d6b6d65416b1f44a43712c7a3ca41e, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: '_descendingPatterns.Array.data[3]'
       value: 

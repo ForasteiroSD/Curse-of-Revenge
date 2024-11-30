@@ -132,7 +132,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0009833574, y: 0.28621724}
+  m_Offset: {x: 0.0009832382, y: 0.18488643}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -142,7 +142,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5.3606253, y: 0.7864974}
+  m_Size: {x: 5.3606253, y: 0.5838357}
   m_EdgeRadius: 0
 --- !u!114 &3031204812441632993
 MonoBehaviour:
@@ -557,16 +557,16 @@ MonoBehaviour:
   _revengePoint: {fileID: 994525802873216646, guid: f73657e3b47c6a242ad7fc7122d70c99, type: 3}
   _textDamage: {fileID: 4510606237057702854, guid: 47ef5bc8cf2d3ae46976e3e12e48edc2, type: 3}
   indexSFX: 4
-  _health: 14
+  _health: 16
   _horSpeed: 4
   _idleTime: 2
   _chaseSpeedMultiplier: 1.1
   _attackDistance: 1.5
   _attackCooldown: 3.5
-  _attackDamage: 3
+  _attackDamage: 5
   _damageReceivedMult: 0.8
   _hitDelay: 2
-  _valuePerRevengePoint: 5
+  _valuePerRevengePoint: 6
   _revengePointsQuantity: 2
   _move: 0.2
   _death: 0
