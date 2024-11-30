@@ -43,7 +43,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.r
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -73,7 +73,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.g
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -103,7 +103,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.b
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -133,7 +133,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -163,7 +163,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.r
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -193,7 +193,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.g
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -223,7 +223,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.b
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -253,7 +253,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -283,7 +283,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.r
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -313,7 +313,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.g
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -343,7 +343,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.b
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -373,7 +373,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -386,7 +386,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2117426998
+      path: 2643684921
       attribute: 304273561
       script: {fileID: 0}
       typeID: 212
@@ -395,7 +395,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1145743567
+      path: 3224844997
       attribute: 304273561
       script: {fileID: 0}
       typeID: 212
@@ -404,7 +404,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 906401856
+      path: 3396929456
       attribute: 304273561
       script: {fileID: 0}
       typeID: 212
@@ -413,7 +413,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2117426998
+      path: 2643684921
       attribute: 2526845255
       script: {fileID: 0}
       typeID: 212
@@ -422,7 +422,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2117426998
+      path: 2643684921
       attribute: 4215373228
       script: {fileID: 0}
       typeID: 212
@@ -431,7 +431,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2117426998
+      path: 2643684921
       attribute: 2334886179
       script: {fileID: 0}
       typeID: 212
@@ -440,7 +440,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1145743567
+      path: 3224844997
       attribute: 2526845255
       script: {fileID: 0}
       typeID: 212
@@ -449,7 +449,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1145743567
+      path: 3224844997
       attribute: 4215373228
       script: {fileID: 0}
       typeID: 212
@@ -458,7 +458,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1145743567
+      path: 3224844997
       attribute: 2334886179
       script: {fileID: 0}
       typeID: 212
@@ -467,7 +467,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 906401856
+      path: 3396929456
       attribute: 2526845255
       script: {fileID: 0}
       typeID: 212
@@ -476,7 +476,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 906401856
+      path: 3396929456
       attribute: 4215373228
       script: {fileID: 0}
       typeID: 212
@@ -485,7 +485,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 906401856
+      path: 3396929456
       attribute: 2334886179
       script: {fileID: 0}
       typeID: 212
@@ -541,7 +541,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.r
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -571,7 +571,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.g
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -601,7 +601,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.b
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -631,7 +631,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: Goblins/Goblin/Goblin
+    path: Goblin/Goblin
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -661,7 +661,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.r
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -691,7 +691,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.g
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -721,7 +721,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.b
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -751,7 +751,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: Skeletons/Skeleton/Skeleton
+    path: Wizard/Wizard
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -781,7 +781,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.r
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -811,7 +811,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.g
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -841,7 +841,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.b
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -871,7 +871,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: Skeletons/Skeleton (1)/Skeleton
+    path: Mushroom/Mushroom
     classID: 212
     script: {fileID: 0}
     flags: 0

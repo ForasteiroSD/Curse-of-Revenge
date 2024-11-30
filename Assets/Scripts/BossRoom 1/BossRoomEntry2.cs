@@ -9,6 +9,7 @@ public class BossRoomEntry2 : MonoBehaviour
     [SerializeField] Transform _bossPosition;
     // [SerializeField] GameObject _bossHealthBar;
 
+    Transform _inputManager; // Objeto pra pegar mensagens de input
     
     private bool _floorVisible = true; // Controle do estado do chão
 
@@ -22,7 +23,7 @@ public class BossRoomEntry2 : MonoBehaviour
             GetComponent<BoxCollider2D>().enabled = false;
 
             // Spawn do boss e barra de vida
-            Instantiate(_bossPrefab, _bossPosition.position, Quaternion.identity);
+            Instantiate(_bossPrefab, _bossPosition.position, Quaternion.identity, _inputManager);
             // _bossHealthBar.SetActive(true);
         }
     }
@@ -30,7 +31,7 @@ public class BossRoomEntry2 : MonoBehaviour
     private void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        
+        _inputManager = GameObject.FindGameObjectWithTag("InputManager").transform;
     }
 
     public void AtivaFloorBlocker()
