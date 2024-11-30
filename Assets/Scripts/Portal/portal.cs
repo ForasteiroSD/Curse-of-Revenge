@@ -7,9 +7,12 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
         // Verifica se o jogador entrou no portal
         if (other.CompareTag("Player")) // Verifique se o jogador possui a tag "Player"
+        
         {
+            print("portalizou");
             // Carrega a próxima cena usando o nome da cena
             SceneManager.LoadScene(nextSceneName);
         }

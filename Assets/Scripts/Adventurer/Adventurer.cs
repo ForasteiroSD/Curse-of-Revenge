@@ -446,6 +446,11 @@ public class Adventurer : MonoBehaviour
         yield return new WaitForSecondsRealtime(5.6f);
         SceneManager.LoadScene("Upgrade");
     }
+    
+    public void SetIsDead(bool value)
+    {
+        _isDead = value;
+    }
 
     IEnumerator WallJump(float jumpForce)
     {
