@@ -4,6 +4,7 @@ using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseScript : MonoBehaviour
 {
@@ -17,6 +18,16 @@ public class PauseScript : MonoBehaviour
     void Start()
     {
         pauseMenu.SetActive(false);
+
+        float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0);
+        float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0);
+
+        mainMixer.SetFloat("MainVolume", musicVolume);
+        SFXMixer.SetFloat("MainVolume", sfxVolume);
+
+        Transform configsMenu = GameObject.Find("UI").transform.Find("PausePanel").Find("ConfigsPanel");
+        configsMenu.Find("Música").transform.Find("VolumeSlider").GetComponent<Slider>().value = musicVolume;
+        configsMenu.Find("FX").transform.Find("VolumeSlider").GetComponent<Slider>().value = sfxVolume;
     }
 
     public void OnSubmit(InputValue value)
@@ -51,10 +62,14 @@ public class PauseScript : MonoBehaviour
     public void MudarVolume(float volume)
     {
         mainMixer.SetFloat("MainVolume", volume);
+        PlayerPrefs.SetFloat("MusicVolume", volume);
+        PlayerPrefs.Save();
     }
     
     public void MudarVolumeSFX(float volume)
     {
         SFXMixer.SetFloat("MainVolume", volume);
+        PlayerPrefs.SetFloat("SFXVolume", volume);
+        PlayerPrefs.Save();
     }
 }

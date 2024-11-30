@@ -12,9 +12,6 @@ public class MainMenuController : MonoBehaviour
         float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0);
         float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0);
 
-        print(musicVolume);
-        print(sfxVolume);
-
         mainMixer.SetFloat("MainVolume", musicVolume);
         SFXMixer.SetFloat("MainVolume", sfxVolume);
 
