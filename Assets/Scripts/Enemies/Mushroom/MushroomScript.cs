@@ -26,7 +26,6 @@ public class MushroomScript : EnemiesScript
 
         //get into attack mode
         _rb.linearVelocityX = 0;
-        SFXManager.TocarSFX(indexSFX);
         _isAttacking = 0;
         _animator.SetTrigger(Constants.ATTACK_ENEMY);
         _animator.SetBool(Constants.IDLE_ENEMY, true);

@@ -19605,6 +19605,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pattern_1 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7446461520370549320, guid: 7af43302f9bcf6b4bbc77fbed06edeb1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -16.709
+      objectReference: {fileID: 0}
     - target: {fileID: 8339053785553161463, guid: 7af43302f9bcf6b4bbc77fbed06edeb1, type: 3}
       propertyPath: m_Tiles.Array.size
       value: 645
@@ -23008,6 +23012,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 803192553}
     m_Modifications:
+    - target: {fileID: 702726610493554529, guid: 74f906648261e00488b7f84d72019fd6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 63.21
+      objectReference: {fileID: 0}
     - target: {fileID: 3209448992099232610, guid: 74f906648261e00488b7f84d72019fd6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -295.02
