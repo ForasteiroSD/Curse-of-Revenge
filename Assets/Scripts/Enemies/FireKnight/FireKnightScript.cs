@@ -326,6 +326,8 @@ public class FireKnightScript : BossScript
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
 
         DropRevengePoint();
+        
+        FindFirstObjectByType<BossRoomEntry2>().RemoveFloorBlocker();
 
         Destroy(transform.parent.gameObject, 3);
     }
