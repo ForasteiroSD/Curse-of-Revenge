@@ -10,7 +10,7 @@ public class AutoMoveTrigger : MonoBehaviour
     public Adventurer adventurer;
     private Rigidbody2D rb;
     public CinemachineCamera camera;
-    [SerializeField] private string nextSceneName;
+    [SerializeField] private int nextSceneNumber;
 
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -41,8 +41,11 @@ public class AutoMoveTrigger : MonoBehaviour
 
     private IEnumerator TrocaLevel()
     {
+        GameManager _gameManager = FindFirstObjectByType<GameManager>();
         yield return new WaitForSecondsRealtime(3f);
-        SceneManager.LoadScene(nextSceneName);
+        _gameManager._level = nextSceneNumber;
+        _gameManager.SaveGame();
+        StartCoroutine(_gameManager.LoadLevel(nextSceneNumber));
         
     }
 

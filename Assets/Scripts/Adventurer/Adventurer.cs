@@ -97,12 +97,12 @@ public class Adventurer : MonoBehaviour
     //Heal
     private int _maxHealPotions;
     private int _healPotionsLeft;
-    private bool _isHealing = false;
     private Image _healPotionBackgroundUI;
     private Image _healPotionIconUI;
     private Image _healPotionCommandUI;
     private Animator _healPotionAnimator;
     private int _haelLifeAmount = 5;
+    public bool _isHealing { get; private set; } = false;
 
     //Stats
     private int _lifeUpgradeLevel;
@@ -438,7 +438,8 @@ public class Adventurer : MonoBehaviour
         _maxFallingSpeed = _originalFallingSpeed;
         _animator.SetTrigger(Constants.ANIM_DIE);
         SFXManager.TocarSFX(3);
-        FindFirstObjectByType<GameManager>().SaveGame();
+        _gameManager._level = 1;
+        _gameManager.SaveGame();
         yield return new WaitForSecondsRealtime(1.5f);
         _ascendingAnimator.SetTrigger("Ascend");
         SFXManager.TocarSFX(23);
