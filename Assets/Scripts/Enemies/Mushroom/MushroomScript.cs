@@ -14,7 +14,7 @@ public class MushroomScript : EnemiesScript
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-        indexSFX = 22;
+        indexSFX = 24;
         SFXManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         _collider = GetComponent<BoxCollider2D>();
         _player = FindFirstObjectByType<Adventurer>().transform;

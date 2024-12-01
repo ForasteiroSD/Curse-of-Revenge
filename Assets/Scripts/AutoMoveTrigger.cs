@@ -52,6 +52,10 @@ public class AutoMoveTrigger : MonoBehaviour
         {
             while (true) // Continua enquanto o player não recuperar o controle
             {
+                if (player.transform.localScale.x < 0)
+                {
+                    player.transform.localScale = new Vector2(player.transform.localScale.x * (-1), player.transform.localScale.y);
+                }
                 rb.linearVelocity = new Vector2(autoMoveSpeed, rb.linearVelocity.y); // Substituído por linearVelocity
                 yield return null; // Aguarda o próximo frame
             }

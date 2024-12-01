@@ -25,7 +25,7 @@ public class BossRoomEntry2 : MonoBehaviour
             // Remove o trigger para evitar reativação
             GetComponent<BoxCollider2D>().enabled = false;
 
-            audioManager.TrocarMusica(7);
+            audioManager.TrocarMusica(8);
 
             // Spawn do boss e barra de vida
             StartCoroutine(SpawnBoss());

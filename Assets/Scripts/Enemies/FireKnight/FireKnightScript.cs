@@ -202,7 +202,7 @@ public class FireKnightScript : BossScript
     //called by events on attack animations
     void GoToNextAttack()
     {
-        if (_giveHit) {
+        if (_giveHit || Random.Range(0, 2) == 0) {
             _currentAttack++;
             Vector2 distance = _player.transform.position - _knightPos.position;
             if(distance.x >= 0 && _horSpeed < 0) Flip();
