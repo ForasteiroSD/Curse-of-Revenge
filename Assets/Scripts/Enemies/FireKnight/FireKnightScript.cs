@@ -327,7 +327,7 @@ public class FireKnightScript : BossScript
 
         DropRevengePoint();
         
-        FindFirstObjectByType<BossRoomEntry2>().RemoveFloorBlocker();
+        FindFirstObjectByType<BossRoomEntry3>().RemoveFloorBlocker();
 
         Destroy(transform.parent.gameObject, 3);
     }

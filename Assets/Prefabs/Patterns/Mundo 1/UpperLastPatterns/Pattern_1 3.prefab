@@ -26946,7 +26946,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3625136313797984685
 Transform:
   m_ObjectHideFlags: 0
@@ -38764,7 +38764,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223d3a16d3d696a4ea38386292aff6d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBlocker: {fileID: 3749012761630310040}
+  floorBlocker1: {fileID: 0}
+  floorBlocker2: {fileID: 0}
   audioManager: {fileID: 0}
   _bossPrefab: {fileID: 4009326250418175173, guid: efeda31f2045fab4b830917d6366879d, type: 3}
   _bossPosition: {fileID: 8151873610781736479}
@@ -40203,6 +40204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7371260a007bfd4c9d840336904075c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemap: {fileID: 0}
 --- !u!1 &9112177912367927600
 GameObject:
   m_ObjectHideFlags: 0

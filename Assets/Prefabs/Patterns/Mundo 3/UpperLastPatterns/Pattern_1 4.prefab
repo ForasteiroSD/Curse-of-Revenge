@@ -18494,7 +18494,7 @@ GameObject:
   - component: {fileID: 4072628308605859089}
   - component: {fileID: 3548900482215786171}
   - component: {fileID: 7302046014666239190}
-  - component: {fileID: 3590415902008961454}
+  - component: {fileID: 6614168347334732009}
   m_Layer: 3
   m_Name: BossEntryTrigger
   m_TagString: Untagged
@@ -18660,7 +18660,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3590415902008961454
+--- !u!114 &6614168347334732009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18669,7 +18669,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7833205371332744673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 223d3a16d3d696a4ea38386292aff6d2, type: 3}
+  m_Script: {fileID: 11500000, guid: b91ec0e07df96c04d8a25285272b54df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   floorBlocker: {fileID: 3749012761630310040}
@@ -19009,6 +19009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7371260a007bfd4c9d840336904075c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemap: {fileID: 0}
 --- !u!1001 &1924152608834173564
 PrefabInstance:
   m_ObjectHideFlags: 0
