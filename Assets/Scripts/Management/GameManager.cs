@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(LoadLevel(1));
     }
 
-    IEnumerator LoadLevel(int level) {
+    public IEnumerator LoadLevel(int level) {
         GameObject ascend = GameObject.Find("Ascend");
         if(ascend != null) {
             ascend.GetComponent<Animator>().SetTrigger("Respawn");
