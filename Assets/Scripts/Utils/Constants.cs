@@ -37,5 +37,9 @@ namespace Utils {
 
         //Enemies Values
         public const float REVENGE_POINT_DROP_TIME = 1;
+
+        //Audio Manager Values
+        public const int FIRST_SONG_INDEX = 1;
+        public const int LAST_SONG_INDEX = 6;
     }
 }

@@ -195,7 +195,7 @@ public class FireKnightScript : BossScript
 
     IEnumerator SPAttackCooldown()
     {
-        yield return new WaitForSecondsRealtime(_attackSPCooldown);
+        yield return new WaitForSeconds(_attackSPCooldown);
         _canUseSPAttack = true;
     }
 
@@ -292,7 +292,7 @@ public class FireKnightScript : BossScript
 
         _animator.SetBool("Idle", true);
 
-        yield return new WaitForSecondsRealtime(delay);
+        yield return new WaitForSeconds(delay);
 
         if (_rolling || _defend || _isAttacking == 0) yield break;
         

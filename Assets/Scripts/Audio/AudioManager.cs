@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Utils;
 
 public class AudioManager : MonoBehaviour
 {
@@ -12,8 +13,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] musicas;
 
     private int musicaAtual;
-    private int primeiraMusica = 1;
-    private int ultimaMusica = 6;
 
     private bool trocandoMusica = false;
 
@@ -32,7 +31,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        TrocarMusica(Random.Range(primeiraMusica, ultimaMusica+1));
+        TrocarMusica(Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1));
     }
 
     private void Update()
@@ -41,10 +40,10 @@ public class AudioManager : MonoBehaviour
         if (!musica.isPlaying && !trocandoMusica)
         {
             trocandoMusica = true; 
-            int novaMusica = Random.Range(primeiraMusica, ultimaMusica+1);
+            int novaMusica = Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1);
             while (novaMusica == musicaAtual)
             {
-                novaMusica = Random.Range(primeiraMusica, ultimaMusica+1);
+                novaMusica = Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1);
             }
             musicaAtual = novaMusica;
             TrocarMusica(musicaAtual);

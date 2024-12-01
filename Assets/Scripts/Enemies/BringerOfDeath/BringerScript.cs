@@ -69,7 +69,7 @@ public class BringerScript : BossScript
 
     IEnumerator UpdateSpellSpeed() 
     {
-        yield return new WaitForSecondsRealtime(_timeToSpeedUpSpells);
+        yield return new WaitForSeconds(_timeToSpeedUpSpells);
         _spellAnimatorSpeed += _spellAnimatorSpeedAcelerator;
         StartCoroutine(UpdateSpellSpeed());
     }
@@ -195,13 +195,13 @@ public class BringerScript : BossScript
 
                 while (pos.x < maxPos)
                 {
-                    yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
+                    yield return new WaitForSeconds(_delayOnSequencialSpells);
                     Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
                     pos.x += 2f;
                 }
-                yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
+                yield return new WaitForSeconds(_delayOnSequencialSpells);
                 Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
-                yield return new WaitForSecondsRealtime(animTIme);
+                yield return new WaitForSeconds(animTIme);
             }
             //from right
             else
@@ -215,13 +215,13 @@ public class BringerScript : BossScript
                 pos.x -= 2f;
 
                 while(pos.x > minPos) {
-                    yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
+                    yield return new WaitForSeconds(_delayOnSequencialSpells);
                     Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
                     pos.x -= 2f;
                 }
-                yield return new WaitForSecondsRealtime(_delayOnSequencialSpells);
+                yield return new WaitForSeconds(_delayOnSequencialSpells);
                 Destroy(Instantiate(_spellSequencial, pos, Quaternion.identity), 3);
-                yield return new WaitForSecondsRealtime(animTIme);
+                yield return new WaitForSeconds(animTIme);
             }
 
             _animator.SetBool("SpellTeleport", false);
@@ -300,7 +300,7 @@ public class BringerScript : BossScript
 
     IEnumerator SpellCooldown()
     {
-        yield return new WaitForSecondsRealtime(_spellCooldown);
+        yield return new WaitForSeconds(_spellCooldown);
         _canUseSpell = true;
     }
 
@@ -318,7 +318,7 @@ public class BringerScript : BossScript
     {
         _animator.SetBool("Idle", true);
 
-        yield return new WaitForSecondsRealtime(_attackCooldown);
+        yield return new WaitForSeconds(_attackCooldown);
         
         _isOnAttackCooldown = false;
         _idle = false;
@@ -371,7 +371,7 @@ public class BringerScript : BossScript
         
         _animator.SetBool("Idle", true);
 
-        yield return new WaitForSecondsRealtime(delay);
+        yield return new WaitForSeconds(delay);
 
         if(_isOnAttackCooldown || _isAttacking == 0) yield break;
         
@@ -416,7 +416,7 @@ public class BringerScript : BossScript
         
         FindFirstObjectByType<BossRoomEntry2>().RemoveFloorBlocker();
 
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSeconds(5f);
 
         Adventurer adventurer = FindFirstObjectByType<Adventurer>();
         if(!adventurer._specialAttackUnlocked) adventurer.UnlockSpecialAttack();
