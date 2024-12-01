@@ -39,14 +39,21 @@ public class AudioManager : MonoBehaviour
         // Verifica se a música terminou e ainda não está trocando
         if (!musica.isPlaying && !trocandoMusica)
         {
+            // Mantém músicas dos boss em loop
             trocandoMusica = true; 
+            if (musicaAtual == Constants.NB_SONG_INDEX || musicaAtual == Constants.FK_SONG_INDEX || musicaAtual == Constants.BD_SONG_INDEX)
+            {
+                TrocarMusica(musicaAtual);
+                return;
+            }
+
+            // Troca para um música qualquer
             int novaMusica = Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1);
             while (novaMusica == musicaAtual)
             {
                 novaMusica = Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1);
             }
-            musicaAtual = novaMusica;
-            TrocarMusica(musicaAtual);
+            TrocarMusica(novaMusica);
         }
     }
 
@@ -68,6 +75,7 @@ public class AudioManager : MonoBehaviour
             musica.Stop();
         }
         
+        musicaAtual = indexMusica;
         musica.clip = musicas[indexMusica];
         musica.Play();
 

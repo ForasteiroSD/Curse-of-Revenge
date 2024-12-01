@@ -41,5 +41,8 @@ namespace Utils {
         //Audio Manager Values
         public const int FIRST_SONG_INDEX = 1;
         public const int LAST_SONG_INDEX = 6;
+        public const int NB_SONG_INDEX = 7;
+        public const int BD_SONG_INDEX = 8;
+        public const int FK_SONG_INDEX = 9;
     }
 }

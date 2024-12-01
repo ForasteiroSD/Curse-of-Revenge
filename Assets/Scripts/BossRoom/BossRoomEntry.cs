@@ -18,7 +18,7 @@ public class BossRoomEntry : MonoBehaviour
             _animWallBlocker = wallBlocker.GetComponent<Animator>();
             audioManager.TocarSFX(8);
             _animWallBlocker.SetTrigger("Close"); //ativa barreira
-            audioManager.TrocarMusica(7);
+            audioManager.TrocarMusica(Constants.NB_SONG_INDEX);
             GetComponent<BoxCollider2D>().enabled = false; // Remove o trigger para que ele não ative novamente
             Instantiate(_bossPrefab, _bossPosition.position, Quaternion.identity);
             _bossHealthBar.SetActive(true);

@@ -23,6 +23,8 @@ public class BossRoomEntry3 : MonoBehaviour
             // Remove o trigger para evitar reativação
             GetComponent<BoxCollider2D>().enabled = false;
 
+            audioManager.TrocarMusica(Constants.FK_SONG_INDEX);
+
             // Spawn do boss e barra de vida
             Instantiate(_bossPrefab, _bossPosition.position, Quaternion.identity, _inputManager);
             // _bossHealthBar.SetActive(true);
