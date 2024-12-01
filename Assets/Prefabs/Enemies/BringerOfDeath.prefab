@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2107733672162746146}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.91, y: -0.56, z: 0}
+  m_LocalPosition: {x: -31.49, y: -1.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -138,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 3909478656183003904}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.33, y: 2.03, z: 0}
+  m_LocalPosition: {x: -10.99, y: 3.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -204,7 +204,7 @@ Transform:
   m_GameObject: {fileID: 4579304081016923856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.48, y: -0.56, z: 0}
+  m_LocalPosition: {x: 5.4, y: -1.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -418,12 +418,12 @@ MonoBehaviour:
   _spellCooldown: 5
   _teleportDelay: 1
   _minDist: 10
-  _damageReceivedMult: 0.8
+  _damageReceivedMult: 1
   _health: 250
   _hitDelay: 1
   _attackDamages:
-  - 3
-  - 5
+  - 4
+  - 6
   _dodgeChange: 0.2
   _spellsTypes:
   - {fileID: 863510054191176158, guid: 3afd607652828214da63a14b18824bef, type: 3}

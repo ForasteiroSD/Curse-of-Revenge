@@ -50,13 +50,13 @@ public class ChestRoomDoorController : MonoBehaviour
                 if(enemy._death) count++;
             }
             if(count == enemies.Length) break;
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSeconds(1);
         }
 
         _door.GetComponent<Animator>().SetTrigger("Open");
         _chest.GetComponent<CapsuleCollider2D>().enabled = true;
 
-        yield return new WaitForSecondsRealtime(4f);
+        yield return new WaitForSeconds(4f);
 
         Destroy(_door);
         Destroy(_enemies);

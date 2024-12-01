@@ -86,7 +86,7 @@ public class GoblinScript : EnemiesScript
 
     IEnumerator BombCooldown()
     {
-        yield return new WaitForSecondsRealtime(_bombCooldown);
+        yield return new WaitForSeconds(_bombCooldown);
         _canUseBomb = true;
     }
 

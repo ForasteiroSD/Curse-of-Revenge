@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils;
 
 public class BossRoomEntry : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class BossRoomEntry : MonoBehaviour
         _animWallBlocker.SetTrigger("Open");
 
         // Desativa música do boss
-        audioManager.TrocarMusica(1);
+        audioManager.TrocarMusica(Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1));
 
         Destroy(gameObject, 1f);
         Destroy(_bossHealthBar);

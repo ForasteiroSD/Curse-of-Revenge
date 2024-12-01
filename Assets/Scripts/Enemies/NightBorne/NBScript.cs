@@ -153,7 +153,7 @@ public class NBScript : EnemiesScript
 
         for (int i=0; i<quant; i++)
         {
-            yield return new WaitForSecondsRealtime(time-0.1f);
+            yield return new WaitForSeconds(time-0.1f);
             SFXManager.TocarSFX(9);
             _animator.SetTrigger(Constants.ATTACK_ENEMY);
         }
@@ -237,13 +237,13 @@ public class NBScript : EnemiesScript
         SFXManager.TocarSFX(11);
         FindFirstObjectByType<GameManager>().SaveGame();
 
-        yield return new WaitForSecondsRealtime(2.15f);
+        yield return new WaitForSeconds(2.15f);
 
         DropRevengePoint();
 
         FindFirstObjectByType<BossRoomEntry>().RemoveWallBlocker();
         
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSeconds(5f);
 
         Adventurer adventurer = FindFirstObjectByType<Adventurer>();
         if(!adventurer._slideUnlocked) adventurer.UnlockSlide();
