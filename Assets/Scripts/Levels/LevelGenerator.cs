@@ -20,16 +20,7 @@ public class LevelGenerator : MonoBehaviour
     private Transform _levelPatterns;
     private Vector3 _lastEndPosition;
 
-    private bool _mapGenerated = false;
-
-    private void Update() {
-        if(!_mapGenerated) {
-            _mapGenerated = true;
-            StartCoroutine(GenerateLevel());
-        }
-    }
-
-    IEnumerator GenerateLevel() {
+    private void Awake() {
         _lastEndPosition = transform.position;
         int descendingRoom = UnityEngine.Random.Range(0, _mapSize);
         Transform lastPattern;
@@ -53,7 +44,6 @@ public class LevelGenerator : MonoBehaviour
         //Spawn last pattern
         _pattern = _lastPattern;
         Instantiate(_pattern, _lastEndPosition, Quaternion.identity, _levelPatterns);
-        yield return null;
     }
 
     private Transform SpawnDescendingLevelPart(Transform pattern, Vector3 spawnPosition, Quaternion rotation, int nivel) {
