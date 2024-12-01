@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Unity.Collections;
 
 public static class SaveSystem  {
     public static void SaveGame(GameManager gameManager) {
@@ -12,6 +13,7 @@ public static class SaveSystem  {
         GameData data = new GameData(gameManager);
 
         formatter.Serialize(stream, data);
+        
         stream.Close();
     }
 
@@ -31,5 +33,10 @@ public static class SaveSystem  {
             // Debug.LogError("Save file not found in " + path);
             return null;
         }
+    }
+
+    public static void DeleteSave() {
+        string path = Application.persistentDataPath + "/game.curse";
+        File.Delete(path);
     }
 }

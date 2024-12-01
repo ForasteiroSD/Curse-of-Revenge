@@ -46,7 +46,14 @@ public class GameManager : MonoBehaviour {
     public void LoadGame() {
         GameData data = SaveSystem.LoadGame();
 
-        if(data == null) return;
+        if(data == null) {
+            if(SceneManager.GetActiveScene().name == "MainMenu") {
+                GameObject.Find("BTNNewGame").SetActive(false);
+                GameObject.Find("TextContinuar").GetComponent<TextMeshProUGUI>().text = "Novo Jogo";
+                return;
+            }
+            else return;
+        }
 
         _lifeUpgradeLevel = data._lifeUpgradeLevel;
         _healBottlesUpgradeLevel = data._healBottlesUpgradeLevel;
@@ -175,17 +182,22 @@ public class GameManager : MonoBehaviour {
     }
 
     public void FinishUpdate() {
-        StartCoroutine(LoadLevel());
+        SaveGame();
+        StartCoroutine(LoadLevel(1));
     }
 
-    IEnumerator LoadLevel() {
-        _level = 1;
+    public void NewGame() {
+        SaveSystem.DeleteSave();
+        StartCoroutine(LoadLevel(1));
+    }
 
-        SaveGame();
-        GameObject.Find("Ascend").GetComponent<Animator>().SetTrigger("Respawn");
+    IEnumerator LoadLevel(int level) {
+        GameObject ascend = GameObject.Find("Ascend");
+        if(ascend != null) {
+            ascend.GetComponent<Animator>().SetTrigger("Respawn");
+            yield return new WaitForSeconds(1);
+        }
 
-        yield return new WaitForSeconds(1);
-
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("Level " + level);
     }
 }
