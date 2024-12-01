@@ -43,6 +43,7 @@ namespace Cainos.PixelArtPlatformer_VillageProps
         {
                 GetComponent<CapsuleCollider2D>().enabled = false;
                 IsOpened = true;
+                GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().TocarSFX(26);
         }
 
         //called by open animation

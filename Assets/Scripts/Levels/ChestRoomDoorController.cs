@@ -7,6 +7,7 @@ public class ChestRoomDoorController : MonoBehaviour
     [SerializeField] GameObject _enemies;
     [SerializeField] GameObject _chest;
     BoxCollider2D _collider;
+    AudioManager audioManager;
 
     void Awake()
     {
@@ -24,7 +25,9 @@ public class ChestRoomDoorController : MonoBehaviour
         if(Random.Range(0, 2) == 0)
         {
             _enemies.SetActive(true);
+            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
             _door.GetComponent<Animator>().SetTrigger("Close");
+            audioManager.TocarSFX(27);
             StartCoroutine(OpenDoor());
         }
         else
@@ -52,7 +55,8 @@ public class ChestRoomDoorController : MonoBehaviour
             if(count == enemies.Length) break;
             yield return new WaitForSeconds(1);
         }
-
+        
+        audioManager.TocarSFX(27);
         _door.GetComponent<Animator>().SetTrigger("Open");
         _chest.GetComponent<CapsuleCollider2D>().enabled = true;
 

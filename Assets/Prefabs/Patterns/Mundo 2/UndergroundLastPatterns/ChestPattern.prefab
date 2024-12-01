@@ -11463,6 +11463,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2736146572052352567}
     m_Modifications:
+    - target: {fileID: 2911564140376827967, guid: ac847dcac863592498246a2db42c7706, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6930122694965717508, guid: ac847dcac863592498246a2db42c7706, type: 3}
       propertyPath: m_Name
       value: PF Village Props - Chest Golden

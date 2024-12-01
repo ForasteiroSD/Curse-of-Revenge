@@ -11,6 +11,7 @@ public class TilemapDisappear : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             tilemap.GetComponent<Animator>().SetTrigger("Disappear");
+            GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().TocarSFX(25);
             Destroy(gameObject);
         }
     }
