@@ -282,7 +282,7 @@ public class BringerScript : BossScript
     void TeleportMiddleArena()
     {
         transform.position = _middleArena.position;
-        Destroy(Instantiate(_sequencialEffect, new Vector3(_bringerPos.position.x, _bringerPos.position.y+1f, _bringerPos.position.z), Quaternion.identity), 7);
+        Destroy(Instantiate(_sequencialEffect, new Vector3(_bringerPos.position.x, _bringerPos.position.y+1f, _bringerPos.position.z), Quaternion.identity), 7.3f);
     }
 
     //called by event on cast attack animation
@@ -405,6 +405,7 @@ public class BringerScript : BossScript
         _animator.SetTrigger(Constants.DEATH_ENEMY);
         _rb.linearVelocityX = 0;
 
+        PlayAudio(5);
         _bringerPos.position = new Vector3(_bringerPos.position.x, _bringerPos.position.y+0.5f, _bringerPos.position.z);
         Destroy(Instantiate(_deathEffect, _bringerPos.position, Quaternion.identity), 5f);
 

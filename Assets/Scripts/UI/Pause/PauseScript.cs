@@ -12,6 +12,7 @@ public class PauseScript : MonoBehaviour
     public AudioMixer SFXMixer;
     public GameObject pauseMenu;
     public GameObject configsMenu;
+    private AudioManager audioManager;
 
     public bool isPaused;
     
@@ -24,6 +25,8 @@ public class PauseScript : MonoBehaviour
 
         mainMixer.SetFloat("MainVolume", musicVolume);
         SFXMixer.SetFloat("MainVolume", sfxVolume);
+
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
 
         Transform configsMenu = GameObject.Find("UI").transform.Find("PausePanel").Find("ConfigsPanel");
         configsMenu.Find("Música").transform.Find("VolumeSlider").GetComponent<Slider>().value = musicVolume;
@@ -51,10 +54,12 @@ public class PauseScript : MonoBehaviour
         pauseMenu.SetActive(false);
         isPaused = false;
         Time.timeScale = 1f;
+        PlayAudio();
     }
 
     public void Sair()
     {
+        PlayAudio();
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
@@ -71,5 +76,10 @@ public class PauseScript : MonoBehaviour
         SFXMixer.SetFloat("MainVolume", volume);
         PlayerPrefs.SetFloat("SFXVolume", volume);
         PlayerPrefs.Save();
+    }
+
+    public void PlayAudio()
+    {
+        audioManager.TocarSFX(31);
     }
 }

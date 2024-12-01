@@ -23,4 +23,9 @@ public class SpellAttackScript : MonoBehaviour
         if(gameObject.activeInHierarchy) _script.StopSpell();
     }
 
+    void PlaySound()
+    {
+        GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().TocarSFX(28);
+    }
+
 }
