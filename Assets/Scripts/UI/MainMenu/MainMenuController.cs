@@ -22,7 +22,7 @@ public class MainMenuController : MonoBehaviour
 
     public void IniciarJogo()
     {
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("Level " + FindFirstObjectByType<GameManager>()._level);
     }
 
     public void SairJogo()

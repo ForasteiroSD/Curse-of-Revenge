@@ -97,12 +97,12 @@ public class Adventurer : MonoBehaviour
     //Heal
     private int _maxHealPotions;
     private int _healPotionsLeft;
-    private bool _isHealing = false;
     private Image _healPotionBackgroundUI;
     private Image _healPotionIconUI;
     private Image _healPotionCommandUI;
     private Animator _healPotionAnimator;
     private int _haelLifeAmount = 5;
+    public bool _isHealing { get; private set; } = false;
 
     //Stats
     private int _lifeUpgradeLevel;
