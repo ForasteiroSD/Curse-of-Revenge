@@ -111,7 +111,12 @@ public class FireKnightScript : BossScript
         
         SFXManager.TocarSFX(4);
         float defending = 1;
-        if (_defend) defending = 0.5f;
+        if (_defend) {
+            defending = 0.5f;
+            PlayAudio(32);
+        } else {
+            PlayAudio(4);
+        }
 
         damage *= defending * _damageReceivedMult;
 
@@ -270,6 +275,7 @@ public class FireKnightScript : BossScript
     //called by rolling animation
     void StartRoll()
     {
+        PlayAudio(37);
         if(_deffendCount != _maxDeffendCount) {
             Vector2 distance = _player.transform.position - _knightPos.position;
             if(distance.x >= 0 && _horSpeed > 0) Flip();
@@ -321,6 +327,7 @@ public class FireKnightScript : BossScript
     {
         _idle = _death = true;
         _animator.SetTrigger(Constants.DEATH_ENEMY);
+        PlayAudio(5);
         _rb.linearVelocityX = 0;
 
         yield return new WaitForSeconds(Constants.REVENGE_POINT_DROP_TIME);
