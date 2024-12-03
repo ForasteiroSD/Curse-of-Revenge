@@ -7,6 +7,7 @@ public class ManagerHelper : MonoBehaviour {
         _gameManager = FindFirstObjectByType<GameManager>();
     }
 
+    //Upgrade menu
     public void UpdateLife() {
         _gameManager.UpdateLife();
     }
@@ -33,5 +34,10 @@ public class ManagerHelper : MonoBehaviour {
 
     public void FinishUpdate() {
         _gameManager.FinishUpdate();
+    }
+
+    //Main Menu
+    public void NewGame() {
+        _gameManager.NewGame();
     }
 }

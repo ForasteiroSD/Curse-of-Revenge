@@ -60,7 +60,9 @@ public class PauseScript : MonoBehaviour
     public void Sair()
     {
         PlayAudio();
-        StartCoroutine(FindFirstObjectByType<GameManager>().LoadMenu());
+        GameManager gameManager = FindFirstObjectByType<GameManager>();
+        gameManager.SaveGame();
+        StartCoroutine(gameManager.LoadMenu());
     }
     
     public void MudarVolume(float volume)

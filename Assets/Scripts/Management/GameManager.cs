@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
     public bool _slideUnlocked { get; set; } = false;
 
     //General
-    public int _revengePointsAmount { get; set; } = 9999;
+    public int _revengePointsAmount { get; set; } = 0;
     public int _level { get; set; } = 1;
     public bool _alreadyDied { get; set;} = false;
 
@@ -202,8 +202,17 @@ public class GameManager : MonoBehaviour {
     }
 
     public void NewGame() {
-        PlayAudio();
         SaveSystem.DeleteSave();
+        _lifeUpgradeLevel = 0;
+        _healBottlesUpgradeLevel = 0;
+        _healAmountUpgradeLevel = 0;
+        _damageUpgradeLevel = 0;
+        _specialDamageUpgradeLevel = 0;
+        _specialCooldownUpgradeLevel = 0;
+        _revengePointsAmount = 0;
+        _specialAttackUnlocked = false;
+        _slideUnlocked = false;
+        _level = 1;
 
         GameObject saveIcon = GameObject.Find("SavingICon");
         if(saveIcon != null) saveIcon.GetComponent<Animator>().SetTrigger("Save");

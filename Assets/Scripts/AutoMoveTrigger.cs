@@ -9,7 +9,7 @@ public class AutoMoveTrigger : MonoBehaviour
     public float autoMoveSpeed = 5f; // Velocidade de movimento automático do player
     public Adventurer adventurer;
     private Rigidbody2D rb;
-    public CinemachineCamera camera;
+    public CinemachineCamera _camera;
     [SerializeField] private int nextSceneNumber;
 
     
@@ -20,7 +20,7 @@ public class AutoMoveTrigger : MonoBehaviour
             // Define o estado do player como "morto" (ou sem controle) usando o método público
             adventurer = other.GetComponent<Adventurer>();
             adventurer.SetIsDead(true);
-            camera.Target.TrackingTarget = null;
+            _camera.Target.TrackingTarget = null;
             // Inicia a movimentação automática
             StartCoroutine(AutoMovePlayer(other.gameObject));
             GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().TocarSFX(41);
@@ -36,7 +36,7 @@ public class AutoMoveTrigger : MonoBehaviour
         
         GameObject cameraObject = GameObject.FindGameObjectWithTag("Cinemachine");
         
-        camera = cameraObject.GetComponent<CinemachineCamera>();
+        _camera = cameraObject.GetComponent<CinemachineCamera>();
 
     }
 
