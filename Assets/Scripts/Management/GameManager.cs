@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour {
     // Update Functions
     public void UpdateLife() {
         FindTextElements("Life");
+        PlayAudio();
 
         if(_lifeUpgradeLevel < _lifePrices.Length && UpdateRevengePoints(_lifePrices[_lifeUpgradeLevel])) {
             _lifeUpgradeLevel++;
@@ -115,6 +116,7 @@ public class GameManager : MonoBehaviour {
     
     public void UpdateHealBottle() {
         FindTextElements("Potions");
+        PlayAudio();
 
         if(_healBottlesUpgradeLevel < _healBottlesPrices.Length && UpdateRevengePoints(_healBottlesPrices[_healBottlesUpgradeLevel])) {
             _healBottlesUpgradeLevel++;
@@ -135,6 +137,7 @@ public class GameManager : MonoBehaviour {
     
     public void UpdateHealAmount() {
         FindTextElements("Regen");
+        PlayAudio();
 
         if(_healAmountUpgradeLevel < _healAmountPrices.Length && UpdateRevengePoints(_healAmountPrices[_healAmountUpgradeLevel])) {
             _healAmountUpgradeLevel++;
@@ -149,6 +152,7 @@ public class GameManager : MonoBehaviour {
     
     public void UpdateDamage() {
         FindTextElements("Damage");
+        PlayAudio();
 
         if(_damageUpgradeLevel < _damagePrices.Length && UpdateRevengePoints(_damagePrices[_damageUpgradeLevel])) {
             _damageUpgradeLevel++;
@@ -163,6 +167,7 @@ public class GameManager : MonoBehaviour {
 
     public void UpdateSpecialDamage() {
         FindTextElements("SpecialDamage");
+        PlayAudio();
 
         if(_specialDamageUpgradeLevel < _specialDamagePrices.Length && UpdateRevengePoints(_specialDamagePrices[_specialDamageUpgradeLevel])) {
             _specialDamageUpgradeLevel++;
@@ -177,6 +182,7 @@ public class GameManager : MonoBehaviour {
     
     public void UpdateSpecialCooldown() {
         FindTextElements("SpecialCooldown");
+        PlayAudio();
 
         if(_specialCooldownUpgradeLevel < _specialCooldownPrices.Length && UpdateRevengePoints(_specialCooldownPrices[_specialCooldownUpgradeLevel])) {
             _specialCooldownUpgradeLevel++;
@@ -190,17 +196,23 @@ public class GameManager : MonoBehaviour {
     }
 
     public void FinishUpdate() {
+        PlayAudio();
         SaveGame();
         StartCoroutine(LoadScene(1, true));
     }
 
     public void NewGame() {
+        PlayAudio();
         SaveSystem.DeleteSave();
 
         GameObject saveIcon = GameObject.Find("SavingICon");
         if(saveIcon != null) saveIcon.GetComponent<Animator>().SetTrigger("Save");
 
         StartCoroutine(LoadScene(1));
+    }
+
+    public void PlayAudio() {
+        GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().TocarSFX(0);
     }
 
     public IEnumerator LoadMenu() {

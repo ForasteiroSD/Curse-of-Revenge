@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
     private void Update()
     {
         // Verifica se a música terminou e ainda não está trocando
-        if (!musica.isPlaying && !trocandoMusica)
+        if (musica != null && !musica.isPlaying && !trocandoMusica)
         {
             // Mantém músicas dos boss em loop
             trocandoMusica = true; 
@@ -64,6 +64,8 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator FadeOutIn(int indexMusica, float duration)
     {
+        if(musica == null) yield break;
+        
         if (musica.isPlaying)
         {
             // Fade Out

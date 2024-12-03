@@ -8,6 +8,8 @@ public class MainMenuController : MonoBehaviour
 {
     public AudioMixer mainMixer;
     public AudioMixer SFXMixer;
+    private AudioSource SFXAudioSource;
+    [SerializeField] private AudioClip buttonClickSound;
 
     private void Start() {
         float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0);
@@ -19,16 +21,20 @@ public class MainMenuController : MonoBehaviour
         Transform configsMenu = GameObject.Find("Menu").transform.Find("ConfigsPanel");
         configsMenu.Find("Música").transform.Find("VolumeSlider").GetComponent<Slider>().value = musicVolume;
         configsMenu.Find("FX").transform.Find("VolumeSlider").GetComponent<Slider>().value = sfxVolume;
+
+        SFXAudioSource = GameObject.Find("UI").GetComponents<AudioSource>()[1];
     }
 
     public void IniciarJogo()
     {
+        PlayAudio();
         GameManager _gameManager = FindFirstObjectByType<GameManager>();
         StartCoroutine(_gameManager.LoadScene(_gameManager._level));
     }
 
     public void SairJogo()
     {
+        PlayAudio();
         Application.Quit();
     }
 
@@ -51,4 +57,8 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void PlayAudio()
+    {
+        SFXAudioSource.PlayOneShot(buttonClickSound);
+    }
 }
