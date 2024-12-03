@@ -3403,6 +3403,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -4.26
       objectReference: {fileID: 0}
+    - target: {fileID: 7563700812216046698, guid: a42a90001440a0b42a56162e47d8306f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 8555107343586018400, guid: a42a90001440a0b42a56162e47d8306f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.374302
@@ -3501,9 +3505,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2997881579931530333, guid: 6d65ef01c8efcf1498ccc95dc30a1b00, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.11
+      objectReference: {fileID: 0}
     - target: {fileID: 3362584825925446815, guid: 6d65ef01c8efcf1498ccc95dc30a1b00, type: 3}
       propertyPath: m_Name
       value: Mushroom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3488931654146726915, guid: 6d65ef01c8efcf1498ccc95dc30a1b00, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
