@@ -5,7 +5,6 @@ public class BossRoomEntry3 : MonoBehaviour
 {
     public GameObject floorBlocker; // O chão que desaparece
     public AudioManager audioManager;
-
     [SerializeField] GameObject _bossPrefab;
     [SerializeField] Transform _bossPosition;
     // [SerializeField] GameObject _bossHealthBar;
@@ -39,6 +38,7 @@ public class BossRoomEntry3 : MonoBehaviour
 
     public void AtivaFloorBlocker()
     {
+        audioManager.TocarSFX(40);
         floorBlocker.SetActive(true);
     }
 

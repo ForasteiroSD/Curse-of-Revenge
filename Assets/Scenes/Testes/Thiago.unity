@@ -63795,6 +63795,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8529440763482931524, guid: 46fd51250e3de41469616366b3e1dee7, type: 3}
+      propertyPath: _attackSPCooldown
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
