@@ -399,7 +399,7 @@ public class Adventurer : MonoBehaviour
         else if(!_isDead)
         {
             _isDead = true;
-            StartCoroutine(Die());
+            Die();
         }
     }
 
@@ -428,24 +428,18 @@ public class Adventurer : MonoBehaviour
         _isDead = false;
     }
 
-    IEnumerator Die()
-    {
-        // GetComponentInParent<PlayerInput>().enabled = false;
+    private void Die() {
         _canMove = false;
         _canJump = false;
         _canWallJump = false;
         _rb.linearVelocityX = 0;
         _maxFallingSpeed = _originalFallingSpeed;
+        _gameManager._alreadyDied = true;
         _animator.SetTrigger(Constants.ANIM_DIE);
         SFXManager.TocarSFX(3);
         _gameManager._level = 1;
         _gameManager.SaveGame();
-        yield return new WaitForSecondsRealtime(1.5f);
-        _ascendingAnimator.SetTrigger("Ascend");
-        SFXManager.TocarSFX(23);
-        SFXManager.TrocarMusica(2, 6);
-        yield return new WaitForSecondsRealtime(5.6f);
-        SceneManager.LoadScene("Upgrade");
+        StartCoroutine(_gameManager.LoadScene(ascend: true, died: true, ascendingSound: SFXManager.efeitos[23]));
     }
     
     public void SetIsDead(bool value)

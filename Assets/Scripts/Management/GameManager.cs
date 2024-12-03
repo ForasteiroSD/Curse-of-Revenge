@@ -23,12 +23,20 @@ public class GameManager : MonoBehaviour {
     //General
     public int _revengePointsAmount { get; set; } = 9999;
     public int _level { get; set; } = 1;
+    public bool _alreadyDied { get; set;} = false;
 
     //Texts
     private TextMeshProUGUI level;
     private TextMeshProUGUI price;
 
     private void Awake() {
+        GameObject onlyGameManager = GameObject.Find("OnlyGameManager");
+        if(onlyGameManager != null) Destroy(this.gameObject);
+        else {
+            this.gameObject.name = "OnlyGameManager";
+            DontDestroyOnLoad(this.gameObject);
+        }
+
         LoadGame();
     }
 
@@ -183,21 +191,94 @@ public class GameManager : MonoBehaviour {
 
     public void FinishUpdate() {
         SaveGame();
-        StartCoroutine(LoadLevel(1));
+        StartCoroutine(LoadScene(1, true));
     }
 
     public void NewGame() {
         SaveSystem.DeleteSave();
-        StartCoroutine(LoadLevel(1));
+
+        GameObject saveIcon = GameObject.Find("SavingICon");
+        if(saveIcon != null) saveIcon.GetComponent<Animator>().SetTrigger("Save");
+
+        StartCoroutine(LoadScene(1));
     }
 
-    public IEnumerator LoadLevel(int level) {
-        GameObject ascend = GameObject.Find("Ascend");
-        if(ascend != null) {
-            ascend.GetComponent<Animator>().SetTrigger("Respawn");
-            yield return new WaitForSeconds(1);
+    public IEnumerator LoadMenu() {
+        //Reset variables
+        Time.timeScale = 1;
+        _alreadyDied = false;
+
+        //FadeOut
+        GameObject transition = GameObject.Find("Transition");
+        if(transition != null) transition.GetComponent<Animator>().SetTrigger("FadeOut");
+
+        //FadeOut music and SFX
+        GameObject audioManager = GameObject.Find("AudioManager");
+        AudioSource[] audioSources = audioManager.GetComponents<AudioSource>();
+        float duration = .6f;
+
+        for (float t = 0; t < duration; t += Time.deltaTime) {
+            foreach (var source in audioSources) {
+                source.volume = Mathf.Lerp(1, 0, t / duration);
+                yield return null;
+            }
         }
 
-        SceneManager.LoadScene("Level " + level);
+        //Load menu
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public IEnumerator LoadScene(int level = 1, bool ascend = false, bool died = false, AudioClip ascendingSound = null) {
+        float duration = .6f;
+        GameObject audioManager;
+        AudioSource[] audioSources = new AudioSource[0];
+
+        //Getting audio sourcers
+        if(SceneManager.GetActiveScene().name == "MainMenu") {
+            audioManager = GameObject.Find("UI");
+            if(audioManager != null) audioSources = audioManager.GetComponents<AudioSource>();
+        }
+        else {
+            audioManager = GameObject.Find("AudioManager");
+            if(audioManager != null) audioSources = audioManager.GetComponents<AudioSource>();
+        }
+
+        //Ascending transition
+        if(ascend) {
+            GameObject ascendTransition = GameObject.Find("AscendBackGround");
+            if(ascendTransition != null) {
+                if(died) {
+                    if(ascendingSound != null) {
+                        Vector3 pos = Camera.main.transform.position;
+                        pos.y += 6;
+                        AudioSource.PlayClipAtPoint(ascendingSound, pos);
+                    }
+                    ascendTransition.GetComponent<Animator>().SetTrigger("Ascend");
+                }
+                else ascendTransition.GetComponent<Animator>().SetTrigger("Respawn");
+            }
+        }
+
+        //Normal transition
+        else {
+            GameObject transition = GameObject.Find("Transition");
+            if(transition != null) transition.GetComponent<Animator>().SetTrigger("FadeOut");
+        }
+
+        if(audioSources.Length == 0) yield return new WaitForSeconds(.6f); // If there is no audio Source, just wait the transition time
+
+        //FadeOut music and SFX
+        for (float t = 0; t < duration; t += Time.deltaTime) {
+            foreach (var source in audioSources) {
+                source.volume = Mathf.Lerp(1, 0, t / duration);
+                yield return null;
+            }
+        }
+
+        if(ascend) yield return new WaitForSeconds(5);
+        
+        //Load new level
+        if(!died) SceneManager.LoadScene("Level " + level);
+        else SceneManager.LoadScene("Upgrade");
     }
 }

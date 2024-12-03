@@ -43,11 +43,10 @@ public class AutoMoveTrigger : MonoBehaviour
     private IEnumerator TrocaLevel()
     {
         GameManager _gameManager = FindFirstObjectByType<GameManager>();
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(1.5f);
         _gameManager._level = nextSceneNumber;
         _gameManager.SaveGame();
-        StartCoroutine(_gameManager.LoadLevel(nextSceneNumber));
-        
+        StartCoroutine(_gameManager.LoadScene(nextSceneNumber));
     }
 
     private IEnumerator AutoMovePlayer(GameObject player)

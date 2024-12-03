@@ -11,7 +11,6 @@ public class ParallaxController : MonoBehaviour {
         _startPos = transform.position.x;
         _lenght = GetComponent<SpriteRenderer>().bounds.size.x;
         _cam = Camera.main.transform;
-        print(_cam);
     }
 
     private void FixedUpdate() {

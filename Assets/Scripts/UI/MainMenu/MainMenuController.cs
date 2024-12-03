@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -22,7 +23,8 @@ public class MainMenuController : MonoBehaviour
 
     public void IniciarJogo()
     {
-        SceneManager.LoadScene("Level " + FindFirstObjectByType<GameManager>()._level);
+        GameManager _gameManager = FindFirstObjectByType<GameManager>();
+        StartCoroutine(_gameManager.LoadScene(_gameManager._level));
     }
 
     public void SairJogo()
