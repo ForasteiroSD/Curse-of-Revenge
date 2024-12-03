@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Utils;
 
@@ -42,9 +43,14 @@ public class BossRoomEntry3 : MonoBehaviour
         floorBlocker.SetActive(true);
     }
 
-    public void RemoveFloorBlocker()
+    public IEnumerator RemoveFloorBlocker()
     {
-        // Desativa o chão permanentemente quando o boss for derrotado
+        // Tira fogo das portas de forma suave
+        floorBlocker.GetComponent<Animator>().SetTrigger("Disappear");
+
+        yield return new WaitForSeconds(0.5f);
+
+        // Desativa floor blocker após animação
         floorBlocker.SetActive(false);
 
         // Finaliza a música do boss
