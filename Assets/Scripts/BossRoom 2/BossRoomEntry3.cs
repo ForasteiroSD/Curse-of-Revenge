@@ -12,7 +12,7 @@ public class BossRoomEntry3 : MonoBehaviour
 
     Transform _inputManager; // Objeto pra pegar mensagens de input
     
-    private bool _floorVisible = true; // Controle do estado do chão
+    // private bool _floorVisible = true; // Controle do estado do chão
 
     private void OnTriggerEnter2D(Collider2D other)
     {

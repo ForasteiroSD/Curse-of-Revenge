@@ -24,10 +24,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
+    // private void Awake()
+    // {
+    //     DontDestroyOnLoad(this);
+    // }
 
     private void Start()
     {
