@@ -36414,7 +36414,7 @@ PrefabInstance:
       objectReference: {fileID: 3209448992099232610, guid: 99228701449cbba4bb648520986bf359, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _upperPatterns.Array.size
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: '_upperPatterns.Array.data[2]'
@@ -36432,6 +36432,18 @@ PrefabInstance:
       propertyPath: '_upperPatterns.Array.data[5]'
       value: 
       objectReference: {fileID: 2736146572052352567, guid: 86edc55a5ff974a4d95e01babca3dba6, type: 3}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: '_upperPatterns.Array.data[6]'
+      value: 
+      objectReference: {fileID: 2736146572052352567, guid: a2d85ed20bd08264888d1f67cfd49bb4, type: 3}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: '_upperPatterns.Array.data[7]'
+      value: 
+      objectReference: {fileID: 2736146572052352567, guid: 1d16f5aeb465f3343af402c8d2a95c75, type: 3}
+    - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
+      propertyPath: '_upperPatterns.Array.data[8]'
+      value: 
+      objectReference: {fileID: 2736146572052352567, guid: 8b59f104dae1a464fbbb4c7d800e1a02, type: 3}
     - target: {fileID: 5466568680192617270, guid: a2a95a33fa1bc104a9e82e0b3db06bb2, type: 3}
       propertyPath: _descendingPatterns.Array.size
       value: 4
