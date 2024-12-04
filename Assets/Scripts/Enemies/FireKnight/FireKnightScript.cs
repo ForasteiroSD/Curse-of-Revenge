@@ -34,7 +34,7 @@ public class FireKnightScript : BossScript
     [SerializeField] float _rollingForce = 12f;
 
     [SerializeField] float _damageReceivedMult = 0.8f;
-    [SerializeField] float _health = 20f;
+    [SerializeField] public float _health = 20f;
     [SerializeField] float _hitDelay = 1f;
     [SerializeField] float[] _attackDamages;
     [SerializeField] float _dodgeChange = 0.7f;

@@ -62,7 +62,7 @@ public class PauseScript : MonoBehaviour
         PlayAudio();
         GameManager gameManager = FindFirstObjectByType<GameManager>();
         gameManager.SaveGame();
-        StartCoroutine(gameManager.LoadMenu());
+        StartCoroutine(gameManager.LoadMenu("MainMenu"));
     }
     
     public void MudarVolume(float volume)

@@ -8,7 +8,7 @@ public class BossRoomEntry3 : MonoBehaviour
     public AudioManager audioManager;
     [SerializeField] GameObject _bossPrefab;
     [SerializeField] Transform _bossPosition;
-    // [SerializeField] GameObject _bossHealthBar;
+    [SerializeField] GameObject _bossHealthBar;
 
     Transform _inputManager; // Objeto pra pegar mensagens de input
     
@@ -27,7 +27,7 @@ public class BossRoomEntry3 : MonoBehaviour
 
             // Spawn do boss e barra de vida
             Instantiate(_bossPrefab, _bossPosition.position, Quaternion.identity, _inputManager);
-            // _bossHealthBar.SetActive(true);
+            _bossHealthBar.SetActive(true);
         }
     }
 
@@ -56,6 +56,6 @@ public class BossRoomEntry3 : MonoBehaviour
         // Finaliza a música do boss
         audioManager.TrocarMusica(Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1));
 
-        // Destroy(_bossHealthBar);
+        Destroy(_bossHealthBar);
     }
 }

@@ -7,7 +7,7 @@ public class BossRoomEntry2 : MonoBehaviour
     public GameObject floorBlocker1; // O chão que desaparece
     public GameObject floorBlocker2; // O chão que desaparece
     public AudioManager audioManager;
-
+    [SerializeField] GameObject _bossHealthBar;
     [SerializeField] GameObject _bossPrefab;
     [SerializeField] Transform _bossPosition;
     // [SerializeField] GameObject _bossHealthBar;
@@ -36,7 +36,7 @@ public class BossRoomEntry2 : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1);
         Instantiate(_bossPrefab, _bossPosition.position, Quaternion.identity, _inputManager);
-        // _bossHealthBar.SetActive(true);
+        _bossHealthBar.SetActive(true);
     }
 
     private void Start()
@@ -63,6 +63,6 @@ public class BossRoomEntry2 : MonoBehaviour
         // Finaliza a música do boss
         audioManager.TrocarMusica(Random.Range(Constants.FIRST_SONG_INDEX, Constants.LAST_SONG_INDEX+1));
 
-        // Destroy(_bossHealthBar);
+        Destroy(_bossHealthBar);
     }
 }
