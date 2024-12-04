@@ -23,7 +23,6 @@ public class AutoMoveTrigger : MonoBehaviour
             _camera.Target.TrackingTarget = null;
             // Inicia a movimentação automática
             StartCoroutine(AutoMovePlayer(other.gameObject));
-            GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().TocarSFX(41);
             print("entrou");
             StartCoroutine(TrocaLevel());
         }
@@ -55,7 +54,7 @@ public class AutoMoveTrigger : MonoBehaviour
         {
             while (true) // Continua enquanto o player não recuperar o controle
             {
-                if (player.transform.localScale.x > 0)
+                if (player.transform.localScale.x < 0)
                 {
                     player.transform.localScale = new Vector2(player.transform.localScale.x * (-1), player.transform.localScale.y);
                 }

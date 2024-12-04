@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7432011053629154088}
   - component: {fileID: 8764114866204101784}
   - component: {fileID: 2593853250512789117}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Decors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25241,7 +25241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoMoveSpeed: 5
   adventurer: {fileID: 0}
-  camera: {fileID: 0}
+  _camera: {fileID: 0}
   nextSceneNumber: 3
 --- !u!1 &2659639175622565328
 GameObject:
