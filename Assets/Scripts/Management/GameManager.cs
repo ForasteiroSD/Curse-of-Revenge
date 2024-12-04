@@ -224,7 +224,7 @@ public class GameManager : MonoBehaviour {
         GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().TocarSFX(0);
     }
 
-    public IEnumerator LoadMenu() {
+    public IEnumerator LoadMenu(string menuName) {
         //Reset variables
         Time.timeScale = 1;
         _alreadyDied = false;
@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviour {
         }
 
         //Load menu
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(menuName);
     }
 
     public IEnumerator LoadScene(int level = 1, bool ascend = false, bool died = false, AudioClip ascendingSound = null) {
@@ -297,7 +297,10 @@ public class GameManager : MonoBehaviour {
         }
 
         if(ascend) yield return new WaitForSeconds(5);
-        
+        if (level == 4)
+        {
+            SceneManager.LoadScene("Credits");
+        }
         //Load new level
         if(!died) SceneManager.LoadScene("Level " + level);
         else SceneManager.LoadScene("Upgrade");
