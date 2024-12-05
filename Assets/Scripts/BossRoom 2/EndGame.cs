@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,21 +18,26 @@ public class EndGame : MonoBehaviour
     private IEnumerator TrocaLevel()
     {
         GameManager _gameManager = FindFirstObjectByType<GameManager>();
-        yield return new WaitForSecondsRealtime(1.5f);
+        _gameManager._level = 1;
         _gameManager.SaveGame();
+        FindFirstObjectByType<Adventurer>().SetEndGame();
+        StartCoroutine(FadeOutSounds(2f));
+        yield return new WaitForSeconds(3.5f);
         StartCoroutine(_gameManager.LoadMenu("Credits"));
     }
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private IEnumerator FadeOutSounds(float duration) {
+        GameObject audioManager = GameObject.Find("AudioManager");
+        if(audioManager != null) {
+            AudioSource[] audioSources = audioManager.GetComponents<AudioSource>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            for (float t = 0; t < duration; t += Time.deltaTime) {
+                foreach (var source in audioSources) {
+                    source.volume = Mathf.Lerp(1, 0, t / duration);
+                    yield return null;
+                }
+            }
+        }
     }
 }

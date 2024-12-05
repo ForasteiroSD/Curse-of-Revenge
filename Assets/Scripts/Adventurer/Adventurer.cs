@@ -447,6 +447,12 @@ public class Adventurer : MonoBehaviour
         _isDead = value;
     }
 
+    public void SetEndGame() {
+        _isDead = true;
+        _rb.linearVelocityX = 0;
+        _animator.SetBool(Constants.ANIM_IS_RUNNING, false);
+    }
+
     IEnumerator WallJump(float jumpForce)
     {
         bool isGoingUp = Mathf.Sign(_moveDirection.x) == Mathf.Sign(transform.localScale.x);
