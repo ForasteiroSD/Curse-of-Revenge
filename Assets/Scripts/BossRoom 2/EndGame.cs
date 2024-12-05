@@ -22,7 +22,7 @@ public class EndGame : MonoBehaviour
         _gameManager.SaveGame();
         FindFirstObjectByType<Adventurer>().SetEndGame();
         StartCoroutine(FadeOutSounds(2f));
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(4f);
         StartCoroutine(_gameManager.LoadMenu("Credits"));
     }
 
@@ -31,10 +31,13 @@ public class EndGame : MonoBehaviour
         GameObject audioManager = GameObject.Find("AudioManager");
         if(audioManager != null) {
             AudioSource[] audioSources = audioManager.GetComponents<AudioSource>();
+            float[] startVolume = new float[audioSources.Length];
+
+            for(int i = 0; i < audioSources.Length; i++) startVolume[i] = audioSources[i].volume;
 
             for (float t = 0; t < duration; t += Time.deltaTime) {
-                foreach (var source in audioSources) {
-                    source.volume = Mathf.Lerp(1, 0, t / duration);
+                for(int i = 0; i < audioSources.Length; i++) {
+                    audioSources[i].volume = Mathf.Lerp(startVolume[i], 0, t / duration);
                     yield return null;
                 }
             }

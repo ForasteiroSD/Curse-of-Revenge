@@ -235,13 +235,18 @@ public class GameManager : MonoBehaviour {
 
         //FadeOut music and SFX
         GameObject audioManager = GameObject.Find("AudioManager");
-        AudioSource[] audioSources = audioManager.GetComponents<AudioSource>();
-        float duration = .6f;
+        if(audioManager != null) {
+            AudioSource[] audioSources = audioManager.GetComponents<AudioSource>();
+            float[] startVolume = new float[audioSources.Length];
+            float duration = .6f;
 
-        for (float t = 0; t < duration; t += Time.deltaTime) {
-            foreach (var source in audioSources) {
-                source.volume = Mathf.Lerp(1, 0, t / duration);
-                yield return null;
+            for(int i = 0; i < audioSources.Length; i++) startVolume[i] = audioSources[i].volume;
+
+            for (float t = 0; t < duration; t += Time.deltaTime) {
+                for(int i = 0; i < audioSources.Length; i++) {
+                    audioSources[i].volume = Mathf.Lerp(startVolume[i], 0, t / duration);
+                    yield return null;
+                }
             }
         }
 
@@ -253,15 +258,22 @@ public class GameManager : MonoBehaviour {
         float duration = .6f;
         GameObject audioManager;
         AudioSource[] audioSources = new AudioSource[0];
+        float[] startVolume = new float[0];
 
         //Getting audio sourcers
         if(SceneManager.GetActiveScene().name == "MainMenu") {
             audioManager = GameObject.Find("UI");
-            if(audioManager != null) audioSources = audioManager.GetComponents<AudioSource>();
+            if(audioManager != null) {
+                audioSources = audioManager.GetComponents<AudioSource>();
+                startVolume = new float[audioSources.Length];
+            }
         }
         else {
             audioManager = GameObject.Find("AudioManager");
-            if(audioManager != null) audioSources = audioManager.GetComponents<AudioSource>();
+            if(audioManager != null) {
+                audioSources = audioManager.GetComponents<AudioSource>();
+                startVolume = new float[audioSources.Length];
+            }
         }
 
         //Ascending transition
@@ -289,9 +301,11 @@ public class GameManager : MonoBehaviour {
         if(audioSources.Length == 0) yield return new WaitForSeconds(.6f); // If there is no audio Source, just wait the transition time
 
         //FadeOut music and SFX
+        for(int i = 0; i < audioSources.Length; i++) startVolume[i] = audioSources[i].volume;
+
         for (float t = 0; t < duration; t += Time.deltaTime) {
-            foreach (var source in audioSources) {
-                source.volume = Mathf.Lerp(1, 0, t / duration);
+            for(int i = 0; i < audioSources.Length; i++) {
+                audioSources[i].volume = Mathf.Lerp(startVolume[i], 0, t / duration);
                 yield return null;
             }
         }
